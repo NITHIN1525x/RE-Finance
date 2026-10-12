@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "quickbooks-sandbox": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["connection/scripts/mcp_launch.mjs"],
+      "env": {
+        "QUICKBOOKS_ENVIRONMENT": "sandbox",
+        "QUICKBOOKS_DISABLE_WRITE": "true",
+        "QUICKBOOKS_DISABLE_UPDATE": "true",
+        "QUICKBOOKS_DISABLE_DELETE": "true"
+      }
+    }
+  }
+}

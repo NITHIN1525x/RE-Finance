@@ -1,0 +1,160 @@
+{
+  "run_at": "2026-10-12T06:36:38+00:00",
+  "client": "abc-inc-sandbox",
+  "tool_count": 71,
+  "tools": [
+    "get-bill",
+    "get-vendor",
+    "get_account",
+    "get_aged_payables",
+    "get_aged_receivables",
+    "get_attachable",
+    "get_balance_sheet",
+    "get_bill_payment",
+    "get_cash_flow",
+    "get_class",
+    "get_company_info",
+    "get_credit_memo",
+    "get_customer",
+    "get_customer_balance",
+    "get_customer_sales",
+    "get_department",
+    "get_deposit",
+    "get_employee",
+    "get_estimate",
+    "get_general_ledger",
+    "get_invoice_pdf",
+    "get_journal_entry",
+    "get_payment",
+    "get_payment_method",
+    "get_preferences",
+    "get_profit_and_loss",
+    "get_purchase",
+    "get_purchase_order",
+    "get_refund_receipt",
+    "get_sales_receipt",
+    "get_tax_agency",
+    "get_tax_code",
+    "get_tax_rate",
+    "get_term",
+    "get_time_activity",
+    "get_transfer",
+    "get_trial_balance",
+    "get_vendor_balance",
+    "get_vendor_credit",
+    "get_vendor_expenses",
+    "read_invoice",
+    "read_item",
+    "search_accounts",
+    "search_attachables",
+    "search_bill_payments",
+    "search_bills",
+    "search_budgets",
+    "search_classes",
+    "search_credit_memos",
+    "search_customers",
+    "search_departments",
+    "search_deposits",
+    "search_employees",
+    "search_estimates",
+    "search_invoices",
+    "search_items",
+    "search_journal_entries",
+    "search_payment_methods",
+    "search_payments",
+    "search_purchase_orders",
+    "search_purchases",
+    "search_refund_receipts",
+    "search_sales_receipts",
+    "search_tax_agencies",
+    "search_tax_codes",
+    "search_tax_rates",
+    "search_terms",
+    "search_time_activities",
+    "search_transfers",
+    "search_vendor_credits",
+    "search_vendors"
+  ],
+  "company": {
+    "name": "Sandbox Company US 1bad",
+    "country": "US"
+  },
+  "pnl": {
+    "start": "2025-11-01",
+    "end": "2026-10-12",
+    "columns": 14,
+    "sections": 8
+  },
+  "django_test": {
+    "status": 200,
+    "company": "Sandbox Company US 1bad",
+    "realm_hint": "9341\u2026",
+    "pnl_keys": [
+      "cost_of_goods_sold",
+      "gross_profit",
+      "net_income",
+      "net_operating_income",
+      "net_other_income",
+      "other_expenses",
+      "total_expenses",
+      "total_income"
+    ]
+  },
+  "results": [
+    {
+      "status": "PASS",
+      "check": "MCP initialize over stdio",
+      "detail": "QuickBooks Online MCP Server 1.0.0"
+    },
+    {
+      "status": "PASS",
+      "check": "Launcher pre-flight",
+      "detail": "sandbox + read-only flags verified in token store"
+    },
+    {
+      "status": "PASS",
+      "check": "tools/list returns tools",
+      "detail": "71 tools"
+    },
+    {
+      "status": "PASS",
+      "check": "No create/update/delete tools registered",
+      "detail": "none"
+    },
+    {
+      "status": "PASS",
+      "check": "Write tool 'create_customer' rejected",
+      "detail": "tool not found"
+    },
+    {
+      "status": "PASS",
+      "check": "Write tool 'update_invoice' rejected",
+      "detail": "tool not found"
+    },
+    {
+      "status": "PASS",
+      "check": "Write tool 'delete_invoice' rejected",
+      "detail": "tool not found"
+    },
+    {
+      "status": "PASS",
+      "check": "Write tool 'update_company_info' rejected",
+      "detail": "tool not found"
+    },
+    {
+      "status": "PASS",
+      "check": "get_company_info",
+      "detail": "Sandbox Company US 1bad (US)"
+    },
+    {
+      "status": "PASS",
+      "check": "get_profit_and_loss (12 months, by month)",
+      "detail": "8 sections, 14 columns"
+    },
+    {
+      "status": "PASS",
+      "check": "Django /api/qbo/<slug>/test",
+      "detail": "Sandbox Company US 1bad, P&L keys: cost_of_goods_sold, gross_profit, net_income, net_operating_income, net_other_income, other_expenses, total_expenses, total_income"
+    }
+  ]
+}

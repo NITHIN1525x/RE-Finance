@@ -1,0 +1,229 @@
+#!/usr/bin/env python
+"""End-to-end smoke test for the QuickBooks sandbox connection. Exits non-zero on any FAIL.
+
+Checks, in order:
+  1. MCP server (via connection/scripts/mcp_launch.mjs, the same command .mcp.json uses) speaks MCP over stdio.
+  2. tools/list returns > 0 tools and NO create_/update_/delete_ tools (read-only).
+  3. Calling write tools by name is rejected by the MCP layer (no QuickBooks call is attempted).
+  4. The launcher reports sandbox; get_company_info returns a company.
+  5. get_profit_and_loss returns a report with rows.
+  6. The Django /api/qbo/<slug>/test endpoint (in-process Django test client, forced session for a
+     member user; the CLI operator is trusted, so no password is needed) returns company + P&L.
+
+Never prints tokens, client secrets or the full realm ID. Company names and totals are sandbox data.
+
+Usage (from the repo root, with the backend venv's Python):
+    connection/backend/.venv/Scripts/python connection/scripts/smoke_test --client abc-inc-sandbox [--evidence FILE]
+    (POSIX: connection/backend/.venv/bin/python ...)
+
+Exit codes: 0 = no FAIL (SKIPs are listed), 1 = at least one FAIL, 2 = could not run.
+"""
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+import threading
+from datetime import date, datetime, timezone
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[2]
+LAUNCHER = REPO / "connection" / "scripts" / "mcp_launch.mjs"
+BACKEND = REPO / "connection" / "backend"
+WRITE_PREFIX = re.compile(r"^(create|update|delete)[_-]")
+TIMEOUT = 90
+
+results = []   # (status, check, detail)
+
+
+def record(status, check, detail=""):
+    results.append((status, check, detail))
+    print(f"[{status:4}] {check}" + (f": {detail}" if detail else ""), flush=True)
+
+
+class McpStdioClient:
+    """Minimal newline-delimited JSON-RPC client for an MCP stdio server (no SDK dependency)."""
+
+    def __init__(self, argv, cwd):
+        self.proc = subprocess.Popen(argv, cwd=cwd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                     stderr=subprocess.PIPE, text=True, encoding="utf-8", bufsize=1)
+        self.stderr_lines = []
+        threading.Thread(target=self._drain_stderr, daemon=True).start()
+        self.next_id = 0
+
+    def _drain_stderr(self):
+        for line in self.proc.stderr:
+            self.stderr_lines.append(line.rstrip())
+
+    def request(self, method, params=None):
+        self.next_id += 1
+        msg = {"jsonrpc": "2.0", "id": self.next_id, "method": method}
+        if params is not None:
+            msg["params"] = params
+        self.proc.stdin.write(json.dumps(msg) + "\n")
+        self.proc.stdin.flush()
+        result = {}
+
+        def read():
+            for line in self.proc.stdout:
+                data = json.loads(line)
+                if data.get("id") == self.next_id:
+                    result["msg"] = data
+                    return
+
+        reader = threading.Thread(target=read, daemon=True)
+        reader.start()
+        reader.join(TIMEOUT)
+        if "msg" not in result:
+            raise TimeoutError(f"no response to {method} within {TIMEOUT}s (exit code {self.proc.poll()})")
+        return result["msg"]
+
+    def notify(self, method):
+        self.proc.stdin.write(json.dumps({"jsonrpc": "2.0", "method": method}) + "\n")
+        self.proc.stdin.flush()
+
+    def call_tool(self, name, params=None):
+        return self.request("tools/call", {"name": name, "arguments": {"params": params or {}}})
+
+    def close(self):
+        try:
+            self.proc.stdin.close()
+            self.proc.wait(timeout=10)
+        except Exception:  # noqa: BLE001
+            self.proc.kill()
+
+
+def tool_text(response):
+    """Joined text content of a tools/call response; the official server reports errors as 'Error: ...' text."""
+    if "error" in response:
+        return None, f"JSON-RPC error {response['error'].get('code')}"
+    content = response["result"].get("content", [])
+    text = "\n".join(c.get("text", "") for c in content if c.get("type") == "text")
+    if response["result"].get("isError") or text.startswith("Error"):
+        return None, "tool reported an error"   # do not echo server error text: it can contain request details
+    return text, None
+
+
+def first_json(text):
+    start = text.find("{")
+    return json.loads(text[start:]) if start >= 0 else None
+
+
+def mcp_checks(evidence):
+    client = McpStdioClient(["node", str(LAUNCHER)], cwd=REPO)
+    try:
+        init = client.request("initialize", {"protocolVersion": "2025-06-18", "capabilities": {},
+                                             "clientInfo": {"name": "smoke_test", "version": "1"}})
+        server = init["result"]["serverInfo"]
+        client.notify("notifications/initialized")
+        record("PASS", "MCP initialize over stdio", f"{server['name']} {server.get('version', '')}")
+        launch_line = next((l for l in client.stderr_lines if "[mcp_launch]" in l), "")
+        if "sandbox, read-only" in launch_line:
+            record("PASS", "Launcher pre-flight", "sandbox + read-only flags verified in token store")
+        else:
+            record("FAIL", "Launcher pre-flight", "expected sandbox/read-only start line")
+
+        tools = client.request("tools/list")["result"]["tools"]
+        names = sorted(t["name"] for t in tools)
+        writes = [n for n in names if WRITE_PREFIX.match(n)]
+        evidence["tool_count"] = len(names)
+        evidence["tools"] = names
+        record("PASS" if names else "FAIL", "tools/list returns tools", f"{len(names)} tools")
+        record("PASS" if not writes else "FAIL", "No create/update/delete tools registered",
+               "none" if not writes else ", ".join(writes))
+
+        for name in ("create_customer", "update_invoice", "delete_invoice", "update_company_info"):
+            resp = client.call_tool(name, {})
+            rejected = "error" in resp or resp.get("result", {}).get("isError")
+            text = json.dumps(resp).lower()
+            record("PASS" if rejected and "not found" in text else "FAIL",
+                   f"Write tool '{name}' rejected", "tool not found" if rejected else "NOT REJECTED")
+
+        text, err = tool_text(client.call_tool("get_company_info"))
+        info = (first_json(text) or {}) if text else {}
+        if err or not info.get("CompanyName"):
+            record("FAIL", "get_company_info", err or "no CompanyName")
+        else:
+            evidence["company"] = {"name": info.get("CompanyName"), "country": info.get("Country")}
+            record("PASS", "get_company_info", f"{info.get('CompanyName')} ({info.get('Country')})")
+
+        today = date.today()
+        start = date(today.year - (1 if today.month < 12 else 0), (today.month % 12) + 1, 1)
+        text, err = tool_text(client.call_tool("get_profit_and_loss", {
+            "start_date": start.isoformat(), "end_date": today.isoformat(), "summarize_column_by": "Month"}))
+        report = first_json(text) if text else None
+        rows = (report or {}).get("Rows", {}).get("Row", [])
+        if err or report is None:
+            record("FAIL", "get_profit_and_loss (12 months, by month)", err or "unparseable")
+        elif not rows:
+            record("SKIP", "get_profit_and_loss (12 months, by month)", "report returned but sandbox has no rows")
+        else:
+            cols = len(report.get("Columns", {}).get("Column", []))
+            evidence["pnl"] = {"start": start.isoformat(), "end": today.isoformat(), "columns": cols, "sections": len(rows)}
+            record("PASS", "get_profit_and_loss (12 months, by month)", f"{len(rows)} sections, {cols} columns")
+    finally:
+        client.close()
+
+
+def django_check(slug, evidence):
+    sys.path.insert(0, str(BACKEND))
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+    import django
+
+    django.setup()
+    from django.test import Client as HttpClient
+
+    from qbo.models import Client
+
+    client_obj = Client.objects.filter(slug=slug).first()
+    member = client_obj.members.first() if client_obj else None
+    if member is None:
+        record("FAIL", "Django /test endpoint", f"client '{slug}' missing or has no members")
+        return
+    http = HttpClient(HTTP_HOST="localhost")
+    http.force_login(member)
+    resp = http.post(f"/api/qbo/{slug}/test")
+    body = resp.json()
+    if resp.status_code == 200:
+        totals = body["profit_and_loss"]["totals"]
+        evidence["django_test"] = {"status": 200, "company": body["company"]["name"], "realm_hint": body["realm_hint"],
+                                   "pnl_keys": sorted(totals)}
+        record("PASS", "Django /api/qbo/<slug>/test", f"{body['company']['name']}, P&L keys: {', '.join(sorted(totals)) or 'none'}")
+    elif resp.status_code == 409 and body.get("error") == "checked_out":
+        evidence["django_test"] = {"status": 409, "error": "checked_out"}
+        record("SKIP", "Django /api/qbo/<slug>/test",
+               "connection checked out to MCP and Django's cached access token expired (by design; see D-16)")
+    else:
+        record("FAIL", "Django /api/qbo/<slug>/test", f"HTTP {resp.status_code} {body.get('error', '')}")
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--client", default="abc-inc-sandbox")
+    parser.add_argument("--evidence", help="write a redacted JSON report to this path")
+    parser.add_argument("--skip-django", action="store_true")
+    args = parser.parse_args()
+
+    evidence = {"run_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "client": args.client}
+    try:
+        mcp_checks(evidence)
+    except Exception as exc:  # noqa: BLE001
+        record("FAIL", "MCP checks aborted", exc.__class__.__name__)
+    if not args.skip_django:
+        try:
+            django_check(args.client, evidence)
+        except Exception as exc:  # noqa: BLE001
+            record("FAIL", "Django check aborted", exc.__class__.__name__)
+
+    fails = [r for r in results if r[0] == "FAIL"]
+    skips = [r for r in results if r[0] == "SKIP"]
+    evidence["results"] = [{"status": s, "check": c, "detail": d} for s, c, d in results]
+    if args.evidence:
+        Path(args.evidence).write_text(json.dumps(evidence, indent=2, default=str), encoding="utf-8")
+    print(f"\nsmoke_test: {len(results) - len(fails) - len(skips)} passed, {len(skips)} skipped, {len(fails)} failed")
+    sys.exit(1 if fails else 0)
+
+
+if __name__ == "__main__":
+    main()

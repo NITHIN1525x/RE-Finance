@@ -1,0 +1,14 @@
+#!/bin/sh
+# Blocks commits that contain secrets or credential files. Enable once per clone:
+#   git config core.hooksPath .githooks
+# The scanner prints file:line and a fingerprint only, never the secret itself.
+HOOK_DIR=$(cd "$(dirname "$0")" && pwd)
+SCANNER="$HOOK_DIR/../connection/scripts/secret_scan"
+
+for py in python3 python py; do
+  if command -v "$py" >/dev/null 2>&1 && "$py" -c "import sys; sys.exit(sys.version_info < (3, 8))" >/dev/null 2>&1; then
+    exec "$py" "$SCANNER" --staged
+  fi
+done
+echo "pre-commit: Python 3.8+ not found; refusing to commit without a secret scan." >&2
+exit 1

@@ -1,0 +1,65 @@
+# ---------------------------------------------------------------------------
+# Secrets and credential stores. NEVER commit these.
+# ---------------------------------------------------------------------------
+# All real secret material lives in connection/.secrets/ (owner-only ACL/chmod 700):
+#   backend.env      Django SECRET_KEY, FERNET_KEY, Intuit client ID/secret
+#   mcp-server.env   token store generated for the MCP server (rotating refresh token)
+#   db.sqlite3       encrypted refresh tokens + audit log
+connection/.secrets/
+.secrets/
+
+# Any real .env file anywhere; only *.env.example templates are tracked.
+.env
+.env.*
+*.env
+!.env.example
+!*.env.example
+
+# Databases (may hold encrypted tokens and audit data)
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+*.db
+
+# Key material and token dumps
+*.pem
+*.key
+*.p12
+*.pfx
+tokens.json
+
+# Unredacted evidence: capture raw output here, commit only the redacted copies.
+connection/evidence/raw/
+connection/evidence/**/*.raw.*
+capture-*.txt
+
+# ---------------------------------------------------------------------------
+# Build output, dependencies, caches
+# ---------------------------------------------------------------------------
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Claude Code per-user settings (may contain local paths or permissions)
+.claude/settings.local.json
