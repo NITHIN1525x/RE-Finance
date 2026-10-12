@@ -1,0 +1,128 @@
+{
+  "id": "f_bb_from_zero_label",
+  "title": "Bluebird, Sep 2026: prior-month-zero account labelled 'from 0', not 'new'; genuinely new stream still called new",
+  "input": {
+    "workbook": ".claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx",
+    "prompt": "bluebird",
+    "target_month": "Sep 2026"
+  },
+  "skill_run": {
+    "model_requested": "claude-opus-5-5",
+    "model_reported": "claude-opus-5-5",
+    "claude_code_version": "2.1.296",
+    "num_turns": 10,
+    "total_cost_usd": 0.33813620000000005,
+    "elapsed_s": 45.1,
+    "permission_mode": "default"
+  },
+  "execution": [
+    {
+      "id": "X1",
+      "desc": "claude -p run completed successfully",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "exit 0, subtype success"
+    },
+    {
+      "id": "X2",
+      "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X3",
+      "desc": "the skill's script run_trends.py was executed",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X4",
+      "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "1 json, 1 md in evals/runs/clean-run-20261012/f_bb_from_zero_label/skill_output"
+    },
+    {
+      "id": "X5",
+      "desc": "nothing outside evals/runs/ was modified by the skill run",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "no changes made by the skill"
+    },
+    {
+      "id": "X6",
+      "desc": "the narrative placeholder was replaced with commentary",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "structured": [
+    {
+      "id": "S1",
+      "desc": "movers table labels Mystery Shopper Program 'from 0'",
+      "type": "md_regex",
+      "source": "literal",
+      "expected": "present: /\\| Mystery Shopper Program \\| Other Opex \\| 0 \\| 400 \\| 400 \\| from 0 \\|/",
+      "actual": "| Mystery Shopper Program | Other Opex | 0 | 400 | 400 | from 0 |",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S2",
+      "desc": "no 'new expense line' flag for Mystery Shopper Program",
+      "type": "flag_regex",
+      "source": "literal",
+      "expected": "absent: /New expense line 'Mystery Shopper Program'/",
+      "actual": null,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S3",
+      "desc": "new-stream flag for Wholesale Accounts",
+      "type": "flag_regex",
+      "source": "literal",
+      "expected": "present: /New revenue stream 'Wholesale Accounts': 12,000 in Sep 2026/",
+      "actual": "New revenue stream 'Wholesale Accounts': 12,000 in Sep 2026",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S4",
+      "desc": "Wholesale Accounts Sep 2026",
+      "type": "value",
+      "source": {
+        "fact": "bb.wholesale.sep2026",
+        "sheet": "Profit and Loss",
+        "cells": [
+          "J10"
+        ],
+        "formula": "Wholesale Accounts, Sep 2026"
+      },
+      "expected": 12000.0,
+      "actual": 12000.0,
+      "tolerance": 0.01,
+      "status": "PASS"
+    }
+  ],
+  "commentary": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Identifies Wholesale Accounts as a new revenue stream in Sep 2026 (about 12,000; zero or absent in prior months).",
+      "status": "PASS",
+      "evidence": "Commentary says \"Wholesale Accounts, 12,000, is a new revenue stream: zero in every earlier month of the export,\" matching the reference facts (12,000 in Sep 2026, blank before)."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes Mystery Shopper Program as new, first appearing, or appearing for the first time in Sep 2026. (It was also 400 in Mar and Jun 2026. Saying it was zero in Aug, or rose 'from 0', is allowed.)",
+      "status": "PASS",
+      "evidence": "Commentary says \"Mystery Shopper Program, 400, is not new\" and notes it posted 400 in Mar and Jun 2026; the \"from 0\" against August is allowed, so it is not described as new."
+    }
+  ],
+  "status": "PASS"
+}

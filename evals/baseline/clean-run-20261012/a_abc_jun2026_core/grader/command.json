@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-sonnet-5-5",
+    "--json-schema",
+    "{\"type\": \"object\", \"properties\": {\"claims\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"id\": {\"type\": \"string\"}, \"verdict\": {\"type\": \"string\", \"enum\": [\"PASS\", \"FAIL\"]}, \"evidence\": {\"type\": \"string\"}}, \"required\": [\"id\", \"verdict\", \"evidence\"], \"additionalProperties\": false}}}, \"required\": [\"claims\"], \"additionalProperties\": false}",
+    "--output-format",
+    "json",
+    "--tools",
+    "",
+    "--strict-mcp-config",
+    "--disable-slash-commands",
+    "--no-session-persistence",
+    "--max-budget-usd",
+    "0.5"
+  ],
+  "stdin": "prompt.txt",
+  "cwd": "(empty temp dir)"
+}

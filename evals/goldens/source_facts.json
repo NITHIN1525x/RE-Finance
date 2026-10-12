@@ -1,0 +1,507 @@
+{
+  "abc.revenue.jun2026": {
+    "value": 195898.16,
+    "sheet": "Income Statement",
+    "cells": [
+      "C14"
+    ],
+    "formula": "Total Income, Jun 2026"
+  },
+  "abc.revenue.may2026": {
+    "value": 208350.96,
+    "sheet": "Income Statement",
+    "cells": [
+      "D14"
+    ],
+    "formula": "Total Income, May 2026"
+  },
+  "abc.revenue.mom_pct": {
+    "value": -5.976838311664121,
+    "sheet": "Income Statement",
+    "cells": [
+      "C14",
+      "D14"
+    ],
+    "formula": "(C14-D14)/D14*100"
+  },
+  "abc.revenue.jun2025": {
+    "value": 190555.65,
+    "sheet": "Income Statement",
+    "cells": [
+      "O14"
+    ],
+    "formula": "Total Income, Jun 2025"
+  },
+  "abc.revenue.yoy_pct": {
+    "value": 2.803648173118986,
+    "sheet": "Income Statement",
+    "cells": [
+      "C14",
+      "O14"
+    ],
+    "formula": "(C14-O14)/O14*100"
+  },
+  "abc.revenue.prior6_avg": {
+    "value": 196945.88666666666,
+    "sheet": "Income Statement",
+    "cells": [
+      "D14:I14"
+    ],
+    "formula": "AVERAGE(D14:I14) (Dec 2025..May 2026)"
+  },
+  "abc.revenue.vs_prior6_pct": {
+    "value": -0.5319870774655705,
+    "sheet": "Income Statement",
+    "cells": [
+      "C14",
+      "D14:I14"
+    ],
+    "formula": "(Jun - prior-6 average)/average*100"
+  },
+  "abc.revenue.may_is_max": {
+    "value": true,
+    "sheet": "Income Statement",
+    "cells": [
+      "D14:T14"
+    ],
+    "formula": "May 2026 is the maximum of all months before Jun 2026"
+  },
+  "abc.revenue.ttm": {
+    "value": 2303975.51,
+    "sheet": "Income Statement",
+    "cells": [
+      "C14:N14"
+    ],
+    "formula": "SUM(C14:N14) (Jul 2025..Jun 2026)"
+  },
+  "abc.usage_fees.jun2026": {
+    "value": 166781.5,
+    "sheet": "Income Statement",
+    "cells": [
+      "C11"
+    ],
+    "formula": "Usage Fees, Jun 2026"
+  },
+  "abc.usage_fees.mom_pct": {
+    "value": -6.262631780807378,
+    "sheet": "Income Statement",
+    "cells": [
+      "C11",
+      "D11"
+    ],
+    "formula": "(C11-D11)/D11*100"
+  },
+  "abc.usage_fees.ttm_share_pct": {
+    "value": 77.7297368061,
+    "sheet": "Income Statement",
+    "cells": [
+      "C11:N11",
+      "C14:N14"
+    ],
+    "formula": "SUM(Usage Fees TTM)/SUM(Total Income TTM)*100"
+  },
+  "abc.revenue.stream_count": {
+    "value": 6,
+    "sheet": "Income Statement",
+    "cells": [
+      "B8:B13"
+    ],
+    "formula": "rows between 'Income' header and 'Total Income'"
+  },
+  "abc.gm_pct.jun2026": {
+    "value": 70.15161347099942,
+    "sheet": "Income Statement",
+    "cells": [
+      "C26",
+      "C14"
+    ],
+    "formula": "C26/C14*100"
+  },
+  "abc.gm_pct.may2026": {
+    "value": 67.04141416003074,
+    "sheet": "Income Statement",
+    "cells": [
+      "D26",
+      "D14"
+    ],
+    "formula": "D26/D14*100"
+  },
+  "abc.gm_pct.jun2025": {
+    "value": 74.32250893636582,
+    "sheet": "Income Statement",
+    "cells": [
+      "O26",
+      "O14"
+    ],
+    "formula": "O26/O14*100"
+  },
+  "abc.gm_pct.ttm": {
+    "value": 69.46375528097519,
+    "sheet": "Income Statement",
+    "cells": [
+      "C26:N26",
+      "C14:N14"
+    ],
+    "formula": "SUM(GP TTM)/SUM(Revenue TTM)*100"
+  },
+  "abc.cogs.jun2026": {
+    "value": 58472.439999999995,
+    "sheet": "Income Statement",
+    "cells": [
+      "C24"
+    ],
+    "formula": "Total Cost of Goods Sold, Jun 2026"
+  },
+  "abc.gross_profit.jun2026": {
+    "value": 137425.72,
+    "sheet": "Income Statement",
+    "cells": [
+      "C26"
+    ],
+    "formula": "Gross Profit, Jun 2026"
+  },
+  "abc.opex_total.jun2026": {
+    "value": 468181.79999999993,
+    "sheet": "Income Statement",
+    "cells": [
+      "C103"
+    ],
+    "formula": "Total Operating Expenses, Jun 2026"
+  },
+  "abc.net_income.jun2026": {
+    "value": -330756.07999999996,
+    "sheet": "Income Statement",
+    "cells": [
+      "C107"
+    ],
+    "formula": "Net Income, Jun 2026"
+  },
+  "abc.net_income.ttm": {
+    "value": -3089779.59,
+    "sheet": "Income Statement",
+    "cells": [
+      "C107:N107"
+    ],
+    "formula": "SUM(C107:N107)"
+  },
+  "abc.net_income.negative_streak": {
+    "value": 6,
+    "sheet": "Income Statement",
+    "cells": [
+      "C107:I107"
+    ],
+    "formula": "consecutive negative months ending Jun 2026"
+  },
+  "abc.net_income.negative_months": {
+    "value": 17,
+    "sheet": "Income Statement",
+    "cells": [
+      "C107:T107"
+    ],
+    "formula": "COUNTIF(<0)"
+  },
+  "abc.net_income.dec2025": {
+    "value": 534551.4100000001,
+    "sheet": "Income Statement",
+    "cells": [
+      "I107"
+    ],
+    "formula": "Net Income, Dec 2025 (the only positive month)"
+  },
+  "abc.sbc.dec2025": {
+    "value": 334660.53,
+    "sheet": "Income Statement",
+    "cells": [
+      "I99"
+    ],
+    "formula": "Stock-Based Compensation Expense, Dec 2025"
+  },
+  "abc.sbc.median_other_months": {
+    "value": 0.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "C99:T99 excl. I99"
+    ],
+    "formula": "median |Stock-Based Compensation Expense| over the other 17 months"
+  },
+  "abc.bonus.dec2025": {
+    "value": 80342.53,
+    "sheet": "Income Statement",
+    "cells": [
+      "I33"
+    ],
+    "formula": "Bonus, Dec 2025"
+  },
+  "abc.bonus.median_other_months": {
+    "value": 2720.83,
+    "sheet": "Income Statement",
+    "cells": [
+      "C33:T33 excl. I33"
+    ],
+    "formula": "median |Bonus| over the other 17 months"
+  },
+  "abc.income_tax_benefit.dec2025": {
+    "value": -1244429.84,
+    "sheet": "Income Statement",
+    "cells": [
+      "I101"
+    ],
+    "formula": "Income Tax Benefit, Dec 2025"
+  },
+  "abc.income_tax_benefit.median_other_months": {
+    "value": 0.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "C101:T101 excl. I101"
+    ],
+    "formula": "median |Income Tax Benefit| over the other 17 months"
+  },
+  "abc.vanished.advisory_services.jun2026": {
+    "value": 0.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "C30"
+    ],
+    "formula": "Advisory Services, Jun 2026"
+  },
+  "abc.vanished.advisory_services.prior6_avg": {
+    "value": 1250.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "D30:I30"
+    ],
+    "formula": "AVERAGE(D30:I30) Advisory Services, Dec 2025..May 2026"
+  },
+  "abc.vanished.federal_state_taxes.jun2026": {
+    "value": 0.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "C40"
+    ],
+    "formula": "Federal & State Taxes, Jun 2026"
+  },
+  "abc.vanished.federal_state_taxes.prior6_avg": {
+    "value": 998.5083333333333,
+    "sheet": "Income Statement",
+    "cells": [
+      "D40:I40"
+    ],
+    "formula": "AVERAGE(D40:I40) Federal & State Taxes, Dec 2025..May 2026"
+  },
+  "abc.vanished.mkt_misc.jun2026": {
+    "value": 0.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "C68"
+    ],
+    "formula": "Marketing/Advertising: Miscellaneous, Jun 2026"
+  },
+  "abc.vanished.mkt_misc.prior6_avg": {
+    "value": 721.0033333333333,
+    "sheet": "Income Statement",
+    "cells": [
+      "D68:I68"
+    ],
+    "formula": "AVERAGE(D68:I68) Marketing/Advertising: Miscellaneous, Dec 2025..May 2026"
+  },
+  "abc.vanished.professional_fees.jun2026": {
+    "value": 0.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "C85"
+    ],
+    "formula": "Professional Fees, Jun 2026"
+  },
+  "abc.vanished.professional_fees.prior6_avg": {
+    "value": 1045.4616666666666,
+    "sheet": "Income Statement",
+    "cells": [
+      "D85:I85"
+    ],
+    "formula": "AVERAGE(D85:I85) Professional Fees, Dec 2025..May 2026"
+  },
+  "abc.cash.jun2026": {
+    "value": 713481.26,
+    "sheet": "Balance Sheet",
+    "cells": [
+      "D15"
+    ],
+    "formula": "Total Cash and Cash Equivalents, 30 Jun 2026"
+  },
+  "abc.cash.may2026": {
+    "value": 929024.5900000001,
+    "sheet": "Balance Sheet",
+    "cells": [
+      "E15"
+    ],
+    "formula": "Total Cash and Cash Equivalents, 31 May 2026"
+  },
+  "abc.cash.dec2025": {
+    "value": 2585317.3,
+    "sheet": "Balance Sheet",
+    "cells": [
+      "J15"
+    ],
+    "formula": "Total Cash and Cash Equivalents, 31 Dec 2025"
+  },
+  "bb.months": {
+    "value": 9,
+    "sheet": "Profit and Loss",
+    "cells": [
+      "B4:J4"
+    ],
+    "formula": "month header cells (K4 is a 'Total' column, not a month)"
+  },
+  "bb.prof_services.mar2026.stated": {
+    "value": 2225.0,
+    "sheet": "Profit and Loss",
+    "cells": [
+      "D35"
+    ],
+    "formula": "Total for Professional Services, Mar 2026"
+  },
+  "bb.prof_services.mar2026.detail_sum": {
+    "value": 2200.0,
+    "sheet": "Profit and Loss",
+    "cells": [
+      "D33",
+      "D34"
+    ],
+    "formula": "D33+D34 (Bookkeeping + Legal)"
+  },
+  "bb.prof_services.mar2026.diff": {
+    "value": 25.0,
+    "sheet": "Profit and Loss",
+    "cells": [
+      "D35",
+      "D33",
+      "D34"
+    ],
+    "formula": "stated - detail sum"
+  },
+  "bb.prof_services.other_months_match": {
+    "value": true,
+    "sheet": "Profit and Loss",
+    "cells": [
+      "B35:J35"
+    ],
+    "formula": "stated = detail in every month except Mar"
+  },
+  "bb.charitable.all_blank": {
+    "value": true,
+    "sheet": "Profit and Loss",
+    "cells": [
+      "B29:J29"
+    ],
+    "formula": "every month cell empty"
+  },
+  "bb.charitable.next_rows": {
+    "value": [
+      "Instagram Ads",
+      "Mystery Shopper Program"
+    ],
+    "sheet": "Profit and Loss",
+    "cells": [
+      "A30",
+      "A31"
+    ],
+    "formula": "rows directly below the blank account (must not be grouped under it)"
+  },
+  "bb.mystery_shopper.monthly": {
+    "value": [
+      0.0,
+      0.0,
+      400.0,
+      0.0,
+      0.0,
+      400.0,
+      0.0,
+      0.0,
+      400.0
+    ],
+    "sheet": "Profit and Loss",
+    "cells": [
+      "B31:J31"
+    ],
+    "formula": "Jan..Sep 2026"
+  },
+  "bb.mystery_shopper.nonzero_before_sep": {
+    "value": [
+      "Mar 2026",
+      "Jun 2026"
+    ],
+    "sheet": "Profit and Loss",
+    "cells": [
+      "B31:I31"
+    ],
+    "formula": "months before Sep with a non-zero value (so it is NOT new in Sep)"
+  },
+  "bb.wholesale.sep2026": {
+    "value": 12000.0,
+    "sheet": "Profit and Loss",
+    "cells": [
+      "J10"
+    ],
+    "formula": "Wholesale Accounts, Sep 2026"
+  },
+  "bb.wholesale.blank_before_sep": {
+    "value": true,
+    "sheet": "Profit and Loss",
+    "cells": [
+      "B10:I10"
+    ],
+    "formula": "empty Jan..Aug 2026"
+  },
+  "bb.instagram_ads.sep2026": {
+    "value": 1350.0,
+    "sheet": "Profit and Loss",
+    "cells": [
+      "J30"
+    ],
+    "formula": "Instagram Ads, Sep 2026"
+  },
+  "bb.expenses_total.monthly": {
+    "value": [
+      25470.0,
+      25215.0,
+      26470.0,
+      25485.0,
+      25450.0,
+      26115.0,
+      25960.0,
+      26085.0,
+      31570.0
+    ],
+    "sheet": "Profit and Loss",
+    "cells": [
+      "B37:J37"
+    ],
+    "formula": "Total for Expenses, Jan..Sep 2026 (stated; equals the true detail sum in this workbook)"
+  },
+  "bb.charitable.zeros": {
+    "value": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "sheet": "Profit and Loss",
+    "cells": [
+      "B29:J29"
+    ],
+    "formula": "blank cells read as 0 in every month"
+  },
+  "bb.revenue.sep2026": {
+    "value": 81300.0,
+    "sheet": "Profit and Loss",
+    "cells": [
+      "J11"
+    ],
+    "formula": "Total for Revenue, Sep 2026"
+  }
+}

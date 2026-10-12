@@ -1,0 +1,152 @@
+{
+  "id": "b_abc_rounding_vanished_lines",
+  "title": "ABC Inc, Jun 2026: expense lines that went to zero, judged under the rounding policy (generalises the Task 2 '721 -> roughly 700' instance)",
+  "input": {
+    "workbook": "data/ABC Inc - Financial Statements (1) (1).xlsx",
+    "prompt": "abc",
+    "target_month": "Jun 2026"
+  },
+  "skill_run": {
+    "model_requested": "claude-opus-5-5",
+    "model_reported": "claude-opus-5-5",
+    "claude_code_version": "2.1.296",
+    "num_turns": 9,
+    "total_cost_usd": 0.42860180000000003,
+    "elapsed_s": 62.9,
+    "permission_mode": "default"
+  },
+  "execution": [
+    {
+      "id": "X1",
+      "desc": "claude -p run completed successfully",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "exit 0, subtype success"
+    },
+    {
+      "id": "X2",
+      "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X3",
+      "desc": "the skill's script run_trends.py was executed",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X4",
+      "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "1 json, 1 md in evals/runs/clean-run-20261012/b_abc_rounding_vanished_lines/skill_output"
+    },
+    {
+      "id": "X5",
+      "desc": "nothing outside evals/runs/ was modified by the skill run",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "no changes made by the skill"
+    },
+    {
+      "id": "X6",
+      "desc": "the narrative placeholder was replaced with commentary",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "structured": [
+    {
+      "id": "S1",
+      "desc": "Marketing/Advertising: Miscellaneous is 0 in Jun 2026",
+      "type": "value",
+      "source": {
+        "fact": "abc.vanished.mkt_misc.jun2026",
+        "sheet": "Income Statement",
+        "cells": [
+          "C68"
+        ],
+        "formula": "Marketing/Advertising: Miscellaneous, Jun 2026"
+      },
+      "expected": 0.0,
+      "actual": 0.0,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S2",
+      "desc": "vanished-line flag: Advisory Services (avg 1,250)",
+      "type": "flag_regex",
+      "source": "literal",
+      "expected": "present: /Expense line 'Advisory Services' .*zero in Jun 2026; it averaged 1,250 /",
+      "actual": "Expense line 'Advisory Services' (Professional Fees) is zero in Jun 2026; it averaged 1,250 ",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S3",
+      "desc": "vanished-line flag: Federal & State Taxes (avg 999)",
+      "type": "flag_regex",
+      "source": "literal",
+      "expected": "present: /Expense line 'Federal & State Taxes' .*zero in Jun 2026; it averaged 999 /",
+      "actual": "Expense line 'Federal & State Taxes' (Finance & Admin) is zero in Jun 2026; it averaged 999 ",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S4",
+      "desc": "vanished-line flag: Marketing/Advertising: Miscellaneous (avg 721)",
+      "type": "flag_regex",
+      "source": "literal",
+      "expected": "present: /Expense line 'Marketing/Advertising: Miscellaneous' .*zero in Jun 2026; it averaged 721 /",
+      "actual": "Expense line 'Marketing/Advertising: Miscellaneous' (Sales & Marketing) is zero in Jun 2026; it averaged 721 ",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S5",
+      "desc": "vanished-line flag: Professional Fees (avg 1,045)",
+      "type": "flag_regex",
+      "source": "literal",
+      "expected": "present: /Expense line 'Professional Fees' .*zero in Jun 2026; it averaged 1,045 /",
+      "actual": "Expense line 'Professional Fees' (Professional Fees) is zero in Jun 2026; it averaged 1,045 ",
+      "tolerance": 0.0,
+      "status": "PASS"
+    }
+  ],
+  "commentary": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+      "status": "PASS",
+      "evidence": "The \"vanished (zero in Jun 2026)\" bullet names Marketing/Advertising: Miscellaneous (1,119 in May), Federal & State Taxes (1,562 in May), Advisory Services (last 2,500 in Jan 2026) and Professional Fees (2,500 Dec 2025, 3,773 Mar 2026). That covers four lines that were non-zero earlier and zero in June."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+      "status": "PASS",
+      "evidence": "The commentary gives no prior-6-month averages for these lines. It gives only individual monthly balances, so the condition for this rule is absent and it passes."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+      "status": "PASS",
+      "evidence": "The commentary gives no cause for the zeros. It only describes the balance history (\"not clean June drop-offs\", \"0 since Feb 2026\")."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+      "status": "PASS",
+      "evidence": "The commentary never calls the lines discontinued, cancelled or permanent. It only reports the history, such as \"0 since Feb 2026\" and \"posted in only two of 18 months\"."
+    }
+  ],
+  "status": "PASS"
+}

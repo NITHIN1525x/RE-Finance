@@ -825,3 +825,116 @@ without being named). Tests: `.venv/Scripts/python -m unittest discover -s tests
   OAuth and token code stay untouched.
 - **Known caveat to resolve first:** the current sandbox already holds Intuit's sample data, so the
   result would be "ABC plus sample data" unless a fresh sandbox company is used.
+
+---
+
+# Task 3: Evaluation suite (2026-10-12)
+
+The suite lives in `evals/`, documented in `evals/README.md`. It runs **7 golden cases** end to end through
+the real skill (`claude -p`), plus the skill's 28 regression tests. Commentary is graded by a separate
+Claude call. Both layers are summarised in one report.
+
+### D-37: A 28th regression test closes a real extractor-layer gap
+- Added `test_ttm_mom_and_yoy_math_matches_raw_cells` to `RealWorkbookTests` in
+  `.claude/skills/monthly-trend-analysis/tests/test_trends.py`.
+- **Why:** the 27 committed tests checked the monthly series against raw rows, and MoM only through flag
+  text. Nothing asserted the **TTM, prior-month TTM, MoM %, YoY %, TTM GM % or TTM net income values**,
+  or that TTM starts in month 12.
+- The test reads the raw ABC cells itself and asserts all of these. It only adds assertions and changes no
+  behaviour. It passed on first run, so the TTM math was already correct.
+
+### D-38: Contamination incident in the first run, and the harness hardening
+- **Incident:** in `evals/runs/first-run-20261012`, case a's X5 ("nothing outside evals/runs/ changed")
+  FAILED. The changed file was `evals/README.md`, written by the operator (this build session) at
+  13:28:27 IST, during case a's skill run (13:27:52–13:28:34). The skill's only edit was its own report
+  under `evals/runs/`. **This was neither a skill defect nor a wrong golden**; the check caught a real
+  out-of-band change. The run folder is kept unedited, with an explanatory `NOTE.md`.
+- **Hardening (harness only):**
+  - **Content hashes, not `git status`:** `run_evals.py` now snapshots the sha256 of every tracked and
+    untracked-but-not-ignored file outside `evals/runs/`, and the submodule's checked-out commit. Status
+    lines alone miss a file that was already modified and changes again.
+  - **Run-level guard:** the harness snapshots at the start and checks after the regression tests, after
+    each case, and after the calibration and controls. Any change a skill run didn't make itself is reported
+    as **`harness contamination: <path> modified during run (during <phase>, between t0 and t1)`**. It is
+    reported in its own report section, separate from the skill checks, and the run exits with code 3.
+  - **X5 is now attributed:** a change made by the skill's own tool calls (Write/Edit target, or a path
+    named in a Bash command) is a skill FAIL. A change in the skill's window that its calls don't account
+    for makes X5 **BLOCKED**, because that window is contaminated. It never defaults to PASS.
+- **Tests:** `evals/tests/test_harness.py`, 5 tests in a throwaway git repo. They cover: the message fires
+  for a modified file; an already-dirty file edited again is caught; created and deleted files are caught;
+  `evals/runs/` and git-ignored files are excluded; attribution splits skill writes from operator writes.
+  All pass. The skill, goldens and grader rubric are unchanged.
+
+### D-39: Deleted `evals/runs/harness-smoke-1/`
+- It was a one-case plumbing check of the harness (case g only), run before the first honest run and
+  labelled as such. It was **not an evaluation**, and its results were never reported as one. Deleted to
+  avoid confusion with real runs.
+
+### D-40: Rounding policy, and the ruling on "721 → roughly 700"
+- **Policy (stated once):** in `evals/goldens/cases.json` → `rounding_policy`, and passed verbatim to the
+  grader. Prose may round within **5% relative** (or **0.5 pp** for percentages) if sign, direction,
+  ranking and thresholds are unchanged. Structured JSON must meet each check's explicit tolerance
+  (currency ±0.01, percentages ±0.01 pp).
+- **Ruling:** Task 2's "roughly 700–1,250" for the true averages 721.0033 / 998.51 / 1,045.46 / 1,250.00
+  (`Income Statement!D68:I68` etc.) is **acceptable**. 700 is −2.9% from 721; the range bounds all four
+  values; no ranking or direction changes.
+- **Not special-cased:** case b applies the same policy to every fresh run, and the calibration step had
+  the grader rule independently on the frozen Task 2 text. It agreed (PASS, "about 2.9% below 721") in both
+  runs. Documented in `evals/README.md` § Rounding policy.
+
+### D-41: The baseline comes from the clean run, not the first run
+- `evals/baseline/` is a verbatim copy of `evals/runs/clean-run-20261012`, with its console log and
+  `BASELINE.md`. **121/121 checks PASS, 7/7 cases, no contamination, 28/28 regression tests, all 3 grader
+  controls agree.**
+- **Why not the first run:** its single FAIL was caused by the operator, not the skill. A baseline built
+  from it would encode an incident as if it were skill behaviour. The first run is kept, unedited, as the
+  record of the incident.
+- Provenance is in `BASELINE.md`:
+  - source run;
+  - git HEAD `396f17d`, with the Task 3 files uncommitted at the time;
+  - Claude Code 2.1.296;
+  - skill model `claude-opus-5-5` (reported);
+  - grader model `claude-sonnet-5-5`, plus `claude-haiku-5-5` for Claude Code background work;
+  - cost $2.74;
+  - the sha256 of `results.json`.
+
+### D-42: Cost per evaluation run (input for Task 4's 10-client question)
+| Run | Skill runs (7) | Grader calls (11) | Total |
+|---|---:|---:|---:|
+| first-run-20261012 | $2.47 | $0.27 | $2.73 |
+| clean-run-20261012 | $2.47 | $0.27 | $2.74 |
+
+- These are Claude Code's reported `total_cost_usd`, at list prices.
+- **Per skill run** (one company, one month): $0.29–0.43, mean **≈ $0.35**, 7–10 turns, about 40–60 s.
+  **Per grader call:** ≈ $0.025.
+- **A full eval suite** takes about 7 minutes run sequentially.
+- **Scaling, as rough arithmetic and not a forecast:**
+  - one monthly report per client for 10 clients ≈ 10 × $0.35 ≈ **$3.50 per month** in model cost;
+  - re-running this 7-case suite per skill change ≈ **$2.75**;
+  - each extra per-client golden case adds ≈ $0.38 (skill run plus grader).
+
+### D-43: Run-to-run variance, first run vs clean run (the first evidence)
+- **Verdicts:** the only flip in 121 checks was case a X5, FAIL → PASS (the contamination, resolved).
+  Every structured check, and every required and forbidden claim, had the same verdict in both runs.
+- **Structured values:** identical in all 7 cases. The extractor is deterministic, as expected.
+- **Commentary differs materially in content, though not in verdicts:**
+  - Length varies by up to about ±15% (293–448 words, 7–8 bullets).
+  - Only **55–78%** of the cited figures overlap between runs (Jaccard). Part of that is formatting
+    (`-1,800` vs `1,800`, `2,200.00` vs `2,200`); part is real choice of what to mention.
+  - Notably, case b's clean run gave **no** prior-6-month averages for the four "vanished" lines. It read the
+    monthly history in the JSON instead and **argued with the flag's framing** ("not clean June
+    drop-offs": Advisory Services has been 0 since Feb 2026; Professional Fees posted in only 2 of 18
+    months). I checked every figure it cited against the raw cells (1,119.31; 1,561.67; 2,500 in Jan 2026;
+    2,500 and 3,772.77), and **all are correct**.
+- **Two findings, not yet acted on:**
+  1. **Grader coverage gap:** the grader only verifies figures among a case's reference facts. A run that
+     cites other true or false figures, such as the monthly values above, passes or fails without those
+     being checked. A deterministic grounding check is a candidate harness addition: every number in the
+     commentary must appear in the run's JSON or report.
+  2. **Skill flag semantics:** the "vanished expense line" rule fires when the latest month is 0 and at
+     least two lookback months were material. It therefore labels lines as "zero in Jun 2026" that stopped
+     months earlier (Advisory Services: zero since Feb). The commentary corrected this in one run of two.
+     Changing it would change skill behaviour, so it needs a decision first.
+- **Interpretation:** two runs is too few to estimate flakiness rates. They show verdicts are stable here,
+  while the commentary's content and emphasis vary. Repeat runs (for example 3–5 per case) before treating
+  any single verdict as definitive.

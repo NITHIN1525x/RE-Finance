@@ -1,0 +1,1797 @@
+{
+  "meta": {
+    "company": "Bluebird Bakery Co",
+    "source_file": ".claude\\skills\\monthly-trend-analysis\\tests\\test_data\\bluebird-bakery.xlsx",
+    "sheets": {
+      "income_statement": "Profit and Loss",
+      "balance_sheet": "Balance Sheet"
+    },
+    "title_lines": [
+      "Bluebird Bakery Co",
+      "Profit and Loss",
+      "January - September, 2026"
+    ],
+    "months": [
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06",
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "month_labels": [
+      "Jan 2026",
+      "Feb 2026",
+      "Mar 2026",
+      "Apr 2026",
+      "May 2026",
+      "Jun 2026",
+      "Jul 2026",
+      "Aug 2026",
+      "Sep 2026"
+    ],
+    "latest_month": "Sep 2026",
+    "prior_month": "Aug 2026",
+    "ttm_window": null,
+    "ttm_available": false,
+    "partial_months": [],
+    "materiality": 1000,
+    "generated_at": "2026-10-12T11:34:40+00:00",
+    "units": "currency as exported (no conversion)"
+  },
+  "revenue": {
+    "total": {
+      "name": "Total revenue",
+      "monthly": [
+        67000.0,
+        67000.0,
+        61300.0,
+        69950.0,
+        69350.0,
+        72550.0,
+        73550.0,
+        69050.0,
+        81300.0
+      ],
+      "latest": 81300.0,
+      "prior": 69050.0,
+      "mom_abs": 12250.0,
+      "mom_pct": 17.7408,
+      "ttm": null,
+      "ttm_prior_month": null,
+      "ttm_monthly": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "same_month_last_year": null,
+      "yoy_pct": null
+    },
+    "streams": [
+      {
+        "name": "Bread Sales",
+        "monthly": [
+          42000.0,
+          42900.0,
+          43800.0,
+          44700.0,
+          45600.0,
+          46500.0,
+          47400.0,
+          48300.0,
+          49200.0
+        ],
+        "latest": 49200.0,
+        "prior": 48300.0,
+        "mom_abs": 900.0,
+        "mom_pct": 1.8634,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "group": null
+      },
+      {
+        "name": "Pastry Sales",
+        "monthly": [
+          18500.0,
+          18150.0,
+          17800.0,
+          17450.0,
+          17100.0,
+          16750.0,
+          16400.0,
+          16050.0,
+          15700.0
+        ],
+        "latest": 15700.0,
+        "prior": 16050.0,
+        "mom_abs": -350.0,
+        "mom_pct": -2.1807,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "group": null
+      },
+      {
+        "name": "Catering Revenue",
+        "monthly": [
+          6000.0,
+          5500.0,
+          0.0,
+          7200.0,
+          6100.0,
+          8800.0,
+          9100.0,
+          4000.0,
+          3800.0
+        ],
+        "latest": 3800.0,
+        "prior": 4000.0,
+        "mom_abs": -200.0,
+        "mom_pct": -5.0,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "group": null
+      },
+      {
+        "name": "Gift Cards",
+        "monthly": [
+          500.0,
+          450.0,
+          -300.0,
+          600.0,
+          550.0,
+          500.0,
+          650.0,
+          700.0,
+          600.0
+        ],
+        "latest": 600.0,
+        "prior": 700.0,
+        "mom_abs": -100.0,
+        "mom_pct": -14.2857,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "group": null
+      },
+      {
+        "name": "Wholesale Accounts",
+        "monthly": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          12000.0
+        ],
+        "latest": 12000.0,
+        "prior": 0.0,
+        "mom_abs": 12000.0,
+        "mom_pct": null,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "group": null
+      }
+    ]
+  },
+  "gross_margin": {
+    "monthly": [
+      {
+        "month": "2026-01",
+        "revenue": 67000.0,
+        "cogs": 25900.0,
+        "gross_profit": 41100.0,
+        "gm_pct": 61.3433
+      },
+      {
+        "month": "2026-02",
+        "revenue": 67000.0,
+        "cogs": 26190.0,
+        "gross_profit": 40810.0,
+        "gm_pct": 60.9104
+      },
+      {
+        "month": "2026-03",
+        "revenue": 61300.0,
+        "cogs": 26480.0,
+        "gross_profit": 34820.0,
+        "gm_pct": 56.8026
+      },
+      {
+        "month": "2026-04",
+        "revenue": 69950.0,
+        "cogs": 26770.0,
+        "gross_profit": 43180.0,
+        "gm_pct": 61.7298
+      },
+      {
+        "month": "2026-05",
+        "revenue": 69350.0,
+        "cogs": 27060.0,
+        "gross_profit": 42290.0,
+        "gm_pct": 60.9805
+      },
+      {
+        "month": "2026-06",
+        "revenue": 72550.0,
+        "cogs": 27350.0,
+        "gross_profit": 45200.0,
+        "gm_pct": 62.3019
+      },
+      {
+        "month": "2026-07",
+        "revenue": 73550.0,
+        "cogs": 27640.0,
+        "gross_profit": 45910.0,
+        "gm_pct": 62.4201
+      },
+      {
+        "month": "2026-08",
+        "revenue": 69050.0,
+        "cogs": 27930.0,
+        "gross_profit": 41120.0,
+        "gm_pct": 59.551
+      },
+      {
+        "month": "2026-09",
+        "revenue": 81300.0,
+        "cogs": 28220.0,
+        "gross_profit": 53080.0,
+        "gm_pct": 65.2891
+      }
+    ],
+    "ttm_gm_pct": null,
+    "ttm_gm_pct_prior_month": null,
+    "ttm_monthly": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "cogs_lines": [
+      {
+        "name": "Flour & Ingredients",
+        "monthly": [
+          14000.0,
+          14250.0,
+          14500.0,
+          14750.0,
+          15000.0,
+          15250.0,
+          15500.0,
+          15750.0,
+          16000.0
+        ],
+        "latest": 16000.0,
+        "prior": 15750.0,
+        "mom_abs": 250.0,
+        "mom_pct": 1.5873,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null
+      },
+      {
+        "name": "Packaging",
+        "monthly": [
+          2100.0,
+          2140.0,
+          2180.0,
+          2220.0,
+          2260.0,
+          2300.0,
+          2340.0,
+          2380.0,
+          2420.0
+        ],
+        "latest": 2420.0,
+        "prior": 2380.0,
+        "mom_abs": 40.0,
+        "mom_pct": 1.6807,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null
+      },
+      {
+        "name": "Kitchen Wages",
+        "monthly": [
+          9800.0,
+          9800.0,
+          9800.0,
+          9800.0,
+          9800.0,
+          9800.0,
+          9800.0,
+          9800.0,
+          9800.0
+        ],
+        "latest": 9800.0,
+        "prior": 9800.0,
+        "mom_abs": 0.0,
+        "mom_pct": 0.0,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null
+      }
+    ]
+  },
+  "operating_expenses": {
+    "categories": [
+      {
+        "name": "Payroll & Benefits",
+        "monthly": [
+          17600.0,
+          17600.0,
+          17600.0,
+          17600.0,
+          17600.0,
+          17600.0,
+          17600.0,
+          17600.0,
+          22600.0
+        ],
+        "latest": 22600.0,
+        "prior": 17600.0,
+        "mom_abs": 5000.0,
+        "mom_pct": 28.4091,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "non_operating": false,
+        "accounts": [
+          "Wages & Salaries",
+          "Payroll Taxes"
+        ]
+      },
+      {
+        "name": "Facilities & Office",
+        "monthly": [
+          6470.0,
+          6165.0,
+          6570.0,
+          6335.0,
+          6250.0,
+          6615.0,
+          6660.0,
+          6735.0,
+          6770.0
+        ],
+        "latest": 6770.0,
+        "prior": 6735.0,
+        "mom_abs": 35.0,
+        "mom_pct": 0.5197,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "non_operating": false,
+        "accounts": [
+          "Rent - High Street",
+          "Utilities",
+          "Equipment Repairs",
+          "Delivery Van Fuel",
+          "Courier: Same Day"
+        ]
+      },
+      {
+        "name": "Other Opex",
+        "monthly": [
+          700.0,
+          750.0,
+          100.0,
+          850.0,
+          900.0,
+          1200.0,
+          1000.0,
+          1050.0,
+          1500.0
+        ],
+        "latest": 1500.0,
+        "prior": 1050.0,
+        "mom_abs": 450.0,
+        "mom_pct": 42.8571,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "non_operating": false,
+        "accounts": [
+          "Instagram Ads",
+          "Mystery Shopper Program",
+          "Supplier Rebates"
+        ]
+      },
+      {
+        "name": "Professional Fees",
+        "monthly": [
+          700.0,
+          700.0,
+          2200.0,
+          700.0,
+          700.0,
+          700.0,
+          700.0,
+          700.0,
+          700.0
+        ],
+        "latest": 700.0,
+        "prior": 700.0,
+        "mom_abs": 0.0,
+        "mom_pct": 0.0,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "non_operating": false,
+        "accounts": [
+          "Bookkeeping",
+          "Legal"
+        ]
+      },
+      {
+        "name": "Finance & Admin",
+        "monthly": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "latest": 0.0,
+        "prior": 0.0,
+        "mom_abs": 0.0,
+        "mom_pct": null,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "non_operating": false,
+        "accounts": [
+          "Charitable Donations"
+        ]
+      }
+    ],
+    "accounts": [
+      {
+        "name": "Wages & Salaries",
+        "monthly": [
+          16000.0,
+          16000.0,
+          16000.0,
+          16000.0,
+          16000.0,
+          16000.0,
+          16000.0,
+          16000.0,
+          21000.0
+        ],
+        "latest": 21000.0,
+        "prior": 16000.0,
+        "mom_abs": 5000.0,
+        "mom_pct": 31.25,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Payroll & Benefits",
+        "non_operating": false,
+        "matched_on": "account 'Wages & Salaries'",
+        "group": null,
+        "blank_months": 0
+      },
+      {
+        "name": "Payroll Taxes",
+        "monthly": [
+          1600.0,
+          1600.0,
+          1600.0,
+          1600.0,
+          1600.0,
+          1600.0,
+          1600.0,
+          1600.0,
+          1600.0
+        ],
+        "latest": 1600.0,
+        "prior": 1600.0,
+        "mom_abs": 0.0,
+        "mom_pct": 0.0,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Payroll & Benefits",
+        "non_operating": false,
+        "matched_on": "account 'Payroll Taxes'",
+        "group": null,
+        "blank_months": 0
+      },
+      {
+        "name": "Rent - High Street",
+        "monthly": [
+          4500.0,
+          4500.0,
+          4500.0,
+          4500.0,
+          4500.0,
+          4500.0,
+          4500.0,
+          4500.0,
+          4500.0
+        ],
+        "latest": 4500.0,
+        "prior": 4500.0,
+        "mom_abs": 0.0,
+        "mom_pct": 0.0,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Facilities & Office",
+        "non_operating": false,
+        "matched_on": "account 'Rent - High Street'",
+        "group": "Shop Costs",
+        "blank_months": 0
+      },
+      {
+        "name": "Utilities",
+        "monthly": [
+          820.0,
+          835.0,
+          850.0,
+          865.0,
+          880.0,
+          895.0,
+          910.0,
+          925.0,
+          940.0
+        ],
+        "latest": 940.0,
+        "prior": 925.0,
+        "mom_abs": 15.0,
+        "mom_pct": 1.6216,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Facilities & Office",
+        "non_operating": false,
+        "matched_on": "account 'Utilities'",
+        "group": "Shop Costs",
+        "blank_months": 0
+      },
+      {
+        "name": "Equipment Repairs",
+        "monthly": [
+          300.0,
+          0.0,
+          300.0,
+          300.0,
+          0.0,
+          300.0,
+          300.0,
+          300.0,
+          300.0
+        ],
+        "latest": 300.0,
+        "prior": 300.0,
+        "mom_abs": 0.0,
+        "mom_pct": 0.0,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Facilities & Office",
+        "non_operating": false,
+        "matched_on": "account 'Equipment Repairs'",
+        "group": "Shop Costs",
+        "blank_months": 2
+      },
+      {
+        "name": "Delivery Van Fuel",
+        "monthly": [
+          640.0,
+          650.0,
+          660.0,
+          670.0,
+          680.0,
+          690.0,
+          700.0,
+          710.0,
+          720.0
+        ],
+        "latest": 720.0,
+        "prior": 710.0,
+        "mom_abs": 10.0,
+        "mom_pct": 1.4085,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Facilities & Office",
+        "non_operating": false,
+        "matched_on": "account 'Delivery Van Fuel'",
+        "group": "Delivery",
+        "blank_months": 0
+      },
+      {
+        "name": "Courier: Same Day",
+        "monthly": [
+          210.0,
+          180.0,
+          260.0,
+          0.0,
+          190.0,
+          230.0,
+          250.0,
+          300.0,
+          310.0
+        ],
+        "latest": 310.0,
+        "prior": 300.0,
+        "mom_abs": 10.0,
+        "mom_pct": 3.3333,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Facilities & Office",
+        "non_operating": false,
+        "matched_on": "account 'Courier: Same Day'",
+        "group": "Delivery",
+        "blank_months": 0
+      },
+      {
+        "name": "Charitable Donations",
+        "monthly": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "latest": 0.0,
+        "prior": 0.0,
+        "mom_abs": 0.0,
+        "mom_pct": null,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Finance & Admin",
+        "non_operating": false,
+        "matched_on": "account 'Charitable Donations'",
+        "group": null,
+        "blank_months": 9
+      },
+      {
+        "name": "Instagram Ads",
+        "monthly": [
+          950.0,
+          1000.0,
+          0.0,
+          1100.0,
+          1150.0,
+          1200.0,
+          1250.0,
+          1300.0,
+          1350.0
+        ],
+        "latest": 1350.0,
+        "prior": 1300.0,
+        "mom_abs": 50.0,
+        "mom_pct": 3.8462,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Other Opex",
+        "non_operating": false,
+        "matched_on": "no rule matched",
+        "group": null,
+        "blank_months": 1
+      },
+      {
+        "name": "Mystery Shopper Program",
+        "monthly": [
+          0.0,
+          0.0,
+          400.0,
+          0.0,
+          0.0,
+          400.0,
+          0.0,
+          0.0,
+          400.0
+        ],
+        "latest": 400.0,
+        "prior": 0.0,
+        "mom_abs": 400.0,
+        "mom_pct": null,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Other Opex",
+        "non_operating": false,
+        "matched_on": "no rule matched",
+        "group": null,
+        "blank_months": 0
+      },
+      {
+        "name": "Bookkeeping",
+        "monthly": [
+          700.0,
+          700.0,
+          700.0,
+          700.0,
+          700.0,
+          700.0,
+          700.0,
+          700.0,
+          700.0
+        ],
+        "latest": 700.0,
+        "prior": 700.0,
+        "mom_abs": 0.0,
+        "mom_pct": 0.0,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Professional Fees",
+        "non_operating": false,
+        "matched_on": "account 'Bookkeeping'",
+        "group": "Professional Services",
+        "blank_months": 0
+      },
+      {
+        "name": "Legal",
+        "monthly": [
+          0.0,
+          0.0,
+          1500.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "latest": 0.0,
+        "prior": 0.0,
+        "mom_abs": 0.0,
+        "mom_pct": null,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Professional Fees",
+        "non_operating": false,
+        "matched_on": "account 'Legal'",
+        "group": "Professional Services",
+        "blank_months": 0
+      },
+      {
+        "name": "Supplier Rebates",
+        "monthly": [
+          -250.0,
+          -250.0,
+          -300.0,
+          -250.0,
+          -250.0,
+          -400.0,
+          -250.0,
+          -250.0,
+          -250.0
+        ],
+        "latest": -250.0,
+        "prior": -250.0,
+        "mom_abs": 0.0,
+        "mom_pct": 0.0,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Other Opex",
+        "non_operating": false,
+        "matched_on": "no rule matched",
+        "group": null,
+        "blank_months": 0
+      }
+    ],
+    "total": {
+      "name": "Total operating expenses (as exported)",
+      "monthly": [
+        25470.0,
+        25215.0,
+        26470.0,
+        25485.0,
+        25450.0,
+        26115.0,
+        25960.0,
+        26085.0,
+        31570.0
+      ],
+      "latest": 31570.0,
+      "prior": 26085.0,
+      "mom_abs": 5485.0,
+      "mom_pct": 21.0274,
+      "ttm": null,
+      "ttm_prior_month": null,
+      "ttm_monthly": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "same_month_last_year": null,
+      "yoy_pct": null
+    },
+    "underlying": {
+      "name": "Operating expenses excl. non-operating items",
+      "monthly": [
+        25470.0,
+        25215.0,
+        26470.0,
+        25485.0,
+        25450.0,
+        26115.0,
+        25960.0,
+        26085.0,
+        31570.0
+      ],
+      "latest": 31570.0,
+      "prior": 26085.0,
+      "mom_abs": 5485.0,
+      "mom_pct": 21.0274,
+      "ttm": null,
+      "ttm_prior_month": null,
+      "ttm_monthly": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "same_month_last_year": null,
+      "yoy_pct": null
+    },
+    "fallback_category": "Other Opex",
+    "fallback_accounts": [
+      "Instagram Ads",
+      "Mystery Shopper Program",
+      "Supplier Rebates"
+    ]
+  },
+  "net_income": {
+    "name": "Net income",
+    "monthly": [
+      15665.0,
+      15631.0,
+      8387.0,
+      17733.0,
+      16879.0,
+      19125.0,
+      19991.0,
+      15077.0,
+      21553.0
+    ],
+    "latest": 21553.0,
+    "prior": 15077.0,
+    "mom_abs": 6476.0,
+    "mom_pct": 42.9528,
+    "ttm": null,
+    "ttm_prior_month": null,
+    "ttm_monthly": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "same_month_last_year": null,
+    "yoy_pct": null,
+    "negative_streak_months": 0,
+    "negative_months": 0,
+    "positive_months": [
+      "Jan 2026",
+      "Feb 2026",
+      "Mar 2026",
+      "Apr 2026",
+      "May 2026",
+      "Jun 2026",
+      "Jul 2026",
+      "Aug 2026",
+      "Sep 2026"
+    ],
+    "underlying_monthly": [
+      15665.0,
+      15631.0,
+      8387.0,
+      17733.0,
+      16879.0,
+      19125.0,
+      19991.0,
+      15077.0,
+      21553.0
+    ],
+    "underlying_ttm": null
+  },
+  "balance_sheet": {
+    "months": [
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06",
+      "2026-07",
+      "2026-08",
+      "2026-09"
+    ],
+    "lines": {
+      "total_assets": {
+        "name": "Assets",
+        "monthly": [
+          61000.0,
+          59500.0,
+          58000.0,
+          56500.0,
+          55000.0,
+          53500.0,
+          52000.0,
+          50500.0,
+          49000.0
+        ],
+        "latest": 49000.0,
+        "prior": 50500.0,
+        "six_months_earlier": 58000.0
+      },
+      "cash": {
+        "name": "Bank Accounts",
+        "monthly": [
+          52000.0,
+          50200.0,
+          48400.0,
+          46600.0,
+          44800.0,
+          43000.0,
+          41200.0,
+          39400.0,
+          37600.0
+        ],
+        "latest": 37600.0,
+        "prior": 39400.0,
+        "six_months_earlier": 48400.0
+      },
+      "liabilities_and_equity": {
+        "name": "Liabilities and Equity",
+        "monthly": [
+          61000.0,
+          59500.0,
+          58000.0,
+          56500.0,
+          55000.0,
+          53500.0,
+          52000.0,
+          50500.0,
+          49000.0
+        ],
+        "latest": 49000.0,
+        "prior": 50500.0,
+        "six_months_earlier": 58000.0
+      },
+      "liabilities": {
+        "name": "Liabilities",
+        "monthly": [
+          3100.0,
+          3220.0,
+          3340.0,
+          3460.0,
+          3580.0,
+          3700.0,
+          3820.0,
+          3940.0,
+          4060.0
+        ],
+        "latest": 4060.0,
+        "prior": 3940.0,
+        "six_months_earlier": 3340.0
+      },
+      "equity": {
+        "name": "Equity",
+        "monthly": [
+          57900.0,
+          56280.0,
+          54660.0,
+          53040.0,
+          51420.0,
+          49800.0,
+          48180.0,
+          46560.0,
+          44940.0
+        ],
+        "latest": 44940.0,
+        "prior": 46560.0,
+        "six_months_earlier": 54660.0
+      }
+    }
+  },
+  "movers": {
+    "categories": [
+      {
+        "name": "Payroll & Benefits",
+        "monthly": [
+          17600.0,
+          17600.0,
+          17600.0,
+          17600.0,
+          17600.0,
+          17600.0,
+          17600.0,
+          17600.0,
+          22600.0
+        ],
+        "latest": 22600.0,
+        "prior": 17600.0,
+        "mom_abs": 5000.0,
+        "mom_pct": 28.4091,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "non_operating": false,
+        "accounts": [
+          "Wages & Salaries",
+          "Payroll Taxes"
+        ]
+      },
+      {
+        "name": "Other Opex",
+        "monthly": [
+          700.0,
+          750.0,
+          100.0,
+          850.0,
+          900.0,
+          1200.0,
+          1000.0,
+          1050.0,
+          1500.0
+        ],
+        "latest": 1500.0,
+        "prior": 1050.0,
+        "mom_abs": 450.0,
+        "mom_pct": 42.8571,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "non_operating": false,
+        "accounts": [
+          "Instagram Ads",
+          "Mystery Shopper Program",
+          "Supplier Rebates"
+        ]
+      },
+      {
+        "name": "Facilities & Office",
+        "monthly": [
+          6470.0,
+          6165.0,
+          6570.0,
+          6335.0,
+          6250.0,
+          6615.0,
+          6660.0,
+          6735.0,
+          6770.0
+        ],
+        "latest": 6770.0,
+        "prior": 6735.0,
+        "mom_abs": 35.0,
+        "mom_pct": 0.5197,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "non_operating": false,
+        "accounts": [
+          "Rent - High Street",
+          "Utilities",
+          "Equipment Repairs",
+          "Delivery Van Fuel",
+          "Courier: Same Day"
+        ]
+      }
+    ],
+    "accounts": [
+      {
+        "name": "Wages & Salaries",
+        "monthly": [
+          16000.0,
+          16000.0,
+          16000.0,
+          16000.0,
+          16000.0,
+          16000.0,
+          16000.0,
+          16000.0,
+          21000.0
+        ],
+        "latest": 21000.0,
+        "prior": 16000.0,
+        "mom_abs": 5000.0,
+        "mom_pct": 31.25,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Payroll & Benefits",
+        "non_operating": false,
+        "matched_on": "account 'Wages & Salaries'",
+        "group": null,
+        "blank_months": 0
+      },
+      {
+        "name": "Mystery Shopper Program",
+        "monthly": [
+          0.0,
+          0.0,
+          400.0,
+          0.0,
+          0.0,
+          400.0,
+          0.0,
+          0.0,
+          400.0
+        ],
+        "latest": 400.0,
+        "prior": 0.0,
+        "mom_abs": 400.0,
+        "mom_pct": null,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Other Opex",
+        "non_operating": false,
+        "matched_on": "no rule matched",
+        "group": null,
+        "blank_months": 0
+      },
+      {
+        "name": "Instagram Ads",
+        "monthly": [
+          950.0,
+          1000.0,
+          0.0,
+          1100.0,
+          1150.0,
+          1200.0,
+          1250.0,
+          1300.0,
+          1350.0
+        ],
+        "latest": 1350.0,
+        "prior": 1300.0,
+        "mom_abs": 50.0,
+        "mom_pct": 3.8462,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Other Opex",
+        "non_operating": false,
+        "matched_on": "no rule matched",
+        "group": null,
+        "blank_months": 1
+      },
+      {
+        "name": "Utilities",
+        "monthly": [
+          820.0,
+          835.0,
+          850.0,
+          865.0,
+          880.0,
+          895.0,
+          910.0,
+          925.0,
+          940.0
+        ],
+        "latest": 940.0,
+        "prior": 925.0,
+        "mom_abs": 15.0,
+        "mom_pct": 1.6216,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Facilities & Office",
+        "non_operating": false,
+        "matched_on": "account 'Utilities'",
+        "group": "Shop Costs",
+        "blank_months": 0
+      },
+      {
+        "name": "Delivery Van Fuel",
+        "monthly": [
+          640.0,
+          650.0,
+          660.0,
+          670.0,
+          680.0,
+          690.0,
+          700.0,
+          710.0,
+          720.0
+        ],
+        "latest": 720.0,
+        "prior": 710.0,
+        "mom_abs": 10.0,
+        "mom_pct": 1.4085,
+        "ttm": null,
+        "ttm_prior_month": null,
+        "ttm_monthly": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "same_month_last_year": null,
+        "yoy_pct": null,
+        "category": "Facilities & Office",
+        "non_operating": false,
+        "matched_on": "account 'Delivery Van Fuel'",
+        "group": "Delivery",
+        "blank_months": 0
+      }
+    ]
+  },
+  "flags": [
+    {
+      "severity": "high",
+      "kind": "revenue",
+      "message": "Total revenue Sep 2026: 81,300, +17.7% vs Aug 2026 (69,050), +17.3% vs the prior 6-month average (69,292).",
+      "figures": {
+        "latest": 81300.0,
+        "prior": 69050.0,
+        "mom_pct": 17.7408,
+        "prior_avg": 69291.67,
+        "yoy_pct": null
+      }
+    },
+    {
+      "severity": "medium",
+      "kind": "revenue_stream",
+      "message": "Revenue stream 'Gift Cards' is negative in Mar 2026 (-300): likely credits/refunds; reviewer to confirm."
+    },
+    {
+      "severity": "medium",
+      "kind": "revenue_stream",
+      "message": "New revenue stream 'Wholesale Accounts': 12,000 in Sep 2026, zero in the prior 6 months."
+    },
+    {
+      "severity": "medium",
+      "kind": "gross_margin",
+      "message": "Gross margin Sep 2026 65.3% vs 59.6% in Aug 2026 (+5.7 pp); prior 6-month average 60.6%."
+    },
+    {
+      "severity": "info",
+      "kind": "gross_margin",
+      "message": "Gross margin range over the period: 56.8% (Mar 2026) to 65.3% (Sep 2026)."
+    },
+    {
+      "severity": "medium",
+      "kind": "opex_category",
+      "message": "Opex category 'Payroll & Benefits' Sep 2026: 22,600 (+28.4% / +5,000 vs Aug 2026)."
+    },
+    {
+      "severity": "high",
+      "kind": "cash",
+      "message": "'Bank Accounts' Sep 2026: 37,600, -1,800 vs prior month and -10,800 vs six months earlier (48,400)."
+    },
+    {
+      "severity": "info",
+      "kind": "data_quality",
+      "message": "'Total Delivery' has no header row; grouped the 2 row(s) above it (Delivery Van Fuel, Courier: Same Day) because they sum to it in every month"
+    },
+    {
+      "severity": "info",
+      "kind": "data_quality",
+      "message": "'Charitable Donations' has no values and no 'Total Charitable Donations' row; treated as an all-blank account (0). The 4 row(s) after it were kept at the parent level, not grouped under it."
+    },
+    {
+      "severity": "high",
+      "kind": "data_quality",
+      "message": "'Total for Professional Services' in Mar 2026 states 2,225.00 but its detail rows sum to 2,200.00 (diff 25.00). Analysis uses the detail rows; reviewer to confirm."
+    },
+    {
+      "severity": "info",
+      "kind": "mapping",
+      "message": "3 expense account(s) matched no category rule and are grouped as 'Other Opex': Instagram Ads, Mystery Shopper Program, Supplier Rebates."
+    }
+  ],
+  "data_quality": {
+    "checks": [
+      {
+        "check": "every stated subtotal vs sum of its detail rows (income statement)",
+        "status": "mismatch",
+        "detail": "7 subtotal rows x 9 months checked; 1 mismatches"
+      },
+      {
+        "check": "gross_profit recomputed from detail rows vs workbook 'Gross Profit'",
+        "status": "pass",
+        "detail": "matches in every month"
+      },
+      {
+        "check": "net_income recomputed from detail rows vs workbook 'Net Profit'",
+        "status": "pass",
+        "detail": "matches in every month"
+      },
+      {
+        "check": "operating_income vs workbook",
+        "status": "skipped",
+        "detail": "no such summary row in the sheet"
+      },
+      {
+        "check": "balance sheet: 'Assets' = 'Liabilities and Equity'",
+        "status": "pass",
+        "detail": "balances in every month"
+      },
+      {
+        "check": "every stated subtotal vs sum of its detail rows (balance sheet)",
+        "status": "pass",
+        "detail": "5 subtotal rows checked; 0 mismatches"
+      }
+    ],
+    "warnings": [
+      {
+        "type": "inferred_group",
+        "row": 28,
+        "label": "Total Delivery",
+        "detail": "'Total Delivery' has no header row; grouped the 2 row(s) above it (Delivery Van Fuel, Courier: Same Day) because they sum to it in every month"
+      },
+      {
+        "type": "missing_total",
+        "label": "Charitable Donations",
+        "detail": "'Charitable Donations' has no values and no 'Total Charitable Donations' row; treated as an all-blank account (0). The 4 row(s) after it were kept at the parent level, not grouped under it."
+      },
+      {
+        "type": "subtotal_mismatch",
+        "section": "Expenses > Professional Services",
+        "row": 35,
+        "month": "2026-03",
+        "stated": 2225.0,
+        "detail_sum": 2200.0,
+        "difference": 25.0,
+        "detail": "'Total for Professional Services' in Mar 2026 states 2,225.00 but its detail rows sum to 2,200.00 (diff 25.00). Analysis uses the detail rows; reviewer to confirm."
+      }
+    ]
+  },
+  "not_done": [
+    "forecasting",
+    "accounting judgments (accruals, reclassifications, one-off treatment)",
+    "currency conversion",
+    "causal explanations beyond what the numbers show"
+  ]
+}

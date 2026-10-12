@@ -1,0 +1,148 @@
+{
+  "id": "g_bb_no_ttm",
+  "title": "Bluebird: only 9 months, so TTM / YoY are stated as unavailable, never guessed",
+  "input": {
+    "workbook": ".claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx",
+    "prompt": "bluebird",
+    "target_month": "Sep 2026"
+  },
+  "skill_run": {
+    "model_requested": "claude-opus-5-5",
+    "model_reported": "claude-opus-5-5",
+    "claude_code_version": "2.1.296",
+    "num_turns": 10,
+    "total_cost_usd": 0.3716254,
+    "elapsed_s": 52.2,
+    "permission_mode": "default"
+  },
+  "execution": [
+    {
+      "id": "X1",
+      "desc": "claude -p run completed successfully",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "exit 0, subtype success"
+    },
+    {
+      "id": "X2",
+      "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X3",
+      "desc": "the skill's script run_trends.py was executed",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X4",
+      "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "1 json, 1 md in evals/runs/clean-run-20261012/g_bb_no_ttm/skill_output"
+    },
+    {
+      "id": "X5",
+      "desc": "nothing outside evals/runs/ was modified by the skill run",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "no changes made by the skill"
+    },
+    {
+      "id": "X6",
+      "desc": "the narrative placeholder was replaced with commentary",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "structured": [
+    {
+      "id": "S1",
+      "desc": "9 months extracted (trailing Total column ignored)",
+      "type": "count",
+      "source": {
+        "fact": "bb.months",
+        "sheet": "Profit and Loss",
+        "cells": [
+          "B4:J4"
+        ],
+        "formula": "month header cells (K4 is a 'Total' column, not a month)"
+      },
+      "expected": 9,
+      "actual": 9,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S2",
+      "desc": "ttm_available is false",
+      "type": "value",
+      "source": "literal",
+      "expected": false,
+      "actual": false,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S3",
+      "desc": "TTM revenue is null",
+      "type": "value",
+      "source": "literal",
+      "expected": null,
+      "actual": null,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S4",
+      "desc": "YoY revenue is null",
+      "type": "value",
+      "source": "literal",
+      "expected": null,
+      "actual": null,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S5",
+      "desc": "TTM gross margin is null",
+      "type": "value",
+      "source": "literal",
+      "expected": null,
+      "actual": null,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S6",
+      "desc": "report states TTM is not available",
+      "type": "md_regex",
+      "source": "literal",
+      "expected": "present: /TTM \\(n/a: <12 months\\)/",
+      "actual": "TTM (n/a: <12 months)",
+      "tolerance": 0.0,
+      "status": "PASS"
+    }
+  ],
+  "commentary": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Acknowledges that twelve-month comparisons (TTM and/or year-over-year) are not available because the export covers fewer than 12 months.",
+      "status": "PASS",
+      "evidence": "The commentary says \"A same-month-last-year comparison isn't available because the export starts in Jan 2026.\" This acknowledges that the year-over-year comparison is unavailable because the data is too short. The \"and/or\" in the rule allows YoY alone, and the export covers 9 months."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States any TTM, trailing-twelve-month, annualised or year-over-year figure for Bluebird, including estimates.",
+      "status": "PASS",
+      "evidence": "The commentary gives no TTM, annualised or year-over-year figure. Its comparisons are against Aug 2026, the prior 6-month average, and six months earlier."
+    }
+  ],
+  "status": "PASS"
+}

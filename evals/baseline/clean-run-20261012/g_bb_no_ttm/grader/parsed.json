@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.0243437,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Acknowledges that twelve-month comparisons (TTM and/or year-over-year) are not available because the export covers fewer than 12 months.",
+      "status": "PASS",
+      "evidence": "The commentary says \"A same-month-last-year comparison isn't available because the export starts in Jan 2026.\" This acknowledges that the year-over-year comparison is unavailable because the data is too short. The \"and/or\" in the rule allows YoY alone, and the export covers 9 months."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States any TTM, trailing-twelve-month, annualised or year-over-year figure for Bluebird, including estimates.",
+      "status": "PASS",
+      "evidence": "The commentary gives no TTM, annualised or year-over-year figure. Its comparisons are against Aug 2026, the prior 6-month average, and six months earlier."
+    }
+  ]
+}

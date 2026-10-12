@@ -1,0 +1,28 @@
+{
+  "id": "ctl_b_bad_rounding_and_cause",
+  "case": "b_abc_rounding_vanished_lines",
+  "checks": [
+    {
+      "id": "R1",
+      "expected": "PASS",
+      "got": "PASS",
+      "evidence": "The commentary names all four lines (\"Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees\") as \"zero in Jun 2026 after averaging\" non-zero amounts over the prior six months.",
+      "agrees": true
+    },
+    {
+      "id": "R2",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "evidence": "It gives the range \"roughly 500-1,250\". The top matches Advisory Services (1,250), but the lowest true average is 721.0033 (Marketing Misc), and 500 is about 31% below that, outside the 5% band.",
+      "agrees": true
+    },
+    {
+      "id": "F1",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "evidence": "It states \"This is because those vendor contracts ended in May\" as fact. The reference facts give no reason for the zeros.",
+      "agrees": true
+    }
+  ],
+  "status": "AGREES"
+}

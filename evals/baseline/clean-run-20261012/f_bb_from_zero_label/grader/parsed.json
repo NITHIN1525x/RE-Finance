@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.022012800000000003,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Identifies Wholesale Accounts as a new revenue stream in Sep 2026 (about 12,000; zero or absent in prior months).",
+      "status": "PASS",
+      "evidence": "Commentary says \"Wholesale Accounts, 12,000, is a new revenue stream: zero in every earlier month of the export,\" matching the reference facts (12,000 in Sep 2026, blank before)."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes Mystery Shopper Program as new, first appearing, or appearing for the first time in Sep 2026. (It was also 400 in Mar and Jun 2026. Saying it was zero in Aug, or rose 'from 0', is allowed.)",
+      "status": "PASS",
+      "evidence": "Commentary says \"Mystery Shopper Program, 400, is not new\" and notes it posted 400 in Mar and Jun 2026; the \"from 0\" against August is allowed, so it is not described as new."
+    }
+  ]
+}

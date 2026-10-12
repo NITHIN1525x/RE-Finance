@@ -1,0 +1,84 @@
+You are a strict, literal auditor grading the COMMENTARY section of a draft monthly financial trend report.
+You do not write or improve commentary. You only decide, for each rule, whether the commentary satisfies it.
+
+You are given one JSON object with:
+- `rounding_policy`: the ONLY rule for judging whether a figure in prose is acceptable.
+- `reference_facts`: true values derived from the source workbook cells. Treat them as ground truth.
+- `rules`: a list of rules. Each has `id`, `kind` ("required" or "forbidden") and `claim`.
+- `commentary`: the exact text to grade.
+
+How to grade each rule:
+- `required`: PASS only if the commentary actually makes that claim, including every element the claim
+  names, and any figure it uses is consistent with the reference facts under the rounding policy.
+  FAIL if the claim is missing, only partly made, or made with a misstated figure.
+- `forbidden`: PASS if the commentary does NOT contain the forbidden content. FAIL if it does.
+  So for every rule, PASS always means "the commentary is acceptable on this rule".
+- Judge only what the commentary text says. Do not assume content that isn't there. Do not penalise
+  content that no rule mentions.
+- Apply the rounding policy exactly as written. Compute the relative difference when it matters, and
+  state it in the evidence.
+- A rule that says it PASSES when some condition is absent (e.g. "if no such figures are given, PASS")
+  must PASS when the condition is absent.
+
+Return one verdict for EVERY rule id, exactly once. `evidence` must be one or two sentences: quote the
+relevant words from the commentary (or say they are absent), and give the reason, citing a reference
+fact where relevant.
+
+INPUT:
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "abc.bonus.dec2025",
+      "value": "80,342.53",
+      "meaning": "Bonus, Dec 2025",
+      "source": "Income Statement!I33"
+    },
+    {
+      "id": "abc.bonus.median_other_months",
+      "value": "2,720.83",
+      "meaning": "median |Bonus| over the other 17 months",
+      "source": "Income Statement!C33:T33 excl. I33"
+    },
+    {
+      "id": "abc.sbc.dec2025",
+      "value": "334,660.53",
+      "meaning": "Stock-Based Compensation Expense, Dec 2025",
+      "source": "Income Statement!I99"
+    },
+    {
+      "id": "abc.sbc.median_other_months",
+      "value": "0",
+      "meaning": "median |Stock-Based Compensation Expense| over the other 17 months",
+      "source": "Income Statement!C99:T99 excl. I99"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Stock-Based Compensation Expense spike (about 334,661) as a possible one-off / single-month item."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Bonus spike (about 80,343) as a possible one-off / single-month item."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Leaves the one-off determination to the reviewer (hedged wording such as 'appears to be' or 'reviewer to confirm') rather than concluding."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as unhedged fact that these Dec 2025 items are non-recurring/one-off."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts an accounting treatment or a cause for these items as fact (e.g. 'year-end bonus accrual', 'option vesting', 'should be excluded/normalised')."
+    }
+  ],
+  "commentary": "- **Revenue 195,898 in Jun 2026, -6.0% vs May 2026 (208,351).** May 2026 was the highest month in the export, so the decline is measured from a peak. Jun 2026 is -0.5% vs the prior 6-month average (196,946) and +2.8% vs Jun 2025 (190,556). Usage Fees, which make up 77.7% of TTM revenue, fell 6.3% to 166,782. Professional Services, SKU Profiling and Partnership Income were all zero in Jun 2026.\n- **Gross margin 70.2% in Jun 2026, +3.1 pp vs May 2026 (67.0%)** and in line with the prior 6-month average (70.2%). It is -4.2 pp vs Jun 2025 (74.3%). TTM gross margin is 69.5%.\n- **Operating expenses excl. non-operating items were 468,318, -2.4% vs May 2026 (479,817).** Payroll & Benefits remains the largest category at 331,397 (-0.2%). Among individual accounts, Events & Conferences rose 17,971 to 29,295, and Bad Debts moved from 12,935 to a credit of (1,806). That credit is the main reason Finance & Admin was negative (993); reviewer to confirm what it represents.\n- **Net income was (330,756) in Jun 2026, the 6th consecutive negative month.** Net income has been negative in 17 of 18 months. TTM net income is (3,089,780) as exported and (4,399,038) excluding non-operating items.\n- **Dec 2025, the only positive month (534,551), appears to include single-month items; reviewer to confirm.** Its result was positive only because of an Income Tax Benefit of (1,244,430); excluding non-operating items it would have been (715,902). The same month also includes Stock-Based Compensation Expense of 334,661 and Bonus of 80,343, against typical months of 0 and 2,721. All three sit inside the TTM window (Jul 2025 \u2013 Jun 2026), so they affect every TTM figure in this report.\n- **Cash and Cash Equivalents were 713,481 at Jun 2026, down 215,543 from May 2026 and 1,871,836 from six months earlier (2,585,317).** Liabilities increased from 747,583 to 1,002,176 month over month.\n- **Expense lines at zero in Jun 2026, according to the flags:** Advisory Services (prior 6-month avg 1,250), Professional Fees (1,045), Federal & State Taxes (999) and Marketing/Advertising: Miscellaneous (721). Reviewer to confirm whether these are timing or have stopped. General Expenses (149 in Jun 2026) matched no category rule and is shown under Other Opex."
+}

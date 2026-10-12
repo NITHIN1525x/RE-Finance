@@ -1,0 +1,1 @@
+I need the monthly trend analysis for ABC Inc for June 2026 from the workbook at "data/ABC Inc - Financial Statements (1) (1).xlsx". It's a draft our reviewer will finish, so keep it factual. Save the report files in evals/runs/clean-run-20261012/b_abc_rounding_vanished_lines/skill_output.

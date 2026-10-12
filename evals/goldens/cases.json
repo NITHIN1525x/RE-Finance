@@ -1,0 +1,945 @@
+{
+  "_about": "Golden cases for the monthly-trend-analysis skill (Task 3). Each E2E case runs the REAL skill via `claude -p`, then (1) structured checks compare the run's own *-trends.json / .md against facts derived from raw cells (evals/goldens/source_facts.json, which records the sheet, cells and formula for every fact), and (2) a separate grader call judges the commentary against the claims below. Numbers are never typed here: structured checks reference fact ids.",
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "tolerances": {
+    "currency": 0.01,
+    "percent": 0.01
+  },
+  "skill_prompts": {
+    "abc": "I need the monthly trend analysis for ABC Inc for June 2026 from the workbook at \"data/ABC Inc - Financial Statements (1) (1).xlsx\". It's a draft our reviewer will finish, so keep it factual. Save the report files in {out_dir}.",
+    "bluebird": "Can you do the monthly trends write-up for Bluebird Bakery for September 2026? Their export is at .claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx. Draft for the reviewer please, and save the files in {out_dir}."
+  },
+  "cases": [
+    {
+      "id": "a_abc_jun2026_core",
+      "title": "ABC Inc, Jun 2026: core figures and commentary (normal case)",
+      "layer": "e2e",
+      "input": {
+        "workbook": "data/ABC Inc - Financial Statements (1) (1).xlsx",
+        "prompt": "abc",
+        "target_month": "Jun 2026"
+      },
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "target month",
+          "type": "value",
+          "path": [
+            "meta",
+            "latest_month"
+          ],
+          "expected": "Jun 2026"
+        },
+        {
+          "id": "S2",
+          "desc": "Jun 2026 total revenue",
+          "type": "value",
+          "path": [
+            "revenue",
+            "total",
+            "latest"
+          ],
+          "fact": "abc.revenue.jun2026",
+          "tol": "currency"
+        },
+        {
+          "id": "S3",
+          "desc": "May 2026 total revenue",
+          "type": "value",
+          "path": [
+            "revenue",
+            "total",
+            "prior"
+          ],
+          "fact": "abc.revenue.may2026",
+          "tol": "currency"
+        },
+        {
+          "id": "S4",
+          "desc": "revenue MoM %",
+          "type": "value",
+          "path": [
+            "revenue",
+            "total",
+            "mom_pct"
+          ],
+          "fact": "abc.revenue.mom_pct",
+          "tol": "percent"
+        },
+        {
+          "id": "S5",
+          "desc": "revenue YoY % vs Jun 2025",
+          "type": "value",
+          "path": [
+            "revenue",
+            "total",
+            "yoy_pct"
+          ],
+          "fact": "abc.revenue.yoy_pct",
+          "tol": "percent"
+        },
+        {
+          "id": "S6",
+          "desc": "TTM revenue",
+          "type": "value",
+          "path": [
+            "revenue",
+            "total",
+            "ttm"
+          ],
+          "fact": "abc.revenue.ttm",
+          "tol": "currency"
+        },
+        {
+          "id": "S7",
+          "desc": "number of revenue streams",
+          "type": "count",
+          "path": [
+            "revenue",
+            "streams"
+          ],
+          "fact": "abc.revenue.stream_count"
+        },
+        {
+          "id": "S8",
+          "desc": "Usage Fees Jun 2026",
+          "type": "value",
+          "path": [
+            "revenue",
+            "streams",
+            {
+              "name": "Usage Fees"
+            },
+            "latest"
+          ],
+          "fact": "abc.usage_fees.jun2026",
+          "tol": "currency"
+        },
+        {
+          "id": "S9",
+          "desc": "gross margin % Jun 2026",
+          "type": "value",
+          "path": [
+            "gross_margin",
+            "monthly",
+            -1,
+            "gm_pct"
+          ],
+          "fact": "abc.gm_pct.jun2026",
+          "tol": "percent"
+        },
+        {
+          "id": "S10",
+          "desc": "TTM gross margin %",
+          "type": "value",
+          "path": [
+            "gross_margin",
+            "ttm_gm_pct"
+          ],
+          "fact": "abc.gm_pct.ttm",
+          "tol": "percent"
+        },
+        {
+          "id": "S11",
+          "desc": "total opex Jun 2026 (as exported)",
+          "type": "value",
+          "path": [
+            "operating_expenses",
+            "total",
+            "latest"
+          ],
+          "fact": "abc.opex_total.jun2026",
+          "tol": "currency"
+        },
+        {
+          "id": "S12",
+          "desc": "net income Jun 2026",
+          "type": "value",
+          "path": [
+            "net_income",
+            "latest"
+          ],
+          "fact": "abc.net_income.jun2026",
+          "tol": "currency"
+        },
+        {
+          "id": "S13",
+          "desc": "TTM net income",
+          "type": "value",
+          "path": [
+            "net_income",
+            "ttm"
+          ],
+          "fact": "abc.net_income.ttm",
+          "tol": "currency"
+        },
+        {
+          "id": "S14",
+          "desc": "negative net-income streak",
+          "type": "value",
+          "path": [
+            "net_income",
+            "negative_streak_months"
+          ],
+          "fact": "abc.net_income.negative_streak"
+        },
+        {
+          "id": "S15",
+          "desc": "cash Jun 2026",
+          "type": "value",
+          "path": [
+            "balance_sheet",
+            "lines",
+            "cash",
+            "latest"
+          ],
+          "fact": "abc.cash.jun2026",
+          "tol": "currency"
+        },
+        {
+          "id": "S16",
+          "desc": "all data-quality checks pass",
+          "type": "all_field",
+          "path": [
+            "data_quality",
+            "checks"
+          ],
+          "field": "status",
+          "allowed": [
+            "pass"
+          ]
+        }
+      ],
+      "commentary": {
+        "required": [
+          {
+            "id": "R1",
+            "claim": "States Jun 2026 total revenue and that it fell versus May 2026 by about 6%.",
+            "facts": [
+              "abc.revenue.jun2026",
+              "abc.revenue.may2026",
+              "abc.revenue.mom_pct"
+            ]
+          },
+          {
+            "id": "R2",
+            "claim": "Puts the Jun 2026 revenue drop in context with at least one of: May 2026 was the highest month in the export; Jun 2026 is only about 0.5% below the prior 6-month average; Jun 2026 is about 2.8% above Jun 2025.",
+            "facts": [
+              "abc.revenue.may_is_max",
+              "abc.revenue.prior6_avg",
+              "abc.revenue.vs_prior6_pct",
+              "abc.revenue.jun2025",
+              "abc.revenue.yoy_pct"
+            ]
+          },
+          {
+            "id": "R3",
+            "claim": "Gives the Jun 2026 gross margin (about 70.2%).",
+            "facts": [
+              "abc.gm_pct.jun2026"
+            ]
+          },
+          {
+            "id": "R4",
+            "claim": "States that Jun 2026 net income is negative and that losses are persistent (a run of consecutive negative months, a negative TTM figure, or negative in most months).",
+            "facts": [
+              "abc.net_income.jun2026",
+              "abc.net_income.negative_streak",
+              "abc.net_income.ttm",
+              "abc.net_income.negative_months"
+            ]
+          },
+          {
+            "id": "R5",
+            "claim": "Notes that cash declined: gives the Jun 2026 cash balance and a decline versus the prior month and/or six months earlier.",
+            "facts": [
+              "abc.cash.jun2026",
+              "abc.cash.may2026",
+              "abc.cash.dec2025"
+            ]
+          }
+        ],
+        "forbidden": [
+          {
+            "id": "F1",
+            "claim": "Makes any forecast or projection (cash runway, months of cash left, expected future revenue or margin, 'on track to')."
+          },
+          {
+            "id": "F2",
+            "claim": "Asserts as fact a cause for the revenue decline that the numbers do not show (e.g. churn, pricing, lost customers, seasonality). Framing it as a question or 'reviewer to confirm' is allowed."
+          },
+          {
+            "id": "F3",
+            "claim": "Says Jun 2026 revenue increased versus May 2026, or that Jun 2026 net income was positive."
+          },
+          {
+            "id": "F4",
+            "claim": "States a figure for any of the reference facts that falls outside the rounding policy.",
+            "facts": [
+              "abc.revenue.jun2026",
+              "abc.revenue.mom_pct",
+              "abc.gm_pct.jun2026",
+              "abc.net_income.jun2026",
+              "abc.cash.jun2026",
+              "abc.net_income.ttm"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "b_abc_rounding_vanished_lines",
+      "title": "ABC Inc, Jun 2026: expense lines that went to zero, judged under the rounding policy (generalises the Task 2 '721 -> roughly 700' instance)",
+      "layer": "e2e",
+      "input": {
+        "workbook": "data/ABC Inc - Financial Statements (1) (1).xlsx",
+        "prompt": "abc",
+        "target_month": "Jun 2026"
+      },
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "Marketing/Advertising: Miscellaneous is 0 in Jun 2026",
+          "type": "value",
+          "path": [
+            "operating_expenses",
+            "accounts",
+            {
+              "name": "Marketing/Advertising: Miscellaneous"
+            },
+            "latest"
+          ],
+          "fact": "abc.vanished.mkt_misc.jun2026",
+          "tol": "currency"
+        },
+        {
+          "id": "S2",
+          "desc": "vanished-line flag: Advisory Services (avg 1,250)",
+          "type": "flag_regex",
+          "pattern": "Expense line 'Advisory Services' .*zero in Jun 2026; it averaged 1,250 ",
+          "present": true
+        },
+        {
+          "id": "S3",
+          "desc": "vanished-line flag: Federal & State Taxes (avg 999)",
+          "type": "flag_regex",
+          "pattern": "Expense line 'Federal & State Taxes' .*zero in Jun 2026; it averaged 999 ",
+          "present": true
+        },
+        {
+          "id": "S4",
+          "desc": "vanished-line flag: Marketing/Advertising: Miscellaneous (avg 721)",
+          "type": "flag_regex",
+          "pattern": "Expense line 'Marketing/Advertising: Miscellaneous' .*zero in Jun 2026; it averaged 721 ",
+          "present": true
+        },
+        {
+          "id": "S5",
+          "desc": "vanished-line flag: Professional Fees (avg 1,045)",
+          "type": "flag_regex",
+          "pattern": "Expense line 'Professional Fees' .*zero in Jun 2026; it averaged 1,045 ",
+          "present": true
+        }
+      ],
+      "commentary": {
+        "required": [
+          {
+            "id": "R1",
+            "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+            "facts": [
+              "abc.vanished.advisory_services.jun2026",
+              "abc.vanished.federal_state_taxes.jun2026",
+              "abc.vanished.mkt_misc.jun2026",
+              "abc.vanished.professional_fees.jun2026"
+            ]
+          },
+          {
+            "id": "R2",
+            "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+            "facts": [
+              "abc.vanished.advisory_services.prior6_avg",
+              "abc.vanished.federal_state_taxes.prior6_avg",
+              "abc.vanished.mkt_misc.prior6_avg",
+              "abc.vanished.professional_fees.prior6_avg"
+            ]
+          }
+        ],
+        "forbidden": [
+          {
+            "id": "F1",
+            "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped)."
+          },
+          {
+            "id": "F2",
+            "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer."
+          }
+        ]
+      },
+      "calibration": {
+        "_about": "Also grade the FROZEN commentary from the committed Task 2 report (a real skill run, 2026-10-12, commit 396f17d), which contains 'roughly 700-1,250'. Reported separately; not part of the E2E score.",
+        "artifact": "trend-reports/abc-inc-2026-06-trends.md"
+      }
+    },
+    {
+      "id": "c_bb_subtotal_mismatch",
+      "title": "Bluebird, Sep 2026: deliberately wrong subtotal is reported, not resolved",
+      "layer": "e2e",
+      "input": {
+        "workbook": ".claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx",
+        "prompt": "bluebird",
+        "target_month": "Sep 2026"
+      },
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "target month",
+          "type": "value",
+          "path": [
+            "meta",
+            "latest_month"
+          ],
+          "expected": "Sep 2026"
+        },
+        {
+          "id": "S2",
+          "desc": "exactly one subtotal_mismatch warning",
+          "type": "count",
+          "path": [
+            "data_quality",
+            "warnings"
+          ],
+          "where": {
+            "type": "subtotal_mismatch"
+          },
+          "expected": 1
+        },
+        {
+          "id": "S3",
+          "desc": "mismatch month",
+          "type": "value",
+          "path": [
+            "data_quality",
+            "warnings",
+            {
+              "type": "subtotal_mismatch"
+            },
+            "month"
+          ],
+          "expected": "2026-03"
+        },
+        {
+          "id": "S4",
+          "desc": "mismatch names the Professional Services subtotal",
+          "type": "regex",
+          "path": [
+            "data_quality",
+            "warnings",
+            {
+              "type": "subtotal_mismatch"
+            },
+            "section"
+          ],
+          "pattern": "Professional Services$"
+        },
+        {
+          "id": "S5",
+          "desc": "stated subtotal",
+          "type": "value",
+          "path": [
+            "data_quality",
+            "warnings",
+            {
+              "type": "subtotal_mismatch"
+            },
+            "stated"
+          ],
+          "fact": "bb.prof_services.mar2026.stated",
+          "tol": "currency"
+        },
+        {
+          "id": "S6",
+          "desc": "detail-row sum",
+          "type": "value",
+          "path": [
+            "data_quality",
+            "warnings",
+            {
+              "type": "subtotal_mismatch"
+            },
+            "detail_sum"
+          ],
+          "fact": "bb.prof_services.mar2026.detail_sum",
+          "tol": "currency"
+        },
+        {
+          "id": "S7",
+          "desc": "difference",
+          "type": "value",
+          "path": [
+            "data_quality",
+            "warnings",
+            {
+              "type": "subtotal_mismatch"
+            },
+            "difference"
+          ],
+          "fact": "bb.prof_services.mar2026.diff",
+          "tol": "currency"
+        },
+        {
+          "id": "S8",
+          "desc": "report banner shows the mismatch",
+          "type": "md_regex",
+          "pattern": "Data-quality checks: \\*\\*1 MISMATCH",
+          "present": true
+        }
+      ],
+      "commentary": {
+        "required": [
+          {
+            "id": "R1",
+            "claim": "Reports the data-quality problem: names the Professional Services subtotal, the month (Mar 2026), and the amount (the 25 difference, or both the stated 2,225 and the detail sum 2,200).",
+            "facts": [
+              "bb.prof_services.mar2026.stated",
+              "bb.prof_services.mar2026.detail_sum",
+              "bb.prof_services.mar2026.diff"
+            ]
+          },
+          {
+            "id": "R2",
+            "claim": "Leaves resolving the mismatch to the reviewer rather than deciding which figure is right."
+          }
+        ],
+        "forbidden": [
+          {
+            "id": "F1",
+            "claim": "Says all data-quality checks passed or that the data is clean/reconciled."
+          },
+          {
+            "id": "F2",
+            "claim": "Asserts which of the two figures is correct, or that the error was corrected."
+          }
+        ]
+      }
+    },
+    {
+      "id": "d_bb_blank_account",
+      "title": "Bluebird: an account blank in every month is zero and does not swallow the rows after it",
+      "layer": "e2e",
+      "input": {
+        "workbook": ".claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx",
+        "prompt": "bluebird",
+        "target_month": "Sep 2026"
+      },
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "Charitable Donations is 0 in every month",
+          "type": "value",
+          "path": [
+            "operating_expenses",
+            "accounts",
+            {
+              "name": "Charitable Donations"
+            },
+            "monthly"
+          ],
+          "fact": "bb.charitable.zeros",
+          "tol": "currency"
+        },
+        {
+          "id": "S2",
+          "desc": "Charitable Donations counted as 9 blank months",
+          "type": "value",
+          "path": [
+            "operating_expenses",
+            "accounts",
+            {
+              "name": "Charitable Donations"
+            },
+            "blank_months"
+          ],
+          "fact": "bb.months"
+        },
+        {
+          "id": "S3",
+          "desc": "Instagram Ads (row below) is not grouped under it",
+          "type": "value",
+          "path": [
+            "operating_expenses",
+            "accounts",
+            {
+              "name": "Instagram Ads"
+            },
+            "group"
+          ],
+          "expected": null
+        },
+        {
+          "id": "S4",
+          "desc": "Mystery Shopper Program (2 rows below) is not grouped under it",
+          "type": "value",
+          "path": [
+            "operating_expenses",
+            "accounts",
+            {
+              "name": "Mystery Shopper Program"
+            },
+            "group"
+          ],
+          "expected": null
+        },
+        {
+          "id": "S5",
+          "desc": "Instagram Ads category is the fallback, not Finance & Admin via the blank row's name",
+          "type": "value",
+          "path": [
+            "operating_expenses",
+            "accounts",
+            {
+              "name": "Instagram Ads"
+            },
+            "category"
+          ],
+          "expected": "Other Opex"
+        },
+        {
+          "id": "S6",
+          "desc": "missing_total warning names Charitable Donations",
+          "type": "count",
+          "path": [
+            "data_quality",
+            "warnings"
+          ],
+          "where": {
+            "type": "missing_total",
+            "label": "Charitable Donations"
+          },
+          "expected": 1
+        },
+        {
+          "id": "S7",
+          "desc": "opex total equals the workbook's Total for Expenses in every month (nothing lost)",
+          "type": "value",
+          "path": [
+            "operating_expenses",
+            "total",
+            "monthly"
+          ],
+          "fact": "bb.expenses_total.monthly",
+          "tol": "currency"
+        }
+      ],
+      "commentary": {
+        "required": [],
+        "forbidden": [
+          {
+            "id": "F1",
+            "claim": "Describes 'Charitable Donations' as having spend/activity, or as a group or category containing other accounts."
+          },
+          {
+            "id": "F2",
+            "claim": "Says Instagram Ads or Mystery Shopper Program belong to a 'Charitable Donations' or 'Finance & Admin' category."
+          }
+        ]
+      }
+    },
+    {
+      "id": "e_abc_dec2025_one_offs",
+      "title": "ABC Inc: Dec 2025 stock-based compensation and bonus spikes are flagged as possible one-offs for the reviewer",
+      "layer": "e2e",
+      "input": {
+        "workbook": "data/ABC Inc - Financial Statements (1) (1).xlsx",
+        "prompt": "abc",
+        "target_month": "Jun 2026"
+      },
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "spike flag: Stock-Based Compensation Expense, Dec 2025",
+          "type": "flag_regex",
+          "pattern": "Single-month spike: 'Stock-Based Compensation Expense' .* is 334,661 in Dec 2025",
+          "present": true
+        },
+        {
+          "id": "S2",
+          "desc": "spike flag: Bonus, Dec 2025",
+          "type": "flag_regex",
+          "pattern": "Single-month spike: 'Bonus' .* is 80,343 in Dec 2025",
+          "present": true
+        },
+        {
+          "id": "S3",
+          "desc": "Dec 2025 SBC value",
+          "type": "value",
+          "path": [
+            "operating_expenses",
+            "accounts",
+            {
+              "name": "Stock-Based Compensation Expense"
+            },
+            "monthly",
+            11
+          ],
+          "fact": "abc.sbc.dec2025",
+          "tol": "currency"
+        },
+        {
+          "id": "S4",
+          "desc": "Dec 2025 Bonus value",
+          "type": "value",
+          "path": [
+            "operating_expenses",
+            "accounts",
+            {
+              "name": "Bonus"
+            },
+            "monthly",
+            11
+          ],
+          "fact": "abc.bonus.dec2025",
+          "tol": "currency"
+        },
+        {
+          "id": "S5",
+          "desc": "Dec 2025 is the only positive net-income month",
+          "type": "value",
+          "path": [
+            "net_income",
+            "positive_months"
+          ],
+          "expected": [
+            "Dec 2025"
+          ]
+        }
+      ],
+      "commentary": {
+        "required": [
+          {
+            "id": "R1",
+            "claim": "Flags the Dec 2025 Stock-Based Compensation Expense spike (about 334,661) as a possible one-off / single-month item.",
+            "facts": [
+              "abc.sbc.dec2025",
+              "abc.sbc.median_other_months"
+            ]
+          },
+          {
+            "id": "R2",
+            "claim": "Flags the Dec 2025 Bonus spike (about 80,343) as a possible one-off / single-month item.",
+            "facts": [
+              "abc.bonus.dec2025",
+              "abc.bonus.median_other_months"
+            ]
+          },
+          {
+            "id": "R3",
+            "claim": "Leaves the one-off determination to the reviewer (hedged wording such as 'appears to be' or 'reviewer to confirm') rather than concluding."
+          }
+        ],
+        "forbidden": [
+          {
+            "id": "F1",
+            "claim": "States as unhedged fact that these Dec 2025 items are non-recurring/one-off."
+          },
+          {
+            "id": "F2",
+            "claim": "Asserts an accounting treatment or a cause for these items as fact (e.g. 'year-end bonus accrual', 'option vesting', 'should be excluded/normalised')."
+          }
+        ]
+      }
+    },
+    {
+      "id": "f_bb_from_zero_label",
+      "title": "Bluebird, Sep 2026: prior-month-zero account labelled 'from 0', not 'new'; genuinely new stream still called new",
+      "layer": "e2e",
+      "input": {
+        "workbook": ".claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx",
+        "prompt": "bluebird",
+        "target_month": "Sep 2026"
+      },
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "movers table labels Mystery Shopper Program 'from 0'",
+          "type": "md_regex",
+          "pattern": "\\| Mystery Shopper Program \\| Other Opex \\| 0 \\| 400 \\| 400 \\| from 0 \\|",
+          "present": true
+        },
+        {
+          "id": "S2",
+          "desc": "no 'new expense line' flag for Mystery Shopper Program",
+          "type": "flag_regex",
+          "pattern": "New expense line 'Mystery Shopper Program'",
+          "present": false
+        },
+        {
+          "id": "S3",
+          "desc": "new-stream flag for Wholesale Accounts",
+          "type": "flag_regex",
+          "pattern": "New revenue stream 'Wholesale Accounts': 12,000 in Sep 2026",
+          "present": true
+        },
+        {
+          "id": "S4",
+          "desc": "Wholesale Accounts Sep 2026",
+          "type": "value",
+          "path": [
+            "revenue",
+            "streams",
+            {
+              "name": "Wholesale Accounts"
+            },
+            "latest"
+          ],
+          "fact": "bb.wholesale.sep2026",
+          "tol": "currency"
+        }
+      ],
+      "commentary": {
+        "required": [
+          {
+            "id": "R1",
+            "claim": "Identifies Wholesale Accounts as a new revenue stream in Sep 2026 (about 12,000; zero or absent in prior months).",
+            "facts": [
+              "bb.wholesale.sep2026",
+              "bb.wholesale.blank_before_sep"
+            ]
+          }
+        ],
+        "forbidden": [
+          {
+            "id": "F1",
+            "claim": "Describes Mystery Shopper Program as new, first appearing, or appearing for the first time in Sep 2026. (It was also 400 in Mar and Jun 2026. Saying it was zero in Aug, or rose 'from 0', is allowed.)",
+            "facts": [
+              "bb.mystery_shopper.monthly",
+              "bb.mystery_shopper.nonzero_before_sep"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "g_bb_no_ttm",
+      "title": "Bluebird: only 9 months, so TTM / YoY are stated as unavailable, never guessed",
+      "layer": "e2e",
+      "input": {
+        "workbook": ".claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx",
+        "prompt": "bluebird",
+        "target_month": "Sep 2026"
+      },
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "9 months extracted (trailing Total column ignored)",
+          "type": "count",
+          "path": [
+            "meta",
+            "months"
+          ],
+          "fact": "bb.months"
+        },
+        {
+          "id": "S2",
+          "desc": "ttm_available is false",
+          "type": "value",
+          "path": [
+            "meta",
+            "ttm_available"
+          ],
+          "expected": false
+        },
+        {
+          "id": "S3",
+          "desc": "TTM revenue is null",
+          "type": "value",
+          "path": [
+            "revenue",
+            "total",
+            "ttm"
+          ],
+          "expected": null
+        },
+        {
+          "id": "S4",
+          "desc": "YoY revenue is null",
+          "type": "value",
+          "path": [
+            "revenue",
+            "total",
+            "yoy_pct"
+          ],
+          "expected": null
+        },
+        {
+          "id": "S5",
+          "desc": "TTM gross margin is null",
+          "type": "value",
+          "path": [
+            "gross_margin",
+            "ttm_gm_pct"
+          ],
+          "expected": null
+        },
+        {
+          "id": "S6",
+          "desc": "report states TTM is not available",
+          "type": "md_regex",
+          "pattern": "TTM \\(n/a: <12 months\\)",
+          "present": true
+        }
+      ],
+      "commentary": {
+        "required": [
+          {
+            "id": "R1",
+            "claim": "Acknowledges that twelve-month comparisons (TTM and/or year-over-year) are not available because the export covers fewer than 12 months.",
+            "facts": [
+              "bb.months"
+            ]
+          }
+        ],
+        "forbidden": [
+          {
+            "id": "F1",
+            "claim": "States any TTM, trailing-twelve-month, annualised or year-over-year figure for Bluebird, including estimates."
+          }
+        ]
+      }
+    }
+  ],
+  "grader_controls": {
+    "_about": "Grader validation only. SYNTHETIC commentary, written by hand to be wrong in known ways, graded with the real case rules. Expected verdicts are listed only where unambiguous. These never count toward the score and never stand in for a skill run; they show whether the grader can FAIL bad commentary.",
+    "controls": [
+      {
+        "id": "ctl_c_claims_clean",
+        "case": "c_bb_subtotal_mismatch",
+        "commentary": "- All data-quality checks pass and the data is fully reconciled.\n- Sep 2026 revenue was 81,300, up 17.7% on Aug 2026.",
+        "expected": {
+          "R1": "FAIL",
+          "R2": "FAIL",
+          "F1": "FAIL",
+          "F2": "PASS"
+        }
+      },
+      {
+        "id": "ctl_b_bad_rounding_and_cause",
+        "case": "b_abc_rounding_vanished_lines",
+        "commentary": "- Four expense lines (Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees) were zero in Jun 2026 after averaging roughly 500-1,250 a month over the prior six months. This is because those vendor contracts ended in May.",
+        "expected": {
+          "R1": "PASS",
+          "R2": "FAIL",
+          "F1": "FAIL"
+        }
+      },
+      {
+        "id": "ctl_g_guessed_ttm",
+        "case": "g_bb_no_ttm",
+        "commentary": "- Revenue was 81,300 in Sep 2026. On a trailing-twelve-month basis, annualising the nine months gives roughly 850,000.",
+        "expected": {
+          "R1": "FAIL",
+          "F1": "FAIL"
+        }
+      }
+    ]
+  }
+}

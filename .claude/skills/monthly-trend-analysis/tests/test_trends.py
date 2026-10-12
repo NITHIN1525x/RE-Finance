@@ -207,6 +207,21 @@ class RealWorkbookTests(unittest.TestCase):
         cash = self.raw_row("Balance Sheet", "Total Cash and Cash Equivalents", 4)
         self.assertLess(max(abs(x - y) for x, y in zip(cash, self.a["balance_sheet"]["lines"]["cash"]["monthly"])), 0.01)
 
+    def test_ttm_mom_and_yoy_math_matches_raw_cells(self):
+        # Added in Task 3: the suite checked monthly series but never asserted TTM / YoY values themselves.
+        rev = self.raw_row("Income Statement", "Total Income", 3)          # oldest-first after reversal
+        gp = self.raw_row("Income Statement", "Gross Profit", 3)
+        ni = self.raw_row("Income Statement", "Net Income", 3)
+        t = self.a["revenue"]["total"]
+        self.assertAlmostEqual(t["ttm"], sum(rev[-12:]), places=2)
+        self.assertAlmostEqual(t["ttm_prior_month"], sum(rev[-13:-1]), places=2)
+        self.assertAlmostEqual(t["mom_pct"], (rev[-1] - rev[-2]) / abs(rev[-2]) * 100, places=3)
+        self.assertAlmostEqual(t["yoy_pct"], (rev[-1] - rev[-13]) / abs(rev[-13]) * 100, places=3)
+        self.assertAlmostEqual(self.a["gross_margin"]["ttm_gm_pct"], sum(gp[-12:]) / sum(rev[-12:]) * 100, places=3)
+        self.assertAlmostEqual(self.a["net_income"]["ttm"], sum(ni[-12:]), places=2)
+        self.assertIsNone(self.a["revenue"]["total"]["ttm_monthly"][10])     # 11th month: not yet 12 months
+        self.assertIsNotNone(self.a["revenue"]["total"]["ttm_monthly"][11])
+
     def test_all_cross_checks_pass(self):
         self.assertEqual({c["status"] for c in self.a["data_quality"]["checks"]}, {"pass"})
 
