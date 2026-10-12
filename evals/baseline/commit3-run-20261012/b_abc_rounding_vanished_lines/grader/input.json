@@ -1,0 +1,76 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "abc.vanished.advisory_services.jun2026",
+      "value": "0",
+      "meaning": "Advisory Services, Jun 2026",
+      "source": "Income Statement!C30"
+    },
+    {
+      "id": "abc.vanished.advisory_services.prior6_avg",
+      "value": "1,250",
+      "meaning": "AVERAGE(D30:I30) Advisory Services, Dec 2025..May 2026",
+      "source": "Income Statement!D30:I30"
+    },
+    {
+      "id": "abc.vanished.federal_state_taxes.jun2026",
+      "value": "0",
+      "meaning": "Federal & State Taxes, Jun 2026",
+      "source": "Income Statement!C40"
+    },
+    {
+      "id": "abc.vanished.federal_state_taxes.prior6_avg",
+      "value": "998.5083",
+      "meaning": "AVERAGE(D40:I40) Federal & State Taxes, Dec 2025..May 2026",
+      "source": "Income Statement!D40:I40"
+    },
+    {
+      "id": "abc.vanished.mkt_misc.jun2026",
+      "value": "0",
+      "meaning": "Marketing/Advertising: Miscellaneous, Jun 2026",
+      "source": "Income Statement!C68"
+    },
+    {
+      "id": "abc.vanished.mkt_misc.prior6_avg",
+      "value": "721.0033",
+      "meaning": "AVERAGE(D68:I68) Marketing/Advertising: Miscellaneous, Dec 2025..May 2026",
+      "source": "Income Statement!D68:I68"
+    },
+    {
+      "id": "abc.vanished.professional_fees.jun2026",
+      "value": "0",
+      "meaning": "Professional Fees, Jun 2026",
+      "source": "Income Statement!C85"
+    },
+    {
+      "id": "abc.vanished.professional_fees.prior6_avg",
+      "value": "1,045.4617",
+      "meaning": "AVERAGE(D85:I85) Professional Fees, Dec 2025..May 2026",
+      "source": "Income Statement!D85:I85"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped)."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer."
+    }
+  ],
+  "commentary": "- **Revenue 195,898 in Jun 2026**, -6.0% vs May 2026 (208,351, the highest month in the export), -0.5% vs the prior 6-month average (196,946) and +2.8% vs Jun 2025 (190,556). Usage Fees fell 6.3% to 166,782; Partnership Income, Professional Services and SKU Profiling were zero in Jun 2026.\n- **Gross margin 70.2%**, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%); it is 4.2 pp below Jun 2025 (74.3%). TTM gross margin is 69.5%.\n- **Operating expenses (as exported) 468,182**, -2.2% vs May 2026. The largest category move is Finance & Admin, down 16,236 to (993), mainly Bad Debts going from 12,935 to (1,806). Events & Conferences rose 17,971 to 29,295, and Travel & Entertainment rose 2,905 to 3,793.\n- **Expense lines that went to zero:** 'Federal & State Taxes' and 'Marketing/Advertising: Miscellaneous' are zero in Jun 2026 (prior 6-month averages 999 and 721). 'Advisory Services' has been zero since Feb 2026 (last non-zero: Jan 2026, 2,500), and 'Professional Fees' has been zero since Apr 2026 (last non-zero: Mar 2026, 3,773).\n- **Net income (330,756) in Jun 2026**, the 6th consecutive negative month; TTM net income is (3,089,780). The only positive month, Dec 2025 (534,551), is positive only because of non-operating items: excluding them it is -715,902 (largest: 'Income Tax Benefit' -1,244,430).\n- **Cash and Cash Equivalents 713,481 at Jun 2026**, -215,543 vs May 2026 and -1,871,836 vs six months earlier (2,585,317). Liabilities went from 747,583 in May 2026 to 1,002,176 in Jun 2026.\n- **Dec 2025 items:** 'Stock-Based Compensation Expense' (334,661, typical month 0) and 'Bonus' (80,343, typical month 2,721) each appear to be single-month items; reviewer to confirm. The Jun 2026 Bad Debts credit of (1,806) is not flagged as a one-off, but the reviewer may want to confirm what it relates to."
+}

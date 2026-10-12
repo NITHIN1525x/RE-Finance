@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "claude",
+    "-p",
+    "Can you do the monthly trends write-up for Bluebird Bakery for September 2026? Their export is at .claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx. Draft for the reviewer please, and save the files in evals/runs/commit3-run-20261012/f_bb_from_zero_label/skill_output.",
+    "--model",
+    "claude-opus-5-5",
+    "--strict-mcp-config",
+    "--allowedTools",
+    "Skill",
+    "Bash",
+    "Read",
+    "Edit",
+    "Write",
+    "Glob",
+    "Grep",
+    "--no-session-persistence",
+    "--max-budget-usd",
+    "3",
+    "--output-format",
+    "stream-json",
+    "--verbose"
+  ],
+  "cwd": "E:\\RE-Finance\\qbo-claude-exercise",
+  "timeout_s": 900
+}

@@ -1,0 +1,378 @@
+{
+  "status": "PASS",
+  "unmatched": 0,
+  "matched": 38,
+  "ignored": 11,
+  "numbers": [
+    {
+      "text": "2026",
+      "sentence": "- **Data quality, please look first:** 'Total for Professional Services' in Mar 2026 states 2,225.00, but its detail rows add up to 2,200.00 (a 25.00 difference).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "2,225.00",
+      "sentence": "- **Data quality, please look first:** 'Total for Professional Services' in Mar 2026 states 2,225.00, but its detail rows add up to 2,200.00 (a 25.00 difference).",
+      "status": "MATCHED",
+      "value": 2225.0,
+      "matched_value": 2225.0,
+      "source": "json:data_quality.warnings[2].stated"
+    },
+    {
+      "text": "2,200.00",
+      "sentence": "- **Data quality, please look first:** 'Total for Professional Services' in Mar 2026 states 2,225.00, but its detail rows add up to 2,200.00 (a 25.00 difference).",
+      "status": "MATCHED",
+      "value": 2200.0,
+      "matched_value": 2200.0,
+      "source": "json:operating_expenses.categories[3].monthly[2]"
+    },
+    {
+      "text": "25.00",
+      "sentence": "- **Data quality, please look first:** 'Total for Professional Services' in Mar 2026 states 2,225.00, but its detail rows add up to 2,200.00 (a 25.00 difference).",
+      "status": "MATCHED",
+      "value": 25.0,
+      "matched_value": 25.0,
+      "source": "json:data_quality.warnings[2].difference"
+    },
+    {
+      "text": "4",
+      "sentence": "Also, 'Total Delivery' had no header row, so its group was rebuilt from the two rows above it. 'Charitable Donations' has no total row, so the 4 rows after it were kept at the parent level.",
+      "status": "IGNORED",
+      "rule": "count"
+    },
+    {
+      "text": "81,300",
+      "sentence": "- **Revenue 81,300 in Sep 2026**, up 17.7% on Aug 2026 (69,050) and up 17.3% on the prior 6-month average (69,292).",
+      "status": "MATCHED",
+      "value": 81300.0,
+      "matched_value": 81300.0,
+      "source": "json:revenue.total.monthly[8]"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Revenue 81,300 in Sep 2026**, up 17.7% on Aug 2026 (69,050) and up 17.3% on the prior 6-month average (69,292).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "17.7%",
+      "sentence": "- **Revenue 81,300 in Sep 2026**, up 17.7% on Aug 2026 (69,050) and up 17.3% on the prior 6-month average (69,292).",
+      "status": "MATCHED",
+      "value": 17.7,
+      "matched_value": 17.7,
+      "source": "report:'81,300 in Sep 2026**, up 17.7% on A'"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Revenue 81,300 in Sep 2026**, up 17.7% on Aug 2026 (69,050) and up 17.3% on the prior 6-month average (69,292).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "(69,050)",
+      "sentence": "- **Revenue 81,300 in Sep 2026**, up 17.7% on Aug 2026 (69,050) and up 17.3% on the prior 6-month average (69,292).",
+      "status": "MATCHED",
+      "value": 69050.0,
+      "matched_value": 69050.0,
+      "source": "json:revenue.total.monthly[7]"
+    },
+    {
+      "text": "17.3%",
+      "sentence": "- **Revenue 81,300 in Sep 2026**, up 17.7% on Aug 2026 (69,050) and up 17.3% on the prior 6-month average (69,292).",
+      "status": "MATCHED",
+      "value": 17.3,
+      "matched_value": 17.3,
+      "source": "report:'Aug 2026 (69,050) and up 17.3% on t'"
+    },
+    {
+      "text": "6",
+      "sentence": "- **Revenue 81,300 in Sep 2026**, up 17.7% on Aug 2026 (69,050) and up 17.3% on the prior 6-month average (69,292).",
+      "status": "IGNORED",
+      "rule": "span"
+    },
+    {
+      "text": "(69,292)",
+      "sentence": "- **Revenue 81,300 in Sep 2026**, up 17.7% on Aug 2026 (69,050) and up 17.3% on the prior 6-month average (69,292).",
+      "status": "MATCHED",
+      "value": 69292.0,
+      "matched_value": 69292.0,
+      "source": "report:'he prior 6-month average (69,292). A s'"
+    },
+    {
+      "text": "12",
+      "sentence": "A same-month-last-year comparison isn't available because the export covers fewer than 12 months.",
+      "status": "IGNORED",
+      "rule": "count"
+    },
+    {
+      "text": "12,000",
+      "sentence": "- **12,000 of that came from a new stream, Wholesale Accounts**, which was zero in the prior 6 months.",
+      "status": "MATCHED",
+      "value": 12000.0,
+      "matched_value": 12000.0,
+      "source": "json:revenue.streams[4].monthly[8]"
+    },
+    {
+      "text": "6",
+      "sentence": "- **12,000 of that came from a new stream, Wholesale Accounts**, which was zero in the prior 6 months.",
+      "status": "IGNORED",
+      "rule": "count"
+    },
+    {
+      "text": "(+1.9%",
+      "sentence": "Bread Sales kept growing steadily (+1.9% to 49,200).",
+      "status": "MATCHED",
+      "value": 1.9,
+      "matched_value": 1.9,
+      "source": "report:'es kept growing steadily (+1.9% to 4'"
+    },
+    {
+      "text": "49,200)",
+      "sentence": "Bread Sales kept growing steadily (+1.9% to 49,200).",
+      "status": "MATCHED",
+      "value": 49200.0,
+      "matched_value": 49200.0,
+      "source": "json:revenue.streams[0].monthly[8]"
+    },
+    {
+      "text": "(-2.2%",
+      "sentence": "Pastry Sales kept slipping (-2.2% to 15,700).",
+      "status": "MATCHED",
+      "value": 2.2,
+      "matched_value": 2.2,
+      "source": "report:'stry Sales kept slipping (-2.2% to 1'"
+    },
+    {
+      "text": "15,700)",
+      "sentence": "Pastry Sales kept slipping (-2.2% to 15,700).",
+      "status": "MATCHED",
+      "value": 15700.0,
+      "matched_value": 15700.0,
+      "source": "json:revenue.streams[1].monthly[8]"
+    },
+    {
+      "text": "3,800",
+      "sentence": "Catering Revenue fell again to 3,800 (-5.0%), after dropping from 9,100 in Jul to 4,000 in Aug.",
+      "status": "MATCHED",
+      "value": 3800.0,
+      "matched_value": 3800.0,
+      "source": "json:revenue.streams[2].monthly[8]"
+    },
+    {
+      "text": "(-5.0%)",
+      "sentence": "Catering Revenue fell again to 3,800 (-5.0%), after dropping from 9,100 in Jul to 4,000 in Aug.",
+      "status": "MATCHED",
+      "value": 5.0,
+      "matched_value": 5.0,
+      "source": "json:revenue.streams[2].mom_pct"
+    },
+    {
+      "text": "9,100",
+      "sentence": "Catering Revenue fell again to 3,800 (-5.0%), after dropping from 9,100 in Jul to 4,000 in Aug.",
+      "status": "MATCHED",
+      "value": 9100.0,
+      "matched_value": 9100.0,
+      "source": "json:revenue.streams[2].monthly[6]"
+    },
+    {
+      "text": "4,000",
+      "sentence": "Catering Revenue fell again to 3,800 (-5.0%), after dropping from 9,100 in Jul to 4,000 in Aug.",
+      "status": "MATCHED",
+      "value": 4000.0,
+      "matched_value": 4000.0,
+      "source": "json:revenue.streams[2].monthly[7]"
+    },
+    {
+      "text": "65.3%",
+      "sentence": "- **Gross margin was 65.3%**, up 5.7 pp on Aug (59.6%) and above the prior 6-month average of 60.6%.",
+      "status": "MATCHED",
+      "value": 65.3,
+      "matched_value": 65.3,
+      "source": "report:'ug.\n- **Gross margin was 65.3%**, u'"
+    },
+    {
+      "text": "5.7 pp",
+      "sentence": "- **Gross margin was 65.3%**, up 5.7 pp on Aug (59.6%) and above the prior 6-month average of 60.6%.",
+      "status": "MATCHED",
+      "value": 5.7,
+      "matched_value": 5.7,
+      "source": "report:'s margin was 65.3%**, up 5.7 pp on A'"
+    },
+    {
+      "text": "(59.6%)",
+      "sentence": "- **Gross margin was 65.3%**, up 5.7 pp on Aug (59.6%) and above the prior 6-month average of 60.6%.",
+      "status": "MATCHED",
+      "value": 59.6,
+      "matched_value": 59.6,
+      "source": "report:'5.3%**, up 5.7 pp on Aug (59.6%) and'"
+    },
+    {
+      "text": "6",
+      "sentence": "- **Gross margin was 65.3%**, up 5.7 pp on Aug (59.6%) and above the prior 6-month average of 60.6%.",
+      "status": "IGNORED",
+      "rule": "span"
+    },
+    {
+      "text": "60.6%",
+      "sentence": "- **Gross margin was 65.3%**, up 5.7 pp on Aug (59.6%) and above the prior 6-month average of 60.6%.",
+      "status": "MATCHED",
+      "value": 60.6,
+      "matched_value": 60.6,
+      "source": "report:'prior 6-month average of 60.6%. It''"
+    },
+    {
+      "text": "56.8%",
+      "sentence": "It's the highest margin in the period (the low was 56.8% in Mar 2026).",
+      "status": "MATCHED",
+      "value": 56.8,
+      "matched_value": 56.8,
+      "source": "report:'the period (the low was 56.8% in M'"
+    },
+    {
+      "text": "2026)",
+      "sentence": "It's the highest margin in the period (the low was 56.8% in Mar 2026).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "31,570",
+      "sentence": "- **Operating expenses were 31,570, up 21.0%.** Most of the increase is Wages & Salaries, up 5,000 to 21,000 (+31.2%).",
+      "status": "MATCHED",
+      "value": 31570.0,
+      "matched_value": 31570.0,
+      "source": "json:operating_expenses.total.monthly[8]"
+    },
+    {
+      "text": "21.0%",
+      "sentence": "- **Operating expenses were 31,570, up 21.0%.** Most of the increase is Wages & Salaries, up 5,000 to 21,000 (+31.2%).",
+      "status": "MATCHED",
+      "value": 21.0,
+      "matched_value": 21.0,
+      "source": "report:'expenses were 31,570, up 21.0%.** M'"
+    },
+    {
+      "text": "5,000",
+      "sentence": "- **Operating expenses were 31,570, up 21.0%.** Most of the increase is Wages & Salaries, up 5,000 to 21,000 (+31.2%).",
+      "status": "MATCHED",
+      "value": 5000.0,
+      "matched_value": 5000.0,
+      "source": "json:operating_expenses.categories[0].mom_abs"
+    },
+    {
+      "text": "21,000",
+      "sentence": "- **Operating expenses were 31,570, up 21.0%.** Most of the increase is Wages & Salaries, up 5,000 to 21,000 (+31.2%).",
+      "status": "MATCHED",
+      "value": 21000.0,
+      "matched_value": 21000.0,
+      "source": "json:operating_expenses.accounts[0].monthly[8]"
+    },
+    {
+      "text": "(+31.2%)",
+      "sentence": "- **Operating expenses were 31,570, up 21.0%.** Most of the increase is Wages & Salaries, up 5,000 to 21,000 (+31.2%).",
+      "status": "MATCHED",
+      "value": 31.2,
+      "matched_value": 31.2,
+      "source": "report:'ries, up 5,000 to 21,000 (+31.2%). Tha'"
+    },
+    {
+      "text": "22,600",
+      "sentence": "That pushed Payroll & Benefits to 22,600 (+28.4%).",
+      "status": "MATCHED",
+      "value": 22600.0,
+      "matched_value": 22600.0,
+      "source": "json:operating_expenses.categories[0].monthly[8]"
+    },
+    {
+      "text": "(+28.4%)",
+      "sentence": "That pushed Payroll & Benefits to 22,600 (+28.4%).",
+      "status": "MATCHED",
+      "value": 28.4,
+      "matched_value": 28.4,
+      "source": "report:'oll & Benefits to 22,600 (+28.4%). The'"
+    },
+    {
+      "text": "(400)",
+      "sentence": "Mystery Shopper Program (400) is quarterly (Mar, Jun, Sep), not a new cost.",
+      "status": "MATCHED",
+      "value": 400.0,
+      "matched_value": 400.0,
+      "source": "json:operating_expenses.accounts[9].monthly[2]"
+    },
+    {
+      "text": "21,553",
+      "sentence": "- **Net income was 21,553**, up from 15,077 in Aug 2026.",
+      "status": "MATCHED",
+      "value": 21553.0,
+      "matched_value": 21553.0,
+      "source": "json:net_income.monthly[8]"
+    },
+    {
+      "text": "15,077",
+      "sentence": "- **Net income was 21,553**, up from 15,077 in Aug 2026.",
+      "status": "MATCHED",
+      "value": 15077.0,
+      "matched_value": 15077.0,
+      "source": "json:net_income.monthly[7]"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Net income was 21,553**, up from 15,077 in Aug 2026.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "9",
+      "sentence": "It has been positive in all 9 months.",
+      "status": "IGNORED",
+      "rule": "count"
+    },
+    {
+      "text": "37,600",
+      "sentence": "- **Bank Accounts were 37,600**, down 1,800 on last month and down 10,800 on six months earlier (48,400).",
+      "status": "MATCHED",
+      "value": 37600.0,
+      "matched_value": 37600.0,
+      "source": "json:balance_sheet.lines.cash.monthly[8]"
+    },
+    {
+      "text": "1,800",
+      "sentence": "- **Bank Accounts were 37,600**, down 1,800 on last month and down 10,800 on six months earlier (48,400).",
+      "status": "MATCHED",
+      "value": 1800.0,
+      "matched_value": 1800.0,
+      "source": "report:'unts were 37,600**, down 1,800 on l'"
+    },
+    {
+      "text": "10,800",
+      "sentence": "- **Bank Accounts were 37,600**, down 1,800 on last month and down 10,800 on six months earlier (48,400).",
+      "status": "MATCHED",
+      "value": 10800.0,
+      "matched_value": 10800.0,
+      "source": "report:'0 on last month and down 10,800 on s'"
+    },
+    {
+      "text": "(48,400)",
+      "sentence": "- **Bank Accounts were 37,600**, down 1,800 on last month and down 10,800 on six months earlier (48,400).",
+      "status": "MATCHED",
+      "value": 48400.0,
+      "matched_value": 48400.0,
+      "source": "json:balance_sheet.lines.cash.monthly[2]"
+    },
+    {
+      "text": "54,660",
+      "sentence": "Equity also fell over the same period, from 54,660 to 44,940.",
+      "status": "MATCHED",
+      "value": 54660.0,
+      "matched_value": 54660.0,
+      "source": "json:balance_sheet.lines.equity.monthly[2]"
+    },
+    {
+      "text": "44,940",
+      "sentence": "Equity also fell over the same period, from 54,660 to 44,940.",
+      "status": "MATCHED",
+      "value": 44940.0,
+      "matched_value": 44940.0,
+      "source": "json:balance_sheet.lines.equity.monthly[8]"
+    }
+  ]
+}

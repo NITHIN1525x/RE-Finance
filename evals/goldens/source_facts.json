@@ -272,6 +272,22 @@
     ],
     "formula": "AVERAGE(D30:I30) Advisory Services, Dec 2025..May 2026"
   },
+  "abc.vanished.advisory_services.last_nonzero_month": {
+    "value": "Jan 2026",
+    "sheet": "Income Statement",
+    "cells": [
+      "H5"
+    ],
+    "formula": "header of the newest column before Jun 2026 where Advisory Services is non-zero"
+  },
+  "abc.vanished.advisory_services.last_nonzero_value": {
+    "value": 2500.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "H30"
+    ],
+    "formula": "Advisory Services in its last non-zero month (added for the D-45 'zero since' wording)"
+  },
   "abc.vanished.federal_state_taxes.jun2026": {
     "value": 0.0,
     "sheet": "Income Statement",
@@ -287,6 +303,22 @@
       "D40:I40"
     ],
     "formula": "AVERAGE(D40:I40) Federal & State Taxes, Dec 2025..May 2026"
+  },
+  "abc.vanished.federal_state_taxes.last_nonzero_month": {
+    "value": "May 2026",
+    "sheet": "Income Statement",
+    "cells": [
+      "D5"
+    ],
+    "formula": "header of the newest column before Jun 2026 where Federal & State Taxes is non-zero"
+  },
+  "abc.vanished.federal_state_taxes.last_nonzero_value": {
+    "value": 1561.67,
+    "sheet": "Income Statement",
+    "cells": [
+      "D40"
+    ],
+    "formula": "Federal & State Taxes in its last non-zero month (added for the D-45 'zero since' wording)"
   },
   "abc.vanished.mkt_misc.jun2026": {
     "value": 0.0,
@@ -304,6 +336,22 @@
     ],
     "formula": "AVERAGE(D68:I68) Marketing/Advertising: Miscellaneous, Dec 2025..May 2026"
   },
+  "abc.vanished.mkt_misc.last_nonzero_month": {
+    "value": "May 2026",
+    "sheet": "Income Statement",
+    "cells": [
+      "D5"
+    ],
+    "formula": "header of the newest column before Jun 2026 where Marketing/Advertising: Miscellaneous is non-zero"
+  },
+  "abc.vanished.mkt_misc.last_nonzero_value": {
+    "value": 1119.31,
+    "sheet": "Income Statement",
+    "cells": [
+      "D68"
+    ],
+    "formula": "Marketing/Advertising: Miscellaneous in its last non-zero month (added for the D-45 'zero since' wording)"
+  },
   "abc.vanished.professional_fees.jun2026": {
     "value": 0.0,
     "sheet": "Income Statement",
@@ -319,6 +367,22 @@
       "D85:I85"
     ],
     "formula": "AVERAGE(D85:I85) Professional Fees, Dec 2025..May 2026"
+  },
+  "abc.vanished.professional_fees.last_nonzero_month": {
+    "value": "Mar 2026",
+    "sheet": "Income Statement",
+    "cells": [
+      "F5"
+    ],
+    "formula": "header of the newest column before Jun 2026 where Professional Fees is non-zero"
+  },
+  "abc.vanished.professional_fees.last_nonzero_value": {
+    "value": 3772.77,
+    "sheet": "Income Statement",
+    "cells": [
+      "F85"
+    ],
+    "formula": "Professional Fees in its last non-zero month (added for the D-45 'zero since' wording)"
   },
   "abc.cash.jun2026": {
     "value": 713481.26,

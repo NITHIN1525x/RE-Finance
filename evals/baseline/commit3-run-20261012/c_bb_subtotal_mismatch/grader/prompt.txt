@@ -1,0 +1,73 @@
+You are a strict, literal auditor grading the COMMENTARY section of a draft monthly financial trend report.
+You do not write or improve commentary. You only decide, for each rule, whether the commentary satisfies it.
+
+You are given one JSON object with:
+- `rounding_policy`: the ONLY rule for judging whether a figure in prose is acceptable.
+- `reference_facts`: true values derived from the source workbook cells. Treat them as ground truth.
+- `rules`: a list of rules. Each has `id`, `kind` ("required" or "forbidden") and `claim`.
+- `commentary`: the exact text to grade.
+
+How to grade each rule:
+- `required`: PASS only if the commentary actually makes that claim, including every element the claim
+  names, and any figure it uses is consistent with the reference facts under the rounding policy.
+  FAIL if the claim is missing, only partly made, or made with a misstated figure.
+- `forbidden`: PASS if the commentary does NOT contain the forbidden content. FAIL if it does.
+  So for every rule, PASS always means "the commentary is acceptable on this rule".
+- Judge only what the commentary text says. Do not assume content that isn't there. Do not penalise
+  content that no rule mentions.
+- Apply the rounding policy exactly as written. Compute the relative difference when it matters, and
+  state it in the evidence.
+- A rule that says it PASSES when some condition is absent (e.g. "if no such figures are given, PASS")
+  must PASS when the condition is absent.
+
+Return one verdict for EVERY rule id, exactly once. `evidence` must be one or two sentences: quote the
+relevant words from the commentary (or say they are absent), and give the reason, citing a reference
+fact where relevant.
+
+INPUT:
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "bb.prof_services.mar2026.detail_sum",
+      "value": "2,200",
+      "meaning": "D33+D34 (Bookkeeping + Legal)",
+      "source": "Profit and Loss!D33,D34"
+    },
+    {
+      "id": "bb.prof_services.mar2026.diff",
+      "value": "25",
+      "meaning": "stated - detail sum",
+      "source": "Profit and Loss!D35,D33,D34"
+    },
+    {
+      "id": "bb.prof_services.mar2026.stated",
+      "value": "2,225",
+      "meaning": "Total for Professional Services, Mar 2026",
+      "source": "Profit and Loss!D35"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Reports the data-quality problem: names the Professional Services subtotal, the month (Mar 2026), and the amount (the 25 difference, or both the stated 2,225 and the detail sum 2,200)."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Leaves resolving the mismatch to the reviewer rather than deciding which figure is right."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Says all data-quality checks passed or that the data is clean/reconciled."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts which of the two figures is correct, or that the error was corrected."
+    }
+  ],
+  "commentary": "- **Data quality, please look first:** 'Total for Professional Services' in Mar 2026 states 2,225.00, but its detail rows add up to 2,200.00 (a 25.00 difference). This report uses the detail rows. The reviewer needs to decide which figure is right. Also, 'Total Delivery' had no header row, so its group was rebuilt from the two rows above it. 'Charitable Donations' has no total row, so the 4 rows after it were kept at the parent level.\n- **Revenue 81,300 in Sep 2026**, up 17.7% on Aug 2026 (69,050) and up 17.3% on the prior 6-month average (69,292). A same-month-last-year comparison isn't available because the export covers fewer than 12 months.\n- **12,000 of that came from a new stream, Wholesale Accounts**, which was zero in the prior 6 months. Bread Sales kept growing steadily (+1.9% to 49,200). Pastry Sales kept slipping (-2.2% to 15,700). Catering Revenue fell again to 3,800 (-5.0%), after dropping from 9,100 in Jul to 4,000 in Aug.\n- **Gross margin was 65.3%**, up 5.7 pp on Aug (59.6%) and above the prior 6-month average of 60.6%. It's the highest margin in the period (the low was 56.8% in Mar 2026).\n- **Operating expenses were 31,570, up 21.0%.** Most of the increase is Wages & Salaries, up 5,000 to 21,000 (+31.2%). That pushed Payroll & Benefits to 22,600 (+28.4%). The reviewer should confirm whether this is a new recurring level or a one-month item. Mystery Shopper Program (400) is quarterly (Mar, Jun, Sep), not a new cost.\n- **Net income was 21,553**, up from 15,077 in Aug 2026. It has been positive in all 9 months. There are no non-operating items in this export.\n- **Bank Accounts were 37,600**, down 1,800 on last month and down 10,800 on six months earlier (48,400). Cash has been falling while the business has been profitable every month. Equity also fell over the same period, from 54,660 to 44,940. Reviewer: what explains the cash outflow?"
+}

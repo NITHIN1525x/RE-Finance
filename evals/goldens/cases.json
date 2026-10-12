@@ -314,10 +314,11 @@
         },
         {
           "id": "S2",
-          "desc": "vanished-line flag: Advisory Services (avg 1,250)",
+          "desc": "vanished-line flag: Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500; avg 1,250) [changed D-45]",
           "type": "flag_regex",
-          "pattern": "Expense line 'Advisory Services' .*zero in Jun 2026; it averaged 1,250 ",
-          "present": true
+          "pattern": "Expense line 'Advisory Services' .*has been zero since Feb 2026 \\(last non-zero: Jan 2026, 2,500\\); it averaged 1,250 ",
+          "present": true,
+          "fact": "abc.vanished.advisory_services.last_nonzero_value"
         },
         {
           "id": "S3",
@@ -335,10 +336,27 @@
         },
         {
           "id": "S5",
-          "desc": "vanished-line flag: Professional Fees (avg 1,045)",
+          "desc": "vanished-line flag: Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773; avg 1,045) [changed D-45]",
           "type": "flag_regex",
-          "pattern": "Expense line 'Professional Fees' .*zero in Jun 2026; it averaged 1,045 ",
-          "present": true
+          "pattern": "Expense line 'Professional Fees' .*has been zero since Apr 2026 \\(last non-zero: Mar 2026, 3,773\\); it averaged 1,045 ",
+          "present": true,
+          "fact": "abc.vanished.professional_fees.last_nonzero_value"
+        },
+        {
+          "id": "S6",
+          "desc": "Advisory Services is NOT described as 'is zero in Jun 2026' (it stopped after Jan 2026) [added D-45]",
+          "type": "flag_regex",
+          "pattern": "Expense line 'Advisory Services' \\([^)]*\\) is zero in Jun 2026",
+          "present": false,
+          "fact": "abc.vanished.advisory_services.last_nonzero_month"
+        },
+        {
+          "id": "S7",
+          "desc": "Professional Fees is NOT described as 'is zero in Jun 2026' (it stopped after Mar 2026) [added D-45]",
+          "type": "flag_regex",
+          "pattern": "Expense line 'Professional Fees' \\([^)]*\\) is zero in Jun 2026",
+          "present": false,
+          "fact": "abc.vanished.professional_fees.last_nonzero_month"
         }
       ],
       "commentary": {
@@ -378,7 +396,10 @@
       "calibration": {
         "_about": "Also grade the FROZEN commentary from the committed Task 2 report (a real skill run, 2026-10-12, commit 396f17d), which contains 'roughly 700-1,250'. Reported separately; not part of the E2E score.",
         "artifact": "trend-reports/abc-inc-2026-06-trends.md"
-      }
+      },
+      "_change_log": [
+        "D-45 (2026-10-12): S2/S5 now require 'has been zero since <month> (last non-zero: ...)' for lines that stopped before Jun 2026; S6/S7 forbid the old 'is zero in Jun 2026' wording for them. Intentional skill behaviour change, not a fit-to-pass. No commentary claim added: 'zero in Jun 2026' is still literally true, so a forbidden claim would make grading flaky; the wording is checked deterministically here instead."
+      ]
     },
     {
       "id": "c_bb_subtotal_mismatch",

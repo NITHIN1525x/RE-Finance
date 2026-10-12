@@ -1,0 +1,24 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "bb.months",
+      "value": "9",
+      "meaning": "month header cells (K4 is a 'Total' column, not a month)",
+      "source": "Profit and Loss!B4:J4"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Acknowledges that twelve-month comparisons (TTM and/or year-over-year) are not available because the export covers fewer than 12 months."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States any TTM, trailing-twelve-month, annualised or year-over-year figure for Bluebird, including estimates."
+    }
+  ],
+  "commentary": "- Revenue was 81,300 in Sep 2026. On a trailing-twelve-month basis, annualising the nine months gives roughly 850,000."
+}

@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.0249668,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Stock-Based Compensation Expense spike (about 334,661) as a possible one-off / single-month item.",
+      "status": "PASS",
+      "evidence": "Commentary says \"Stock-Based Compensation Expense 334,661 (typical month 0)... appear to be single-month items\"; matches reference 334,660.53."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Bonus spike (about 80,343) as a possible one-off / single-month item.",
+      "status": "PASS",
+      "evidence": "Commentary says \"Bonus 80,343 (typical month 2,721)... appear to be single-month items\"; matches 80,342.53 and median 2,720.83."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Leaves the one-off determination to the reviewer (hedged wording such as 'appears to be' or 'reviewer to confirm') rather than concluding.",
+      "status": "PASS",
+      "evidence": "Uses hedged wording \"each appear to be single-month items; reviewer to confirm.\""
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as unhedged fact that these Dec 2025 items are non-recurring/one-off.",
+      "status": "PASS",
+      "evidence": "The one-off characterization is hedged (\"appear to be... reviewer to confirm\"), not stated as unhedged fact."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts an accounting treatment or a cause for these items as fact (e.g. 'year-end bonus accrual', 'option vesting', 'should be excluded/normalised').",
+      "status": "PASS",
+      "evidence": "No accounting treatment or cause is asserted for SBC or Bonus; the commentary doesn't mention accrual, vesting, or exclusion/normalisation. The statement that net income was positive in Dec 2025 \"only because of non-operating items\" is about net income, not a cause given for these items."
+    }
+  ]
+}

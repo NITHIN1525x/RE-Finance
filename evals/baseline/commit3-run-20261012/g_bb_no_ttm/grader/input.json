@@ -1,0 +1,24 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "bb.months",
+      "value": "9",
+      "meaning": "month header cells (K4 is a 'Total' column, not a month)",
+      "source": "Profit and Loss!B4:J4"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Acknowledges that twelve-month comparisons (TTM and/or year-over-year) are not available because the export covers fewer than 12 months."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States any TTM, trailing-twelve-month, annualised or year-over-year figure for Bluebird, including estimates."
+    }
+  ],
+  "commentary": "- **Data quality, needs reviewer first:** 'Total for Professional Services' in Mar 2026 states 2,225.00, but its detail rows sum to 2,200.00 (diff 25.00). The analysis uses the detail rows, and the reviewer should confirm which figure is right. Separately, 'Charitable Donations' has no values and no total row (`missing_total`), so it was treated as a blank account and the 4 rows after it were kept at the parent level. The 'Total Delivery' group (Delivery Van Fuel, Courier: Same Day) was inferred because it has no header row. No partial month is flagged.\n- **Revenue 81,300 in Sep 2026, +17.7% vs Aug 2026 (69,050) and +17.3% vs the prior 6-month average (69,292).** We can't compare with the same month last year or show TTM figures, because the export only covers Jan\u2013Sep 2026.\n- **Wholesale Accounts, 12,000, is a new stream (zero in the prior 6 months) and makes up 12,000 of the 81,300.** Among the existing streams, Bread Sales rose 1.9% to 49,200 (up about 2% each month since Apr 2026), Pastry Sales fell 2.2% to 15,700 (down about 2% each month since Apr 2026), and Catering Revenue fell 5.0% to 3,800, after 9,100 in Jul 2026.\n- **Gross margin was 65.3%, up 5.7 pp from 59.6% in Aug 2026 and above the 60.6% prior 6-month average.** It's the highest of the period (range 56.8% in Mar 2026 to 65.3%). COGS went from 27,930 to 28,220 while revenue jumped. Reviewer: are all costs for the new wholesale volume recorded in September?\n- **Payroll & Benefits was 22,600, +28.4% (+5,000), all from Wages & Salaries (16,000 \u2192 21,000).** The category had been 17,600 every month from Apr to Aug 2026. Total operating expenses were 31,570 (+21.0%). Mystery Shopper Program (400) shows \"from 0\" against Aug, but it also appears in Mar and Jun 2026, so it looks quarterly rather than new.\n- **Net income was 21,553 vs 15,077 in Aug 2026, the highest of the 9 months, and positive in every month.** The export has no non-operating items (tax, interest) in opex, so the as-exported and underlying figures are the same.\n- **Bank Accounts were 37,600, -1,800 vs prior month and -10,800 vs six months earlier (48,400), even though every month was profitable.** Equity fell from 54,660 to 44,940 over the same window. Reviewer: what does the cash outflow relate to?\n- **Possible one-offs:** Gift Cards was negative in Mar 2026 (-300), probably credits or refunds. Professional Fees were 2,200 in Mar 2026 against 700 in every other month. Each appears to be a single-month item; reviewer to confirm. Three accounts fell into Other Opex with no category rule: Instagram Ads, Mystery Shopper Program, and Supplier Rebates, which is a credit of (250) in Sep 2026."
+}

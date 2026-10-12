@@ -222,6 +222,22 @@ class RealWorkbookTests(unittest.TestCase):
         self.assertIsNone(self.a["revenue"]["total"]["ttm_monthly"][10])     # 11th month: not yet 12 months
         self.assertIsNotNone(self.a["revenue"]["total"]["ttm_monthly"][11])
 
+    def test_vanished_line_wording_says_zero_since(self):
+        # Test 29 (intentional behaviour change, DECISIONS_LOG D-45): a line that was already zero before the latest
+        # month must say "has been zero since <month>" with its last non-zero month, not "is zero in Jun 2026".
+        flags = [f["message"] for f in self.a["flags"] if f["kind"] == "vanished_expense_line"]
+        text = "\n".join(flags)
+        self.assertIn("Expense line 'Advisory Services' (Professional Fees) has been zero since Feb 2026 "
+                      "(last non-zero: Jan 2026, 2,500); it averaged 1,250", text)
+        self.assertIn("Expense line 'Professional Fees' (Professional Fees) has been zero since Apr 2026 "
+                      "(last non-zero: Mar 2026, 3,773); it averaged 1,045", text)
+        # Lines that really went to zero in the latest month keep the original wording.
+        self.assertIn("Expense line 'Federal & State Taxes' (Finance & Admin) is zero in Jun 2026; it averaged 999", text)
+        self.assertIn("Expense line 'Marketing/Advertising: Miscellaneous' (Sales & Marketing) is zero in Jun 2026; "
+                      "it averaged 721", text)
+        self.assertNotIn("'Advisory Services' (Professional Fees) is zero in Jun 2026", text)
+        self.assertEqual(len(flags), 4)
+
     def test_all_cross_checks_pass(self):
         self.assertEqual({c["status"] for c in self.a["data_quality"]["checks"]}, {"pass"})
 

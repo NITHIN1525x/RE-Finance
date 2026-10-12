@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.0227309,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes 'Charitable Donations' as having spend/activity, or as a group or category containing other accounts.",
+      "status": "PASS",
+      "evidence": "The commentary calls it \"a blank row with no matching total, so it is treated as a zero account, and the rows after it stay at the Expenses level.\" That gives it no spend and says it contains no accounts."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Says Instagram Ads or Mystery Shopper Program belong to a 'Charitable Donations' or 'Finance & Admin' category.",
+      "status": "PASS",
+      "evidence": "Instagram Ads is not mentioned. Mystery Shopper Program (400) appears only in the movers-table discussion and is not placed in 'Charitable Donations' or 'Finance & Admin'."
+    }
+  ]
+}

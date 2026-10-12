@@ -983,3 +983,66 @@ Claude call. Both layers are summarised in one report.
   limitation, and real baseline artifacts. Harness tests are now 25 in total.
 - **Also in this commit:** `run_evals.write()` now writes LF line endings, so future run artifacts hash the
   same before and after git (the CRLF issue found while fingerprinting baseline v1).
+
+### D-45: Intentional skill behaviour change: "vanished" expense lines say "has been zero since <month>"
+- **Defect (found in D-43):** the vanished-expense-line flag always said "is zero in <latest month>", even
+  for lines that had stopped months earlier. ABC's Advisory Services had been zero since Feb 2026, and
+  Professional Fees since Apr 2026, yet both read as if they had stopped in June.
+- **Change** (`analysis.py`, `_flag_opex`, approved as shown):
+  - The flag finds the last non-zero month before the latest month.
+  - If that month is the prior month, the wording is unchanged: "is zero in <latest>".
+  - Otherwise it says **"has been zero since <first zero month> (last non-zero: <month>, <value>)"**.
+  - The trigger rule itself is unchanged.
+- **ABC effect** (from raw cells):
+
+  | Line | New wording | Source |
+  |---|---|---|
+  | Advisory Services | since Feb 2026; last non-zero Jan 2026, 2,500 | `IS!H30` |
+  | Professional Fees | since Apr 2026; last non-zero Mar 2026, 3,772.77 | `IS!F85` |
+  | Federal & State Taxes | "is zero in Jun 2026" (unchanged) | May value 1,561.67, `IS!D40` |
+  | Marketing/Advertising: Miscellaneous | "is zero in Jun 2026" (unchanged) | May value 1,119.31, `IS!D68` |
+
+  Bluebird has no vanished lines.
+- **Test 29:** `test_vanished_line_wording_says_zero_since`. Skill regression tests: 29.
+- **Golden change in case b. This is an intentional behaviour change, not a fit-to-pass**:
+  - S2 (Advisory) and S5 (Professional Fees) now require the "has been zero since …" text.
+  - New S6 and S7 forbid the old "is zero in Jun 2026" wording for those two lines.
+  - S3 and S4 are unchanged.
+  - The new facts `abc.vanished.*.last_nonzero_month` and `*.last_nonzero_value` in `derive_facts.py` make
+    the expected months and values auditable to their cells.
+  - Recorded in the case's `_change_log` too.
+- **Deliberately no new commentary claim for case b:** a forbidden claim such as "says Advisory Services
+  stopped in Jun 2026" would make grading flaky, because "Advisory Services is zero in Jun 2026" is still
+  literally *true*, and a grader could reasonably go either way. The wording is checked
+  **deterministically** in the structured checks (S2, S5, S6, S7) instead.
+- `SKILL.md`: one sentence asking the commentary to keep the "zero this month" vs "zero since" distinction.
+
+### D-46: Known limitation (not changed): the vanished flag goes quiet after a while
+- The flag only fires while **at least 2 of the prior 6 months were material**. A line that went to zero
+  and stays at zero drops below that within a few months, after which it is **not flagged at all**.
+  Advisory Services, for example, will stop being flagged as its last material months roll out of the
+  6-month window.
+- This is acceptable for a month-over-month review, which asks what changed recently. Long-dormant lines
+  are visible in the account appendix as zeros. Recorded as a limitation, with no change made.
+
+### D-47: Regression run for D-45; baseline v2
+- **Prediction, stated before the run:** only case b changes. It gains S6/S7, and S2/S5 now match the "has
+  been zero since" text. Every other case keeps the same verdicts and structured values. P1 runs live
+  everywhere and passes.
+- **Run** `commit3-run-20261012`: **130/130 checks PASS** (121 as in v1, + 7 live P1, + case b's S6/S7),
+  7/7 cases, no harness contamination, **$3.04**.
+- **Diff vs v1** (`python evals/compare_runs.py`): **only case b differs**, exactly as predicted. Its S2/S5
+  actual text changed to "has been zero since Feb 2026 (last non-zero: Jan 2026, 2,500)" and "since
+  Apr 2026 (last non-zero: Mar 2026, 3,773)", and S6/S7 were added. No verdict flipped anywhere, and no
+  other structured value changed. P1 passed in all 7. The commentary followed the new wording without
+  being told: "'Advisory Services' has been zero since Feb 2026 (last non-zero: Jan 2026, 2,500)".
+- **Cost +$0.30 vs v1:** extra turns in cases e (13 vs 9) and f (18 vs 10). Case f is Bluebird, which
+  D-45 cannot affect, so this is run-to-run variance in agent behaviour, not the change.
+- **Baseline v2** = verbatim copy of this run, in `evals/baseline/commit3-run-20261012/`. **v1 moved with
+  `git mv` to `evals/baseline/history/v1/`**, its BASELINE.md unchanged, so nothing is overwritten. The new
+  `evals/baseline/BASELINE.md` has a version table (v2 current, v1 history).
+- `test_provenance.py`'s real-artifact tests now point at the moved v1 folder. Left on the old path they
+  would have *silently skipped*.
+- **New tool:** `evals/compare_runs.py <old> <new>`, a per-case, per-check diff (verdicts, structured actual
+  values, added/removed checks, P1, cost). Its first version wrongly counted "P1 newly live" as a
+  difference in its summary line; fixed before use.

@@ -13,7 +13,7 @@ EVALS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(EVALS))
 import provenance as P  # noqa: E402
 
-BASELINE_CASE = EVALS / "baseline" / "clean-run-20261012" / "a_abc_jun2026_core"
+BASELINE_CASE = EVALS / "baseline" / "history" / "v1" / "clean-run-20261012" / "a_abc_jun2026_core"   # frozen v1 artifacts
 
 
 def statuses(text, pool_values=(), report=""):

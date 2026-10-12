@@ -128,7 +128,7 @@ Exit codes:
 - 3: harness contamination;
 - 2: BLOCKED only.
 
-The baseline is in `evals/baseline/`, taken from `clean-run-20261012`; see `BASELINE.md`.
+The baseline is in `evals/baseline/`: v2 is current, and earlier versions are in `history/`; see `BASELINE.md`. To compare a run with it: `python evals/compare_runs.py evals/baseline/commit3-run-20261012 evals/runs/<run-id>`.
 
 ## Known limits
 

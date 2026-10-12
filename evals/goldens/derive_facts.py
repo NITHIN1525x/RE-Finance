@@ -107,6 +107,12 @@ for fid, label in (("advisory_services", "Advisory Services"), ("federal_state_t
     fact(f"abc.vanished.{fid}.jun2026", v(IS, r, JUN), S, [f"C{r}"], f"{label}, Jun 2026")
     fact(f"abc.vanished.{fid}.prior6_avg", statistics.mean(v(IS, r, c) for c in range(MAY, MAY + 6)), S, [f"D{r}:I{r}"],
          f"AVERAGE(D{r}:I{r}) {label}, Dec 2025..May 2026")
+    # Last non-zero month before Jun 2026 (sheet is newest-first: scan from May 2026 = column D towards older months).
+    last_c = next(c for c in range(MAY, 21) if v(IS, r, c) != 0)
+    fact(f"abc.vanished.{fid}.last_nonzero_month", IS.cell(5, last_c).value, S, [f"{L(last_c)}5"],
+         f"header of the newest column before Jun 2026 where {label} is non-zero")
+    fact(f"abc.vanished.{fid}.last_nonzero_value", v(IS, r, last_c), S, [f"{L(last_c)}{r}"],
+         f"{label} in its last non-zero month (added for the D-45 'zero since' wording)")
 
 assert BS.cell(5, 4).value == "30 Jun 2026" and BS.cell(5, 10).value == "31 Dec 2025"
 r_cash = row_of(BS, "Total Cash and Cash Equivalents")

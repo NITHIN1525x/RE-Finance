@@ -362,8 +362,14 @@ def _flag_opex(flags, categories, accounts, months, th, lb, materiality):
             flags.append(_flag("medium", "new_expense_line", f"New expense line '{a['name']}' ({a['category']}): "
                                f"{v[-1]:,.0f} in {latest}, zero in the prior {lb} months."))
         elif abs(v[-1]) < 0.005 and sum(1 for x in window if abs(x) >= materiality) >= 2:
-            flags.append(_flag("medium", "vanished_expense_line", f"Expense line '{a['name']}' ({a['category']}) is zero in "
-                               f"{latest}; it averaged {_avg(window):,.0f} over the prior {lb} months."))
+            last_nz = next(i for i in range(len(v) - 2, -1, -1) if abs(v[i]) >= 0.005)   # exists: window has >= 2 material months
+            if last_nz == len(v) - 2:      # non-zero last month: it really went to zero in the latest month
+                when = f"is zero in {latest}"
+            else:                          # already zero before the latest month: say since when, and the last non-zero
+                when = (f"has been zero since {mlabel(months[last_nz + 1])} "
+                        f"(last non-zero: {mlabel(months[last_nz])}, {v[last_nz]:,.0f})")
+            flags.append(_flag("medium", "vanished_expense_line", f"Expense line '{a['name']}' ({a['category']}) {when}; "
+                               f"it averaged {_avg(window):,.0f} over the prior {lb} months."))
 
 
 def _flag_spikes(flags, blocks, months, th, materiality):

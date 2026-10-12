@@ -72,7 +72,9 @@ importance:
    month last year (from the flag text). One comparison alone can mislead. A drop from a record month
    is not the same as a drop below normal.
 2. **Margin:** gross margin direction, and any compression flag.
-3. **Costs:** the biggest category or account movers, and new or vanished expense lines.
+3. **Costs:** the biggest category or account movers, and new or vanished expense lines. A vanished-line flag
+   says whether the line went to zero this month ("is zero in <month>") or has been zero since an earlier
+   month ("has been zero since <month>", with its last non-zero month). Keep that distinction in the prose.
 4. **Profitability:** the net income trend, and any month whose sign comes only from non-operating
    items (tax, interest).
 5. **Cash:** a balance-sheet cash movement, if flagged.

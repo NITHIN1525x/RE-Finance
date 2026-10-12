@@ -1,0 +1,406 @@
+{
+  "id": "a_abc_jun2026_core",
+  "title": "ABC Inc, Jun 2026: core figures and commentary (normal case)",
+  "input": {
+    "workbook": "data/ABC Inc - Financial Statements (1) (1).xlsx",
+    "prompt": "abc",
+    "target_month": "Jun 2026"
+  },
+  "skill_run": {
+    "model_requested": "claude-opus-5-5",
+    "model_reported": "claude-opus-5-5",
+    "claude_code_version": "2.1.296",
+    "num_turns": 8,
+    "total_cost_usd": 0.3490465,
+    "elapsed_s": 42.5,
+    "permission_mode": "default"
+  },
+  "execution": [
+    {
+      "id": "X1",
+      "desc": "claude -p run completed successfully",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "exit 0, subtype success"
+    },
+    {
+      "id": "X2",
+      "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X3",
+      "desc": "the skill's script run_trends.py was executed",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X4",
+      "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "1 json, 1 md in evals/runs/commit3-run-20261012/a_abc_jun2026_core/skill_output"
+    },
+    {
+      "id": "X5",
+      "desc": "nothing outside evals/runs/ was modified by the skill run",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "no changes made by the skill"
+    },
+    {
+      "id": "X6",
+      "desc": "the narrative placeholder was replaced with commentary",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "structured": [
+    {
+      "id": "S1",
+      "desc": "target month",
+      "type": "value",
+      "source": "literal",
+      "expected": "Jun 2026",
+      "actual": "Jun 2026",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S2",
+      "desc": "Jun 2026 total revenue",
+      "type": "value",
+      "source": {
+        "fact": "abc.revenue.jun2026",
+        "sheet": "Income Statement",
+        "cells": [
+          "C14"
+        ],
+        "formula": "Total Income, Jun 2026"
+      },
+      "expected": 195898.16,
+      "actual": 195898.16,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S3",
+      "desc": "May 2026 total revenue",
+      "type": "value",
+      "source": {
+        "fact": "abc.revenue.may2026",
+        "sheet": "Income Statement",
+        "cells": [
+          "D14"
+        ],
+        "formula": "Total Income, May 2026"
+      },
+      "expected": 208350.96,
+      "actual": 208350.96,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S4",
+      "desc": "revenue MoM %",
+      "type": "value",
+      "source": {
+        "fact": "abc.revenue.mom_pct",
+        "sheet": "Income Statement",
+        "cells": [
+          "C14",
+          "D14"
+        ],
+        "formula": "(C14-D14)/D14*100"
+      },
+      "expected": -5.976838311664121,
+      "actual": -5.9768,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S5",
+      "desc": "revenue YoY % vs Jun 2025",
+      "type": "value",
+      "source": {
+        "fact": "abc.revenue.yoy_pct",
+        "sheet": "Income Statement",
+        "cells": [
+          "C14",
+          "O14"
+        ],
+        "formula": "(C14-O14)/O14*100"
+      },
+      "expected": 2.803648173118986,
+      "actual": 2.8036,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S6",
+      "desc": "TTM revenue",
+      "type": "value",
+      "source": {
+        "fact": "abc.revenue.ttm",
+        "sheet": "Income Statement",
+        "cells": [
+          "C14:N14"
+        ],
+        "formula": "SUM(C14:N14) (Jul 2025..Jun 2026)"
+      },
+      "expected": 2303975.51,
+      "actual": 2303975.51,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S7",
+      "desc": "number of revenue streams",
+      "type": "count",
+      "source": {
+        "fact": "abc.revenue.stream_count",
+        "sheet": "Income Statement",
+        "cells": [
+          "B8:B13"
+        ],
+        "formula": "rows between 'Income' header and 'Total Income'"
+      },
+      "expected": 6,
+      "actual": 6,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S8",
+      "desc": "Usage Fees Jun 2026",
+      "type": "value",
+      "source": {
+        "fact": "abc.usage_fees.jun2026",
+        "sheet": "Income Statement",
+        "cells": [
+          "C11"
+        ],
+        "formula": "Usage Fees, Jun 2026"
+      },
+      "expected": 166781.5,
+      "actual": 166781.5,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S9",
+      "desc": "gross margin % Jun 2026",
+      "type": "value",
+      "source": {
+        "fact": "abc.gm_pct.jun2026",
+        "sheet": "Income Statement",
+        "cells": [
+          "C26",
+          "C14"
+        ],
+        "formula": "C26/C14*100"
+      },
+      "expected": 70.15161347099942,
+      "actual": 70.1516,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S10",
+      "desc": "TTM gross margin %",
+      "type": "value",
+      "source": {
+        "fact": "abc.gm_pct.ttm",
+        "sheet": "Income Statement",
+        "cells": [
+          "C26:N26",
+          "C14:N14"
+        ],
+        "formula": "SUM(GP TTM)/SUM(Revenue TTM)*100"
+      },
+      "expected": 69.46375528097519,
+      "actual": 69.4638,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S11",
+      "desc": "total opex Jun 2026 (as exported)",
+      "type": "value",
+      "source": {
+        "fact": "abc.opex_total.jun2026",
+        "sheet": "Income Statement",
+        "cells": [
+          "C103"
+        ],
+        "formula": "Total Operating Expenses, Jun 2026"
+      },
+      "expected": 468181.79999999993,
+      "actual": 468181.8,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S12",
+      "desc": "net income Jun 2026",
+      "type": "value",
+      "source": {
+        "fact": "abc.net_income.jun2026",
+        "sheet": "Income Statement",
+        "cells": [
+          "C107"
+        ],
+        "formula": "Net Income, Jun 2026"
+      },
+      "expected": -330756.07999999996,
+      "actual": -330756.08,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S13",
+      "desc": "TTM net income",
+      "type": "value",
+      "source": {
+        "fact": "abc.net_income.ttm",
+        "sheet": "Income Statement",
+        "cells": [
+          "C107:N107"
+        ],
+        "formula": "SUM(C107:N107)"
+      },
+      "expected": -3089779.59,
+      "actual": -3089779.59,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S14",
+      "desc": "negative net-income streak",
+      "type": "value",
+      "source": {
+        "fact": "abc.net_income.negative_streak",
+        "sheet": "Income Statement",
+        "cells": [
+          "C107:I107"
+        ],
+        "formula": "consecutive negative months ending Jun 2026"
+      },
+      "expected": 6,
+      "actual": 6,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S15",
+      "desc": "cash Jun 2026",
+      "type": "value",
+      "source": {
+        "fact": "abc.cash.jun2026",
+        "sheet": "Balance Sheet",
+        "cells": [
+          "D15"
+        ],
+        "formula": "Total Cash and Cash Equivalents, 30 Jun 2026"
+      },
+      "expected": 713481.26,
+      "actual": 713481.26,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S16",
+      "desc": "all data-quality checks pass",
+      "type": "all_field",
+      "source": "literal",
+      "expected": [
+        "pass"
+      ],
+      "actual": [
+        "pass"
+      ],
+      "tolerance": 0.0,
+      "status": "PASS"
+    }
+  ],
+  "provenance": [
+    {
+      "id": "P1",
+      "type": "provenance",
+      "status": "PASS",
+      "desc": "every number in the commentary matches a value in this run's own output",
+      "detail": "44 matched, 24 ignored, 0 unmatched",
+      "unmatched": []
+    }
+  ],
+  "commentary": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "States Jun 2026 total revenue and that it fell versus May 2026 by about 6%.",
+      "status": "PASS",
+      "evidence": "States \"Revenue 195,898 in Jun 2026, -6.0% vs May 2026 (208,351)\"; the reference MoM is -5.98%, so this is consistent."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Puts the Jun 2026 revenue drop in context with at least one of: May 2026 was the highest month in the export; Jun 2026 is only about 0.5% below the prior 6-month average; Jun 2026 is about 2.8% above Jun 2025.",
+      "status": "PASS",
+      "evidence": "Says \"May was the highest month in the export\", \"-0.5%\" vs the prior 6-month average and \"+2.8% vs Jun 2025\". These match the reference facts (-0.532%, 2.8036%, May is max)."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Gives the Jun 2026 gross margin (about 70.2%).",
+      "status": "PASS",
+      "evidence": "\"Gross margin 70.2%\" matches the reference value of 70.1516."
+    },
+    {
+      "id": "R4",
+      "kind": "required",
+      "claim": "States that Jun 2026 net income is negative and that losses are persistent (a run of consecutive negative months, a negative TTM figure, or negative in most months).",
+      "status": "PASS",
+      "evidence": "\"Net income (330,756) in Jun 2026, the 6th consecutive negative month; TTM (3,089,780)\" and \"negative in 17 of 18 months\". This matches the reference facts of a 6-month streak, 17 negative months and a negative TTM."
+    },
+    {
+      "id": "R5",
+      "kind": "required",
+      "claim": "Notes that cash declined: gives the Jun 2026 cash balance and a decline versus the prior month and/or six months earlier.",
+      "status": "PASS",
+      "evidence": "\"Cash and Cash Equivalents 713,481 at Jun 2026, down 215,543 from May 2026 and down 1,871,836 from six months earlier\". The reference values give 215,543 and 1,871,836 for the declines."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Makes any forecast or projection (cash runway, months of cash left, expected future revenue or margin, 'on track to').",
+      "status": "PASS",
+      "evidence": "No forecast, runway or projection appears in the commentary."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts as fact a cause for the revenue decline that the numbers do not show (e.g. churn, pricing, lost customers, seasonality). Framing it as a question or 'reviewer to confirm' is allowed.",
+      "status": "PASS",
+      "evidence": "The commentary only describes which lines moved (Usage Fees fell, other lines were zero). It asserts no cause such as churn or pricing, and it flags the credits for reviewer confirmation."
+    },
+    {
+      "id": "F3",
+      "kind": "forbidden",
+      "claim": "Says Jun 2026 revenue increased versus May 2026, or that Jun 2026 net income was positive.",
+      "status": "PASS",
+      "evidence": "It says revenue was \"-6.0% vs May 2026\" and net income was \"(330,756)\", so it does not claim a revenue increase or positive Jun 2026 net income."
+    },
+    {
+      "id": "F4",
+      "kind": "forbidden",
+      "claim": "States a figure for any of the reference facts that falls outside the rounding policy.",
+      "status": "PASS",
+      "evidence": "All figures checked against the reference facts are within the policy. These are revenue (195,898, 208,351, 190,556), the prior-6 average (196,946), the percentages, gross margin 70.2%, net income, TTM, the 6-month streak, 17 of 18 negative months and cash (713,481, 2,585,317, declines of 215,543 and 1,871,836)."
+    }
+  ],
+  "status": "PASS"
+}

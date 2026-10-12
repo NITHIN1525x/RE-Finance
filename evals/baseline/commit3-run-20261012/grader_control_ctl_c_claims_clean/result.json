@@ -1,0 +1,35 @@
+{
+  "id": "ctl_c_claims_clean",
+  "case": "c_bb_subtotal_mismatch",
+  "checks": [
+    {
+      "id": "R1",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "evidence": "The commentary never mentions the Professional Services subtotal, Mar 2026, or the 25 difference (2,225 vs 2,200). It says all checks pass.",
+      "agrees": true
+    },
+    {
+      "id": "R2",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "evidence": "No mismatch is raised, so nothing is left for a reviewer to resolve. The text says \"fully reconciled\".",
+      "agrees": true
+    },
+    {
+      "id": "F1",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "evidence": "It says \"All data-quality checks pass and the data is fully reconciled.\" The reference facts show a 25 mismatch in Professional Services for Mar 2026.",
+      "agrees": true
+    },
+    {
+      "id": "F2",
+      "expected": "PASS",
+      "got": "PASS",
+      "evidence": "The commentary does not say which of the two figures is correct or that any error was corrected.",
+      "agrees": true
+    }
+  ],
+  "status": "AGREES"
+}
