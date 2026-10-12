@@ -5,7 +5,7 @@ Sandbox only. Never real company data.
 | Task | Where | Status |
 |---|---|---|
 | 1. QuickBooks Online ↔ Claude connection | [`connection/`](connection/) | **Done**: see [`connection/CONNECTION.md`](connection/CONNECTION.md) |
-| 2. Monthly trend-analysis skill | [`.claude/skills/`](.claude/skills/) | Not started |
+| 2. Monthly trend-analysis skill | [`.claude/skills/monthly-trend-analysis/`](.claude/skills/monthly-trend-analysis/SKILL.md) | **Done** (stretch goal not started) |
 | 3. Evaluation suite | [`evals/`](evals/) | Not started (golden-case candidates in `connection/evidence/phase5_ground_truth.md`) |
 | 4. Architecture note | [`docs/`](docs/) | Not started |
 
@@ -107,3 +107,24 @@ cd ../..; python connection/scripts/test_secret_scan.py                         
 python connection/scripts/secret_scan --all
 cd connection/frontend; npm run build; npm run lint
 ```
+
+## Task 2 Quick Start: monthly trend analysis
+
+```powershell
+# one-time: the skill's own environment (pinned openpyxl)
+python -m venv .claude/skills/monthly-trend-analysis/.venv
+.claude/skills/monthly-trend-analysis/.venv/Scripts/python -m pip install -r .claude/skills/monthly-trend-analysis/requirements.txt
+
+# run on the workbook in data/ (default) or any QBO-style export
+.claude/skills/monthly-trend-analysis/.venv/Scripts/python .claude/skills/monthly-trend-analysis/scripts/run_trends.py
+.claude/skills/monthly-trend-analysis/.venv/Scripts/python .claude/skills/monthly-trend-analysis/scripts/run_trends.py "path/to/Other Co.xlsx"
+
+# tests (27)
+cd .claude/skills/monthly-trend-analysis; .venv/Scripts/python -m unittest discover -s tests
+```
+
+From Claude Code started in the repo root, ask in plain words, e.g. *"Monthly trend analysis for ABC Inc
+from the workbook in data/, draft for the reviewer"*. The skill runs the script and writes the
+commentary into `trend-reports/<company>-<YYYY-MM>-trends.md`. Design, subtotal rule and portability
+results: DECISIONS_LOG D-30 to D-35.
+

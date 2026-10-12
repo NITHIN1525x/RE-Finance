@@ -1,0 +1,72 @@
+{
+  "_comment": "Grouping rules for commentary only. Extraction never depends on this file: an account that matches no rule lands in fallback_category. All patterns are case-insensitive Python regexes matched with re.search. Edit this file (not the code) to adapt to a new company's chart of accounts.",
+
+  "header_label": "Account",
+
+  "sheets": {
+    "income_statement": ["income statement", "profit (and|&) loss", "\\bp ?& ?l\\b"],
+    "balance_sheet": ["balance sheet", "financial position"]
+  },
+
+  "statement_sections": {
+    "_comment": "Matched against TOP-LEVEL section names of the income statement, in this order.",
+    "cogs": ["cost of (goods )?sold", "cost of sales", "cost of revenue", "\\bcogs\\b", "direct costs?"],
+    "other_income": ["other income"],
+    "other_expense": ["other expense"],
+    "revenue": ["^income$", "revenue", "sales", "^turnover$", "income"],
+    "operating_expenses": ["operating expense", "^expenses?$", "overhead", "expense"]
+  },
+
+  "summary_rows": {
+    "gross_profit": ["gross profit", "gross margin"],
+    "operating_income": ["operating income", "operating profit", "net operating income"],
+    "net_income": ["net (income|profit|loss|earnings)"]
+  },
+
+  "balance_sheet_sections": {
+    "cash": ["cash and cash equivalents", "^cash$", "bank accounts"],
+    "total_assets": ["^assets$"],
+    "liabilities": ["^liabilities$"],
+    "equity": ["^equity$", "shareholders'? equity", "owner'?s? equity"],
+    "liabilities_and_equity": ["liabilities and equity", "liabilities & equity"]
+  },
+
+  "opex_categories": {
+    "_comment": "Ordered: the first rule whose pattern matches the account name, its 'Parent:' prefix, or any enclosing sub-group header wins. non_operating=true items (tax, interest) are reported separately so one-off credits do not distort underlying opex.",
+    "rules": [
+      {"category": "Tax & Interest (non-operating)", "non_operating": true,
+       "patterns": ["income tax", "tax benefit", "tax expense", "interest income", "interest expense", "interest earned"]},
+      {"category": "Payroll & Benefits",
+       "patterns": ["payroll", "salar", "wage", "bonus", "benefit", "workers comp", "health insurance", "401k", "pension",
+                    "severance", "stock-based comp", "employee training", "superannuation"]},
+      {"category": "Sales & Marketing",
+       "patterns": ["marketing", "advertis", "ad spend", "event", "conference", "sponsor", "commission", "promotion",
+                    "\\bsales\\b", "website", "social media"]},
+      {"category": "Software & Technology",
+       "patterns": ["software", "saas", "hosting", "cloud", "ai token", "telephone", "internet", "\\bit\\b", "subscription"]},
+      {"category": "Professional Fees",
+       "patterns": ["accounting", "legal", "consult", "advisory", "professional", "audit", "recruit", "contractor", "bookkeep"]},
+      {"category": "Facilities & Office",
+       "patterns": ["\\brent\\b", "lease", "office", "postage", "delivery", "courier", "printing", "stationery", "utilit",
+                    "electric", "depreciation", "repair", "maintenance", "insurance"]},
+      {"category": "Travel & Entertainment",
+       "patterns": ["travel", "meals", "entertainment", "fuel", "mileage", "vehicle"]},
+      {"category": "Finance & Admin",
+       "patterns": ["bank", "merchant", "bad debt", "charit", "donation", "taxes", "licen", "fee"]}
+    ],
+    "fallback_category": "Other Opex"
+  },
+
+  "thresholds": {
+    "_comment": "Commentary flags. Percentages are fractions (0.05 = 5%).",
+    "revenue_mom_pct": 0.05,
+    "stream_mom_pct": 0.15,
+    "category_mom_pct": 0.15,
+    "gross_margin_pp": 2.0,
+    "materiality_abs": 1000,
+    "materiality_pct_of_revenue": 0.005,
+    "spike_multiple_of_median": 5,
+    "lookback_months": 6,
+    "top_movers": 5
+  }
+}

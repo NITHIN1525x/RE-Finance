@@ -648,3 +648,180 @@ Re-run this reachability analysis whenever the pin or the transport changes.
 - `DEMO_SCRIPT.md`: the five-minute demo built around check-out, then Claude, then check-in, with the
   answer key, what a good answer includes, and three live-modification requests with exact files and
   commands.
+
+---
+
+# Task 2: Monthly trend-analysis skill (2026-10-12)
+
+The skill is at `.claude/skills/monthly-trend-analysis/`. Run it with
+`scripts/run_trends.py [workbook]`, or let Claude invoke it from a request (verified: it triggers
+without being named). Tests: `.venv/Scripts/python -m unittest discover -s tests`, 27 passing.
+
+### D-30: Code lives inside the skill folder, not in `connection/analysis/`
+- **Choice:** `.claude/skills/monthly-trend-analysis/` holds everything:
+  - `SKILL.md`
+  - `scripts/run_trends.py` plus the `scripts/trends/` package (`workbook.py` extraction, `mapping.py`,
+    `analysis.py`, `report.py`)
+  - `references/` (`category_map.json`, `extraction-rules.md`)
+  - `tests/` (with the portability workbook builder and `test_data/`)
+  - `requirements.txt`, and a git-ignored `.venv`
+- **Why:**
+  - `connection/` is Task 1's QuickBooks plumbing, and this code never touches QuickBooks.
+  - Keeping the skill self-contained means a teammate can copy one folder to another repo or client and
+    it works.
+  - Skill-creator guidance puts deterministic code in `scripts/` and on-demand docs in `references/`.
+  - Tests sit next to the code they protect.
+- **Dependency:** `openpyxl` 3.1.5 is pinned in `requirements.txt` and installed into the skill's own
+  `.venv`, which leaves the system Python untouched. The xlsx skill described `openpyxl` as
+  preinstalled, but it wasn't on this machine; the script prints setup instructions if it's missing.
+  No pandas: the logic is row-structural, and stdlib plus openpyxl is enough.
+- **Input file:** the provided workbook is named `ABC Inc - Financial Statements (1) (1).xlsx`, not
+  the name in the brief. I didn't rename user data. The script defaults to *the single `.xlsx` in
+  `data/`*, so no filename is hardcoded.
+
+### D-31: The subtotal-detection rule is structural (stack of open sections), and formatting is not trusted
+- **Observed in the real file** (inspected cell by cell before writing logic):
+  - indent is 0 on every row;
+  - bold is inconsistent (`Total S & M Payroll` is bold, `Total Income` is not);
+  - the two sheets use different label columns (B vs C) and month formats (`Jun 2026` vs `30 Jun 2026`);
+  - subtotals are `=SUM` formulas, details are values;
+  - `Total Operating Expenses` = `SUM(direct accounts) + Total S & M Payroll + Total Marketing`, so
+    summing every row would double-count two groups.
+- **Rule:**
+  - **HEADER:** a label with no value in any month. It opens a section.
+  - **TOTAL:** `Total X` / `Total for X` where X is an open section. It closes the section; its values
+    are the stated subtotal.
+  - **DETAIL:** a label with values inside a section. These are the only rows summed.
+  - **SUMMARY:** values outside every section (Gross Profit, Net Income). Used only for cross-checks.
+  - **Fallbacks, each warned:**
+    - a header-less Total: the group is inferred from the shortest preceding run of rows that sums to
+      it in every month;
+    - an unreconcilable Total: excluded and flagged;
+    - a header never closed: treated as an all-blank account, with its rows returned to the parent;
+    - a formula in a detail row: flagged as a possible hidden subtotal.
+- **Rejected:**
+  - indentation or bold (absent or inconsistent here);
+  - the `": "` naming pattern (in this file that's QBO sub-account naming, `Marketing/Advertising: Ad
+    Spend`, not subtotal structure);
+  - formulas as the primary signal (formula-free exports exist; formulas are used only for warnings).
+- **Cross-check:** every stated subtotal is compared with its detail sum per month (tolerance 0.01).
+  - A mismatch is a warning showing both numbers; the analysis uses detail rows, and the reviewer decides.
+  - Gross profit, operating income and net income are recomputed and compared with the sheet's rows.
+  - Assets are checked against liabilities plus equity.
+  - **ABC Inc result:** 15 subtotal rows × 18 months, 0 mismatches. All recomputed rows match, and the
+    balance sheet balances.
+- **Independent verification:** a separate script read the raw cells with plain `openpyxl`, bypassing
+  the extraction code, and matched Total Income, Gross Profit, Total Operating Expenses, Net Income,
+  Usage Fees and Total Cash in all 18 months (max diff 0.0000), plus TTM revenue (2,303,975.51) and
+  June GM% (70.15).
+
+### D-32: Output = a JSON contract plus a Markdown draft with a narrative slot Claude fills
+- **Choice:** the script writes `<company>-<YYYY-MM>-trends.json`, where every number lives (schema in
+  `references/extraction-rules.md` §6), and a Markdown report with these sections:
+  1. commentary slot
+  2. rule-based flags
+  3. revenue by stream (values, MoM %, YoY %, TTM, share)
+  4. gross margin trend (with TTM GM %)
+  5. opex by category, as-exported and excluding non-operating items
+  6. movers
+  7. net income
+  8. balance sheet snapshot
+  9. data quality
+  10. account-to-category appendix, and a reviewer checklist
+
+  Claude replaces the narrative marker with 4–8 bullets written **only** from figures in the report.
+- **Why:**
+  - Numbers stay deterministic and testable; the JSON is also what Task 3's evals can assert on.
+  - Markdown is diffable, renders in GitHub and VS Code, and a reviewer can edit it directly.
+  - Keeping the computed figures separate from the model's prose keeps every claim traceable.
+- **Rejected:**
+  - An Excel output: heavier formatting work, harder to diff or evaluate; easy to add later from the JSON.
+  - Prose only: numbers would be untraceable.
+  - Letting Claude compute figures: not reproducible.
+- **Grounding check, run on both final reports:** every number in the narrative was searched for in the
+  generated sections. ABC: 54 of 55 found; the exception is "roughly 700–1,250", Claude rounding a
+  flagged 721. Bluebird: 41 of 41. That's a candidate eval for Task 3.
+
+### D-33: The "Other" bucket in practice
+- Categories come from ordered keyword rules in `references/category_map.json`. The first match on the
+  account name, then its `Parent:` prefix, then enclosing group names, wins. The extraction never uses
+  the map, and an unmatched account goes to **Other Opex**, listed by name in the report and the flags.
+- **ABC Inc:** one account, **General Expenses**. TTM 16,158, about 0.3% of underlying TTM opex
+  (5,999,465). Typically 125–325 a month, but 12,103 in Jan 2026.
+- **Bluebird (portability):** three accounts.
+  - **Instagram Ads** is really marketing. The rules have no "ads" pattern, and I deliberately didn't
+    add one, to show how a mapping gap surfaces.
+  - **Mystery Shopper Program** is genuinely unclassifiable.
+  - **Supplier Rebates** is a negative contra account.
+  - Lesson: "Other" is where per-company mapping gaps and contra accounts show up. The fix is a
+    company-specific copy of the JSON (`--config`), never code.
+- **Non-operating category:** ABC's export places Income Tax Benefit, Interest Income and Interest
+  Expense inside Operating Expenses. They're grouped as "Tax & Interest (non-operating)" and shown next
+  to "opex excl. non-operating"; totals are never changed. This matters: Dec 2025 net income is
+  +534,551 only because of a -1,244,430 Income Tax Benefit. Excluding non-operating items it's -715,902.
+  Reclassifying is left to the reviewer.
+
+### D-34: Portability test, and what had to be generalised
+- **Workbook:** `tests/test_data/bluebird-bakery.xlsx`, built by `tests/build_test_workbooks.py`. It
+  differs from ABC on every axis:
+  - company before report title; header on row 4; a single label column;
+  - months oldest-first as real date cells; 9 months only; a trailing "Total" column;
+  - values only, no formulas;
+  - `Total for X` style;
+  - a group with no header (`Total Delivery`) and an all-blank account mid-list;
+  - blank cells, a negative contra account and a negative revenue month;
+  - a stream that's new in the latest month, and an Other Income section;
+  - `Net Profit` instead of `Net Income`;
+  - **one deliberately wrong subtotal** (+25.00 in Mar 2026);
+  - a Balance Sheet with labels in column B and `Sep-26` text headers, newest-first.
+- **Result:**
+  - It ran first time without a crash, and the figures were correct (hand check: Sep revenue
+    49,200 + 15,700 + 3,800 + 600 + 12,000 = 81,300).
+  - The deliberate mismatch was caught, and the header-less group was inferred.
+  - Net Profit (including Other Income) and Gross Profit reconcile; Operating Income is reported as
+    "skipped" (no such row); the Balance Sheet balances.
+  - Unmapped accounts went to Other; TTM and YoY show "n/a" with fewer than 12 months.
+- **What I had to generalise.** I didn't change the test data at any point.
+  1. **Built in from the start**, because ABC's two sheets already differ:
+     - "Account" header detection with many month formats, and labels in any column left of the months;
+     - month sorting, sheet discovery by name patterns, and company name regardless of title order;
+     - `Total for X` matching, and section roles from config patterns.
+  2. **Found while designing the test, fixed before the first run:** an account blank in every month
+     looks exactly like a header, so it captured the rows after it. Now an unclosed header becomes a
+     zero account, and its rows go back to the parent.
+  3. **Found in the first run (noise, not wrong numbers):**
+     - a line non-zero only in the latest month was double-reported as both "new" and a "spike";
+     - a material 6-month cash decline wasn't flagged because the rule only checked month-over-month.
+  4. **Found when Claude used the skill on Bluebird. Both were my report's fault, not the model's:**
+     - The movers table printed "new" whenever the prior month was 0, so Claude called a quarterly
+       expense (400 in Mar, Jun and Sep) "new". It's now labelled "from 0", and `SKILL.md` says to call
+       a line new only when a flag does.
+     - Percentages were double-rounded (59.551 → 59.55 → "59.5%") while the flags showed "59.6%".
+       Claude noticed and asked the reviewer. Percentages are now stored to 4 decimals.
+
+     Both have regression tests.
+- **Tests:** 27, covering units, synthetic sheets (double counting, mismatch, inference, unmatched
+  total, blank header, blank cells, formula in detail, column order), real-workbook checks against raw
+  rows, portability, and the CLI. A mutation check (Totals treated as detail; cross-check disabled;
+  categorisation disabled) made the suite fail every time.
+
+### D-35: Known limits of the skill (stated in `SKILL.md`)
+- **No forecasting and no accounting judgments.** It doesn't reclassify accounts, decide what is
+  one-off, choose between conflicting subtotals, or estimate runway. Those stay with the reviewer.
+- **Thresholds are heuristics.** The spike rule is noisy on ABC: 6 listed, plus 39 smaller ones counted.
+  Category rules are order-dependent (e.g. "Sales & Marketing - Travel, Meals & Entertainment" lands in
+  Sales & Marketing).
+- **Data needs:** YoY needs 13+ months, and TTM needs 12+.
+- **Evidence base:** tested on two workbooks, one real and one synthetic. Real exports from other QBO
+  regions or versions may surface new header or period formats; the parser warns rather than guessing.
+
+### D-36: Stretch goal (load this workbook into the sandbox, then re-run the skill on live QBO data) is deferred, not abandoned
+- **Decision (2026-10-12):** sequence it last, after Task 3 (evals) and Task 4 (architecture note),
+  because of the 7-day deadline. Tasks 3 and 4 are graded deliverables; the stretch goal is optional.
+- **Planned approach when picked up:** a separate, throwaway write script with its **own short-lived
+  OAuth grant** against the sandbox. It would create the workbook's accounts and post about 18 months of
+  journal entries to reproduce the balances, then re-run the skill on the sandbox's monthly P&L export.
+  The Task 1 read-only MCP setup (`.mcp.json`, launcher, `QUICKBOOKS_DISABLE_*` flags) and Django's
+  OAuth and token code stay untouched.
+- **Known caveat to resolve first:** the current sandbox already holds Intuit's sample data, so the
+  result would be "ABC plus sample data" unless a fresh sandbox company is used.
