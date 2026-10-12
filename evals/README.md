@@ -62,7 +62,13 @@ The harness runs layer 1 too, so both appear in one report.
    commentary. It returns PASS/FAIL plus evidence for every rule. **PASS always means "acceptable on this
    rule"**: for a forbidden rule, PASS means the forbidden content is absent. If the grader fails,
    returns invalid output, or omits or duplicates a rule id, that rule is **BLOCKED**, never PASS.
-5. **A case passes** only if every execution, structured and commentary check passes. Any FAIL makes the
+5. **Number provenance (P1, deterministic):** every number in the commentary must match a value in that
+   run's own JSON or report. The match must be at the number's written precision and inside the rounding
+   policy. Years, dates, counts and references are ignored by an explicit list in `provenance.py`. Unmatched
+   numbers fail, and are listed with their sentence. A round number can coincidentally match an unrelated
+   value, so attribution stays with the grader (DECISIONS_LOG D-44). You can also run it standalone on a
+   saved run: `python evals/provenance.py evals/baseline/clean-run-20261012`.
+6. **A case passes** only if every execution, structured, provenance and commentary check passes. Any FAIL makes the
    case FAIL; otherwise any BLOCKED makes it BLOCKED.
 
 Saved per case under `runs/<id>/<case>/`:

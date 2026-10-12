@@ -26,6 +26,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import provenance  # noqa: E402  (number-provenance check, deterministic)
 EVALS = REPO / "evals"
 SKILL = REPO / ".claude" / "skills" / "monthly-trend-analysis"
 SKILL_PY = SKILL / (".venv/Scripts/python.exe" if platform.system() == "Windows" else ".venv/bin/python")
@@ -58,7 +60,7 @@ def write(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     if isinstance(data, (dict, list)):
         data = json.dumps(data, indent=2, default=str)
-    path.write_text(data, encoding="utf-8")
+    path.write_text(data, encoding="utf-8", newline=chr(10))   # LF, matching .gitattributes (stable hashes)
 
 
 def rel(p):
@@ -455,14 +457,28 @@ def main():
         else:
             print(f"   grading commentary with {GRADER_MODEL}...", flush=True)
             claims = grade(case, commentary, facts, spec["rounding_policy"], cdir / "grader")
+        # P1: every number in the commentary must come from this run's own JSON/report (no model involved).
+        if analysis is not None and commentary is not None:
+            prov = provenance.check(commentary, analysis, md)
+            write(cdir / "provenance.json", prov)
+            bad = [f for f in prov["numbers"] if f["status"] == "UNMATCHED"]
+            prov_checks = [{"id": "P1", "type": "provenance", "status": prov["status"],
+                            "desc": "every number in the commentary matches a value in this run's own output",
+                            "detail": f"{prov['matched']} matched, {prov['ignored']} ignored, {prov['unmatched']} unmatched",
+                            "unmatched": [{"text": f["text"], "sentence": f["sentence"]} for f in bad]}]
+        else:
+            prov_checks = [{"id": "P1", "type": "provenance", "status": "BLOCKED" if not infra_ok else "FAIL",
+                            "desc": "every number in the commentary matches a value in this run's own output",
+                            "detail": "no commentary or no analysis output to check", "unmatched": []}]
         case_result = {"id": case["id"], "title": case["title"], "input": case["input"],
                        "skill_run": {k: meta[k] for k in ("model_requested", "model_reported", "claude_code_version",
                                                           "num_turns", "total_cost_usd", "elapsed_s", "permission_mode")},
-                       "execution": execs, "structured": structured, "commentary": claims}
-        case_result["status"] = case_status(execs + structured + claims)
+                       "execution": execs, "structured": structured, "provenance": prov_checks, "commentary": claims}
+        case_result["status"] = case_status(execs + structured + prov_checks + claims)
         write(cdir / "result.json", case_result)
         results.append(case_result)
         print(f"   {case_result['status']}  (exec {case_status(execs)}, structured {case_status(structured)}, "
+              f"provenance {prov_checks[0]['status']}, "
               f"commentary {case_status(claims) if claims else 'n/a'})", flush=True)
         guard_check(f"case {case['id']}", attributed=meta["outside_changes"]["by_skill"])
 
@@ -507,7 +523,7 @@ def main():
             "grader_calls_usd": round(sum(grader_costs), 4), "grader_calls": len(grader_costs),
             "total_usd": round(skill_cost + sum(grader_costs), 4),
             "basis": "total_cost_usd reported by Claude Code for each call (list prices)"}
-    all_checks = [c for r in results for c in r["execution"] + r["structured"] + r["commentary"]]
+    all_checks = [c for r in results for c in r["execution"] + r["structured"] + r.get("provenance", []) + r["commentary"]]
     score = {s: sum(1 for c in all_checks if c["status"] == s) for s in ("PASS", "FAIL", "BLOCKED")}
     summary = {"manifest": {**manifest, "finished": now()}, "regression_tests": reg, "cases": results,
                "harness_contamination": guard["entries"], "cost": cost,
@@ -542,10 +558,11 @@ def render_report(s):
         c = s["cost"]
         out += ["", f"Cost: ${c['total_usd']:.2f} total = ${c['skill_runs_usd']:.2f} for {c['skill_runs']} skill runs + "
                     f"${c['grader_calls_usd']:.2f} for {c['grader_calls']} grader calls ({c['basis']}).", ""]
-    out += ["| Case | Status | Exec | Structured | Commentary | Turns | Cost $ |", "|---|---|---|---|---|---:|---:|"]
+    out += ["| Case | Status | Exec | Structured | Provenance | Commentary | Turns | Cost $ |", "|---|---|---|---|---|---|---:|---:|"]
     for r in s["cases"]:
         cnt = lambda xs: f"{sum(x['status'] == 'PASS' for x in xs)}/{len(xs)}" if xs else "n/a"
         out.append(f"| `{r['id']}` | **{r['status']}** | {cnt(r['execution'])} | {cnt(r['structured'])} | "
+                   f"{cnt(r.get('provenance', []))} | "
                    f"{cnt(r['commentary'])} | {r['skill_run']['num_turns']} | {r['skill_run']['total_cost_usd'] or 0:.2f} |")
     out.append("")
     for r in s["cases"]:
@@ -560,6 +577,9 @@ def render_report(s):
             src = f"{src['sheet']}!{','.join(src['cells'])}" if isinstance(src, dict) else (src or "")
             out.append(f"| {x['id']} {x['desc']} | {x['status']} | {_short(x.get('expected'))} | "
                        f"{_short(x.get('actual', x.get('error')))} | {src} |")
+        for x in r.get("provenance", []):
+            out += ["", f"Number provenance (P1): **{x['status']}**, {x['detail']}."]
+            out += [f"- UNMATCHED `{u['text']}` in: \"{u['sentence']}\"" for u in x["unmatched"]]
         if r["commentary"]:
             out += ["", "| Claim | Kind | Status | Grader evidence |", "|---|---|---|---|"]
             for x in r["commentary"]:

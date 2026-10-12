@@ -19,3 +19,27 @@
 
 Compare a future run with this baseline case by case and claim by claim. A single run is one sample:
 the first two runs already show that commentary content varies even when every verdict agrees (D-43).
+
+## Addendum (v1): number-provenance check (P1), applied after the fact
+
+P1 was added in a later commit (DECISIONS_LOG D-44), so the baseline run did not include it. It was applied
+**to the saved commentary**, with no new skill runs, using `python evals/provenance.py evals/baseline/clean-run-20261012`.
+The per-number results are in `provenance_addendum_v1.json`.
+
+| Case | Baseline P1 | Matched | Ignored | Unmatched | First run P1 (m/i/u) |
+|---|---|---:|---:|---:|---|
+| `a_abc_jun2026_core` | **PASS** | 50 | 13 | 0 | PASS (45/18/0) |
+| `b_abc_rounding_vanished_lines` | **PASS** | 54 | 17 | 0 | PASS (51/25/0) |
+| `c_bb_subtotal_mismatch` | **PASS** | 44 | 19 | 0 | PASS (42/17/0) |
+| `d_bb_blank_account` | **PASS** | 43 | 20 | 0 | PASS (45/13/0) |
+| `e_abc_dec2025_one_offs` | **PASS** | 48 | 23 | 0 | PASS (50/16/0) |
+| `f_bb_from_zero_label` | **PASS** | 43 | 11 | 0 | PASS (43/13/0) |
+| `g_bb_no_ttm` | **PASS** | 50 | 17 | 0 | PASS (44/15/0) |
+
+**Every number in all 7 baseline commentaries, and all 7 first-run commentaries, traces to that run's own
+output. No number was flagged.** The ignored numbers are only years, days of the month, counts ("6
+consecutive months", "2 of 18"), "N-month" spans and one section reference; see the ignore list in
+`evals/provenance.py`.
+
+Known limitation: a *round* number can match an unrelated value in the output (e.g. "about 2,000"). P1 proves a
+figure exists in the output, not that it is attached to the right label. Attribution stays with the grader (F4).

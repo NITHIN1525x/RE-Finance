@@ -938,3 +938,48 @@ Claude call. Both layers are summarised in one report.
 - **Interpretation:** two runs is too few to estimate flakiness rates. They show verdicts are stable here,
   while the commentary's content and emphasis vary. Repeat runs (for example 3–5 per case) before treating
   any single verdict as definitive.
+
+### D-44: Number-provenance check (P1): deterministic, harness and grading only
+- **Why:** D-43 found that the grader only verifies figures among a case's reference facts. A run could
+  cite other figures, true or false, that nothing verified.
+- **What:** `evals/provenance.py`. Every number in the commentary must match a value in **that run's own**
+  `*-trends.json` (any numeric field) or `*-trends.md` (any number in the report). The harness runs it as
+  check **P1** for every case, and it counts in the score. Any unmatched number fails P1, and the report
+  lists it with its sentence. No model is involved.
+- **Matching = the rounding policy, made precise for a large candidate pool:**
+  - The number must be a plausible rounding of a candidate **at the precision it is written in** (1,045 →
+    ±0.5; 700 → ±50; 70.2% → ±0.05; 1.87M → ±5,000).
+  - It must **also** be inside the policy band (≤5% relative; ≤0.5 pp for percentages).
+  - Magnitudes are compared, because prose carries the sign in words ("down 215,543"); direction stays the
+    grader's job.
+  - A plain 5% band was rejected: against thousands of candidates it matches almost anything.
+- **Explicit ignore list (in the code, each rule documented):**
+  - year (1990–2100, plain);
+  - day of month next to a month name;
+  - count: an integer + a count noun, with at most one *whitelisted* descriptor;
+  - `N of M`;
+  - `N-month` spans;
+  - section/step/`D-` references.
+- **Bugs found by the check's own tests, fixed before commit:**
+  1. The count rule first allowed *any* word before the noun, so "rose by 400 **this** month" was ignored.
+     It now accepts only a short descriptor whitelist ("subtotal", "consecutive", "expense", …).
+  2. "D-04" leaked "04". Fixed.
+
+  Re-running on both saved runs after the fixes gave the same classifications, so neither bug had hidden a
+  real figure.
+- **Result on saved commentary** (no new skill runs): first run 7/7 PASS, baseline 7/7 PASS, **0 unmatched
+  numbers in 14 commentaries** (matched 43–54 and ignored 11–25 per case). Nothing to rule on, so no ignore
+  rules were added to make anything pass. Recorded as the addendum in `evals/baseline/BASELINE.md`, with
+  per-number detail in `provenance_addendum_v1.json`.
+- **Discrimination check (planted into a copy of the real commentary):** caught a random 6-digit figure, a
+  self-computed sum (526,654.24), a true value at the wrong precision (195,900.00 for 195,898.16) and an
+  unknown percentage. Honest rounding ("about 196,000", "roughly 70%") passed.
+- **Known limitation, pinned by a test:** a *round* number can match an unrelated value. "About 300,000"
+  for a 330,756 loss matched COGS TTM 299,409 by coincidence, and "2,000" matched a stray monthly value.
+  P1 proves a figure exists in the output, not that it belongs to the right label; that remains the
+  grader's job (F4 checks named facts).
+- **Tests:** `evals/tests/test_provenance.py` (20), covering parsing, every ignore rule, matching
+  (including the 721 → "roughly 700" ruling), the precision and policy failures, sentence reporting, the
+  limitation, and real baseline artifacts. Harness tests are now 25 in total.
+- **Also in this commit:** `run_evals.write()` now writes LF line endings, so future run artifacts hash the
+  same before and after git (the CRLF issue found while fingerprinting baseline v1).
