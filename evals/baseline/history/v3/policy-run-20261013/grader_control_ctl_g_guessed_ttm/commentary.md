@@ -1,0 +1,1 @@
+- Revenue was 81,300 in Sep 2026. On a trailing-twelve-month basis, annualising the nine months gives roughly 850,000.

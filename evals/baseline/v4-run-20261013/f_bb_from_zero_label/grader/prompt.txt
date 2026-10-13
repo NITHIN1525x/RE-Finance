@@ -1,0 +1,69 @@
+You are a strict, literal auditor grading the COMMENTARY section of a draft monthly financial trend report.
+You do not write or improve commentary. You only decide, for each rule, whether the commentary satisfies it.
+
+You are given one JSON object with:
+- `rounding_policy`: the ONLY rule for judging whether a figure in prose is acceptable.
+- `reference_facts`: true values derived from the source workbook cells. Treat them as ground truth.
+- `rules`: a list of rules. Each has `id`, `kind` ("required" or "forbidden") and `claim`.
+- `commentary`: the exact text to grade.
+
+How to grade each rule:
+- `required`: PASS only if the commentary actually makes that claim, including every element the claim
+  names, and any figure it uses is consistent with the reference facts under the rounding policy.
+  FAIL if the claim is missing, only partly made, or made with a misstated figure.
+- `forbidden`: PASS if the commentary does NOT contain the forbidden content. FAIL if it does.
+  So for every rule, PASS always means "the commentary is acceptable on this rule".
+- Judge only what the commentary text says. Do not assume content that isn't there. Do not penalise
+  content that no rule mentions.
+- Apply the rounding policy exactly as written. Compute the relative difference when it matters, and
+  state it in the evidence.
+- A rule that says it PASSES when some condition is absent (e.g. "if no such figures are given, PASS")
+  must PASS when the condition is absent.
+
+Return one verdict for EVERY rule id, exactly once. `evidence` must be one or two sentences: quote the
+relevant words from the commentary (or say they are absent), and give the reason, citing a reference
+fact where relevant.
+
+INPUT:
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "bb.mystery_shopper.monthly",
+      "value": "[0.0, 0.0, 400.0, 0.0, 0.0, 400.0, 0.0, 0.0, 400.0]",
+      "meaning": "Jan..Sep 2026",
+      "source": "Profit and Loss!B31:J31"
+    },
+    {
+      "id": "bb.mystery_shopper.nonzero_before_sep",
+      "value": "[\"Mar 2026\", \"Jun 2026\"]",
+      "meaning": "months before Sep with a non-zero value (so it is NOT new in Sep)",
+      "source": "Profit and Loss!B31:I31"
+    },
+    {
+      "id": "bb.wholesale.blank_before_sep",
+      "value": "true",
+      "meaning": "empty Jan..Aug 2026",
+      "source": "Profit and Loss!B10:I10"
+    },
+    {
+      "id": "bb.wholesale.sep2026",
+      "value": "12,000",
+      "meaning": "Wholesale Accounts, Sep 2026",
+      "source": "Profit and Loss!J10"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Identifies Wholesale Accounts as a new revenue stream in Sep 2026 (about 12,000; zero or absent in prior months)."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes Mystery Shopper Program as new, first appearing, or appearing for the first time in Sep 2026. (It was also 400 in Mar and Jun 2026. Saying it was zero in Aug, or rose 'from 0', is allowed.)"
+    }
+  ],
+  "commentary": "- **Data quality first:** 'Total for Professional Services' in Mar 2026 states 2,225 but its detail rows sum to 2,200 (diff 25). The analysis uses the detail rows; reviewer to confirm which figure is right. The structure was also partly reconstructed: 'Total Delivery' had no header, so it was grouped from Delivery Van Fuel and Courier: Same Day. 'Charitable Donations' had no values and no total row, so it was treated as an all-blank account.\n- **Comparisons not available:** TTM and year-over-year comparisons can't be computed because the export covers only 9 months (Jan\u2013Sep 2026).\n- **Revenue 81,300 in Sep 2026**, +17.7% vs Aug 2026 (69,050) and +17.3% vs the prior 6-month average (69,292). 'Wholesale Accounts' is flagged as a new stream: 12,000 in Sep 2026 and zero in the prior 6 months. Excluding it, streams were mixed: Bread Sales 49,200 (+1.9%), Pastry Sales 15,700 (-2.2%, down every month shown), Catering Revenue 3,800 (-5.0%).\n- **Gross margin 65.3%**, up from 59.6% in Aug 2026 (+5.7 pp), against a prior 6-month average of 60.6%. It is the highest month in the period (range 56.8% in Mar 2026 to 65.3%).\n- **Payroll & Benefits 22,600**, +5,000 (+28.4%) vs Aug 2026, after five months at 17,600. The increase is all in Wages & Salaries (16,000 to 21,000, +31.2%). Whether this is a new run-rate or a one-off is for the reviewer to confirm. Total operating expenses were 31,570 (+21.0%).\n- **Mystery Shopper Program 400** shows as \"from 0\" in the movers table, but it isn't new: it also recorded 400 in Mar 2026 and Jun 2026, so it looks like a quarterly item. Reviewer to confirm.\n- **Net income 21,553**, up from 15,077 in Aug 2026 and positive in all 9 months. No non-operating items affect it.\n- **Cash: Bank Accounts 37,600**, -1,800 vs Aug 2026 and -10,800 vs six months earlier (48,400), while net income was positive. The reviewer may want to look into what is driving the cash decline. Also for review: Gift Cards was negative in Mar 2026 (-300, possibly credits/refunds), and three accounts fell into Other Opex (Instagram Ads, Mystery Shopper Program, Supplier Rebates)."
+}

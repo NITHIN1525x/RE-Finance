@@ -4,7 +4,7 @@
 
 | Layer | What it checks | Where |
 |---|---|---|
-| **1. Deterministic extractor** | parsing, the subtotal rule, category roll-ups, MoM / TTM / YoY math | `.claude/skills/monthly-trend-analysis/tests/test_trends.py` (30 unit and regression tests). Task 3 added one test for a real gap: TTM / YoY values were never asserted. |
+| **1. Deterministic extractor** | parsing, the subtotal rule, category roll-ups, MoM / TTM / YoY math | `.claude/skills/monthly-trend-analysis/tests/test_trends.py` (31 unit and regression tests). Task 3 added one test for a real gap: TTM / YoY values were never asserted. |
 | **2. Skill end to end** | the real skill run by Claude Code, **including the commentary Claude writes**, which can drift even when the extractor is right | this folder: 7 golden cases |
 
 The harness runs layer 1 too, so both appear in one report.
@@ -136,7 +136,7 @@ Exit codes:
 - 3: harness contamination;
 - 2: BLOCKED only.
 
-The baseline is in `evals/baseline/`: v3 is current, and earlier versions are in `history/`; see `BASELINE.md`. To compare a run with it: `python evals/compare_runs.py evals/baseline/policy-run-20261013 evals/runs/<run-id>`.
+The baseline is in `evals/baseline/`: v4 is current, and earlier versions are in `history/`; see `BASELINE.md`. To compare a run with it: `python evals/compare_runs.py evals/baseline/v4-run-20261013 evals/runs/<run-id>`.
 
 ## Known limits
 

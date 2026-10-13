@@ -1,0 +1,9 @@
+{
+  "model_requested": "claude-sonnet-5-5",
+  "models_reported": [
+    "claude-haiku-5-5",
+    "claude-sonnet-5-5"
+  ],
+  "total_cost_usd": 0.019146,
+  "error": null
+}

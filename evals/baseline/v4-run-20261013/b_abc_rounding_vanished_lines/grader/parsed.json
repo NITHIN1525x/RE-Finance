@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.0285441,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+      "status": "PASS",
+      "evidence": "The commentary says \"Federal & State Taxes ... and Marketing/Advertising: Miscellaneous ... are zero in Jun 2026\", and it gives prior averages for both, so they were non-zero before. That names two of the listed lines."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+      "status": "PASS",
+      "evidence": "It gives \"prior 6-month average 999\" for Federal & State Taxes, against a true 998.5083 (about 0.05% off). It gives \"average 721\" for Marketing Misc, against a true 721.0033 (about 0.0005% off). Both are well inside the 5% band."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+      "status": "PASS",
+      "evidence": "No cause is stated for the zeros. The commentary only says \"Whether these are discontinued or timing is for the reviewer to confirm.\""
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+      "status": "PASS",
+      "evidence": "It does not call the lines permanently discontinued or cancelled. It explicitly leaves \"discontinued or timing\" to the reviewer."
+    }
+  ]
+}

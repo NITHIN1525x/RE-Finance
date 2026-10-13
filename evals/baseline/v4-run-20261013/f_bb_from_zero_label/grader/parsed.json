@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.022278,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Identifies Wholesale Accounts as a new revenue stream in Sep 2026 (about 12,000; zero or absent in prior months).",
+      "status": "PASS",
+      "evidence": "Commentary says \"'Wholesale Accounts' is flagged as a new stream: 12,000 in Sep 2026 and zero in the prior 6 months,\" matching the reference value of 12,000 and blank Jan\u2013Aug."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes Mystery Shopper Program as new, first appearing, or appearing for the first time in Sep 2026. (It was also 400 in Mar and Jun 2026. Saying it was zero in Aug, or rose 'from 0', is allowed.)",
+      "status": "PASS",
+      "evidence": "Commentary says Mystery Shopper Program \"shows as 'from 0'... but it isn't new: it also recorded 400 in Mar 2026 and Jun 2026,\" so it does not describe the item as new in Sep."
+    }
+  ]
+}

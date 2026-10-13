@@ -1,0 +1,2 @@
+prediction stated at 2026-10-13T03:19:00Z
+vs baseline v3 (policy-run-20261013): same 132 check ids; every execution, structured and P1 verdict identical (PASS). Reports now name the workbook file only (no check reads it). Commentary may differ because of CLAUDE.md, the hook, the invented style example and the de-leaked TTM example; case g R1 is the claim most likely to move (the leaked sentence is gone). Any commentary flip resamples to 4 samples. Expect no BLOCK (PASS, or at most UNSTABLE).

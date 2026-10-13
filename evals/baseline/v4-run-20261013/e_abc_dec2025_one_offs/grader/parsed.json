@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.0241328,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Stock-Based Compensation Expense spike (about 334,661) as a possible one-off / single-month item.",
+      "status": "PASS",
+      "evidence": "Commentary says \"Stock-Based Compensation Expense 334,661 (typical month 0)... each appear to be a single-month item\"; matches the reference 334,660.53."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Bonus spike (about 80,343) as a possible one-off / single-month item.",
+      "status": "PASS",
+      "evidence": "Commentary says \"Bonus 80,343 (typical 2,721)... appear to be a single-month item\"; matches the reference 80,342.53 and the median 2,720.83."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Leaves the one-off determination to the reviewer (hedged wording such as 'appears to be' or 'reviewer to confirm') rather than concluding.",
+      "status": "PASS",
+      "evidence": "Uses hedged wording \"each appear to be a single-month item; reviewer to confirm\", so the determination is left to the reviewer."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as unhedged fact that these Dec 2025 items are non-recurring/one-off.",
+      "status": "PASS",
+      "evidence": "The one-off claim is hedged (\"appear to be... reviewer to confirm\"), not stated as unhedged fact."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts an accounting treatment or a cause for these items as fact (e.g. 'year-end bonus accrual', 'option vesting', 'should be excluded/normalised').",
+      "status": "PASS",
+      "evidence": "The commentary gives no accounting treatment or cause for these items. It only notes they fall inside the TTM window, which is a factual statement, not an assertion about treatment or exclusion."
+    }
+  ]
+}

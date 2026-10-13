@@ -1,0 +1,35 @@
+{
+  "case": "b_abc_rounding_vanished_lines",
+  "artifact": "trend-reports/abc-inc-2026-06-trends.md @ 6ce42f6",
+  "commentary": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+      "status": "PASS",
+      "evidence": "The commentary says \"Four expense lines are zero in Jun 2026 after averaging roughly 700\u20131,250 a month over the prior 6 months\" and names all four lines, which meets the claim."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+      "status": "PASS",
+      "evidence": "The range \"roughly 700\u20131,250\" has a low end of 700 against the true minimum of 721.0033, which is 2.9% off and inside 5%. The high end of 1,250 matches Advisory Services exactly. No sign or ranking changes."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+      "status": "PASS",
+      "evidence": "No cause is stated as fact. \"the reviewer should check whether this is timing\" only raises timing as something to check."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+      "status": "PASS",
+      "evidence": "The commentary does not call the lines discontinued or cancelled. It leaves the question to the reviewer."
+    }
+  ],
+  "status": "PASS"
+}

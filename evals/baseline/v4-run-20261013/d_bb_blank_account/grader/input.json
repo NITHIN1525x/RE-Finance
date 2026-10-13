@@ -1,0 +1,17 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [],
+  "rules": [
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes 'Charitable Donations' as having spend/activity, or as a group or category containing other accounts."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Says Instagram Ads or Mystery Shopper Program belong to a 'Charitable Donations' or 'Finance & Admin' category."
+    }
+  ],
+  "commentary": "- **Data quality first:** 'Total for Professional Services' in Mar 2026 states 2,225 but its detail rows sum to 2,200 (diff 25); the analysis uses the detail rows, and the reviewer should confirm which figure is right. Two structural notes: 'Charitable Donations' has no values in any of the 9 months and no total row, so it was treated as an all-blank account (0) and the 4 rows after it were kept at the parent level; 'Total Delivery' had no header row, so its group (Delivery Van Fuel, Courier: Same Day) was reconstructed because those rows sum to it in every month.\n- **Revenue 81,300 in Sep 2026**, +17.7% vs Aug 2026 (69,050) and +17.3% vs the prior 6-month average (69,292). Sep includes 12,000 from 'Wholesale Accounts', which is flagged as a new stream (zero in the prior 6 months, and zero in every earlier month of the export).\n- **Comparisons not available:** TTM and year-over-year figures can't be computed, because the export covers only 9 months (Jan\u2013Sep 2026).\n- **Streams:** Bread Sales 49,200 (+1.9%) rose in every month shown, while Pastry Sales 15,700 (-2.2%) fell in every month shown; Catering Revenue was 3,800 (-5.0%), after 9,100 in Jul 2026 and 4,000 in Aug 2026. Gift Cards was negative in Mar 2026 (-300), possibly credits or refunds; reviewer to confirm.\n- **Gross margin 65.3%**, up 5.7 pp from 59.6% in Aug 2026 and above the prior 6-month average of 60.6%. It is the highest month in the export (range 56.8% in Mar 2026 to 65.3% in Sep 2026).\n- **Opex 31,570, +21.0% vs Aug 2026.** Payroll & Benefits rose 5,000 (+28.4%) to 22,600, all from Wages & Salaries (16,000 \u2192 21,000; it was 16,000 in every month Jan\u2013Aug 2026). Whether this is a single-month item or a new run-rate is for the reviewer to confirm. Mystery Shopper Program (400) shows as \"from 0\", but it also had 400 in Mar and Jun 2026, so it looks quarterly rather than new.\n- **Net income 21,553**, up from 15,077 in Aug 2026, and positive in all 9 months. No non-operating items (tax, interest) sit in opex, so as-exported and underlying net income are the same.\n- **Cash:** Bank Accounts 37,600 at Sep 2026, -1,800 vs Aug 2026 and -10,800 vs six months earlier (48,400). Equity also moved from 46,560 to 44,940 over the month, even though net income was positive. What drove the cash movement is for the reviewer to confirm."
+}

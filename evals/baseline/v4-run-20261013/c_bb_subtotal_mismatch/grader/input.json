@@ -1,0 +1,46 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "bb.prof_services.mar2026.detail_sum",
+      "value": "2,200",
+      "meaning": "D33+D34 (Bookkeeping + Legal)",
+      "source": "Profit and Loss!D33,D34"
+    },
+    {
+      "id": "bb.prof_services.mar2026.diff",
+      "value": "25",
+      "meaning": "stated - detail sum",
+      "source": "Profit and Loss!D35,D33,D34"
+    },
+    {
+      "id": "bb.prof_services.mar2026.stated",
+      "value": "2,225",
+      "meaning": "Total for Professional Services, Mar 2026",
+      "source": "Profit and Loss!D35"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Reports the data-quality problem: names the Professional Services subtotal, the month (Mar 2026), and the amount (the 25 difference, or both the stated 2,225 and the detail sum 2,200)."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Leaves resolving the mismatch to the reviewer rather than deciding which figure is right."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Says all data-quality checks passed or that the data is clean/reconciled."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts which of the two figures is correct, or that the error was corrected."
+    }
+  ],
+  "commentary": "- **Data quality, check first:** 'Total for Professional Services' in Mar 2026 states 2,225.00, but its detail rows sum to 2,200.00 (diff 25.00). This report uses the detail rows. The reviewer should decide which figure is right. The structure was also partly reconstructed: 'Total Delivery' had no header, so it was grouped from Delivery Van Fuel and Courier: Same Day, and 'Charitable Donations' had no total row, so it was treated as a blank account with the 4 rows after it kept at the parent level.\n- **Revenue 81,300 in Sep 2026**, +17.7% vs Aug 2026 (69,050) and +17.3% vs the prior 6-month average (69,292). TTM and year-over-year comparisons aren't available because the export covers only 9 months (Jan\u2013Sep 2026).\n- **Wholesale Accounts: 12,000 in Sep 2026, a new revenue stream** that is zero in every earlier month of the export. Whether it will recur is for the reviewer to confirm. Among existing streams, Bread Sales rose 1.9% to 49,200, and Pastry Sales fell 2.2% to 15,700. Pastry Sales has fallen month over month in every month shown (Apr\u2013Sep 2026). Catering Revenue fell 5.0% to 3,800 after a 56.0% fall in Aug 2026.\n- **Gross margin 65.3%**, up 5.7 pp from 59.6% in Aug 2026 and above the prior 6-month average of 60.6%. It is the highest month in the period (range 56.8% in Mar 2026 to 65.3% in Sep 2026).\n- **Payroll & Benefits 22,600**, up 28.4% (+5,000) on Aug 2026, and Wages & Salaries rose 5,000 (16,000 \u2192 21,000, +31.2%). Total operating expenses rose 21.0% to 31,570. Mystery Shopper Program (400) shows \"from 0\", but it was also 400 in Mar and Jun 2026, so it looks like a quarterly line rather than a new one. Reviewer to confirm.\n- **Net income 21,553** vs 15,077 in Aug 2026, and positive in all 9 months. No non-operating items sit inside operating expenses in this export, so the as-exported and underlying figures are the same.\n- **Bank Accounts 37,600**, down 1,800 on Aug 2026 and down 10,800 from six months earlier (48,400), even though net income was positive every month. Equity also fell, from 54,660 to 44,940 over the same six months. The reviewer may want to look at what drove the cash movement (the data doesn't show it).\n- **Other items to check:** Gift Cards was negative in Mar 2026 (-300), possibly credits or refunds; reviewer to confirm. Three expense accounts matched no category rule and sit in Other Opex: Instagram Ads, Mystery Shopper Program and Supplier Rebates. Supplier Rebates is a credit (-250 in Sep 2026)."
+}

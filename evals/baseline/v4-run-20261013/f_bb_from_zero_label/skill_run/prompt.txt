@@ -1,0 +1,1 @@
+Can you do the monthly trends write-up for Bluebird Bakery for September 2026? Their export is at .claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx. Draft for the reviewer please, and save the files in evals/runs/v4-run-20261013/f_bb_from_zero_label/skill_output.

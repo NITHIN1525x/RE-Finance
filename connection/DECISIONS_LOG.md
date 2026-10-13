@@ -1289,3 +1289,36 @@ Claude call. Both layers are summarised in one report.
   - None on structured checks (no golden reads `source_file`).
   - Commentary may differ only through the style example.
   - Verified by the v4 run (D-55).
+
+### D-55: Full run after the skill-environment changes; baseline v4
+- **Why a run:** the skill's environment changed in five ways:
+  - `CLAUDE.md` (loaded by eval skill runs, which start in the repo root);
+  - the `.secrets` guard hook in `.claude/settings.json` (D-53);
+  - the invented style example (D-54);
+  - the de-leaked TTM example (D-54);
+  - reports naming the workbook file only (D-54).
+- **Hook verified first:** a fresh `claude -p` started in the repo root, with no `--settings` flag, had
+  `test -d connection/.secrets` blocked by the hook, with the D-53 message and no file names returned.
+  - Allowed calls leave no trace in the transcripts, so the eval runs can't show the hook firing.
+  - The harness starts `claude -p` the same way (repo root, no `--setting-sources` override).
+- **Prediction, written before the run** (`evals/baseline/v4-run-20261013.prediction.txt`, 2026-10-13T03:19:00Z):
+  - the same 132 check ids, with no deterministic verdict change;
+  - commentary may differ, with case g R1 the most likely to move;
+  - no BLOCK.
+- **Result** (`v4-run-20261013`):
+  - **132/132 PASS, 7/7 cases, 0 UNSTABLE**, no commentary flip, so no resampling;
+  - no contamination; 31/31 regression tests; grader controls 3/3;
+  - **$3.05**.
+  - `compare_runs.py` against v3 finds **no difference**, which matches the prediction.
+- **Case g without the leak:** the commentary still says "TTM and year-over-year comparisons can't be computed,
+  because the export covers only 9 months (Jan–Sep 2026)". Its figures now come from the data, not from an example
+  in the instructions, and R1 passed.
+  - That is **one sample**: it shows the rule works without the leaked sentence, not a pass rate.
+- **Seen in passing:** in case a the skill tried an unapproved PowerShell process listing, which Claude Code's
+  permission check denied (not the hook). Earlier baselines had 4 such denials, so this isn't new, and the case
+  passed.
+- **Baseline v4** = verbatim copy in `evals/baseline/v4-run-20261013/` (166 files; fingerprint in `BASELINE.md`).
+  v3 moved to `evals/baseline/history/v3/`, and `current.json` now points to v4.
+- **Spend:** this run cost $3.05. Plus $0.02 of `claude -p` checks: the hook tests ($0.003 each) and the fresh-clone
+  skill run ($0.012).
+  - Eval spend to date: **$26.04** ($22.99 + $3.05).

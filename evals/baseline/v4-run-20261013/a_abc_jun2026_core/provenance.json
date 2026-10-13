@@ -1,0 +1,502 @@
+{
+  "status": "PASS",
+  "unmatched": 0,
+  "matched": 43,
+  "ignored": 25,
+  "numbers": [
+    {
+      "text": "2026",
+      "sentence": "- **Data quality:** all six cross-checks pass (subtotals, gross profit, operating income, net income, balance sheet), with no parsing warnings, and Jun 2026 is not flagged as a partial month.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "195,898",
+      "sentence": "- **Revenue:** 195,898 in Jun 2026, down 6.0% from May 2026 (208,351, the highest month in the export), so the decline is measured from a peak.",
+      "status": "MATCHED",
+      "value": 195898.0,
+      "matched_value": 195898.0,
+      "source": "report:'al month.\n- **Revenue:** 195,898 in J'"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Revenue:** 195,898 in Jun 2026, down 6.0% from May 2026 (208,351, the highest month in the export), so the decline is measured from a peak.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "6.0%",
+      "sentence": "- **Revenue:** 195,898 in Jun 2026, down 6.0% from May 2026 (208,351, the highest month in the export), so the decline is measured from a peak.",
+      "status": "MATCHED",
+      "value": 6.0,
+      "matched_value": 6.0,
+      "source": "json:net_income.negative_streak_months"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Revenue:** 195,898 in Jun 2026, down 6.0% from May 2026 (208,351, the highest month in the export), so the decline is measured from a peak.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "(208,351",
+      "sentence": "- **Revenue:** 195,898 in Jun 2026, down 6.0% from May 2026 (208,351, the highest month in the export), so the decline is measured from a peak.",
+      "status": "MATCHED",
+      "value": 208351.0,
+      "matched_value": 208351.0,
+      "source": "report:'down 6.0% from May 2026 (208,351, the'"
+    },
+    {
+      "text": "0.5%",
+      "sentence": "It is 0.5% below the prior 6-month average (196,946) and 2.8% above Jun 2025 (190,556).",
+      "status": "MATCHED",
+      "value": 0.5,
+      "matched_value": 0.5,
+      "source": "report:'sured from a peak. It is 0.5% belo'"
+    },
+    {
+      "text": "6",
+      "sentence": "It is 0.5% below the prior 6-month average (196,946) and 2.8% above Jun 2025 (190,556).",
+      "status": "IGNORED",
+      "rule": "span"
+    },
+    {
+      "text": "(196,946)",
+      "sentence": "It is 0.5% below the prior 6-month average (196,946) and 2.8% above Jun 2025 (190,556).",
+      "status": "MATCHED",
+      "value": 196946.0,
+      "matched_value": 196946.0,
+      "source": "report:'he prior 6-month average (196,946) and'"
+    },
+    {
+      "text": "2.8%",
+      "sentence": "It is 0.5% below the prior 6-month average (196,946) and 2.8% above Jun 2025 (190,556).",
+      "status": "MATCHED",
+      "value": 2.8,
+      "matched_value": 2.8,
+      "source": "report:'th average (196,946) and 2.8% abov'"
+    },
+    {
+      "text": "2025",
+      "sentence": "It is 0.5% below the prior 6-month average (196,946) and 2.8% above Jun 2025 (190,556).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "(190,556)",
+      "sentence": "It is 0.5% below the prior 6-month average (196,946) and 2.8% above Jun 2025 (190,556).",
+      "status": "MATCHED",
+      "value": 190556.0,
+      "matched_value": 190556.0,
+      "source": "report:'and 2.8% above Jun 2025 (190,556).\n- *'"
+    },
+    {
+      "text": "77.7%",
+      "sentence": "- **Revenue streams:** Usage Fees, 77.7% of TTM revenue, fell 6.3% to 166,782.",
+      "status": "MATCHED",
+      "value": 77.7,
+      "matched_value": 77.7,
+      "source": "report:'e streams:** Usage Fees, 77.7% of T'"
+    },
+    {
+      "text": "6.3%",
+      "sentence": "- **Revenue streams:** Usage Fees, 77.7% of TTM revenue, fell 6.3% to 166,782.",
+      "status": "MATCHED",
+      "value": 6.3,
+      "matched_value": 6.3,
+      "source": "json:gross_margin.cogs_lines[1].ttm_monthly[11]"
+    },
+    {
+      "text": "166,782",
+      "sentence": "- **Revenue streams:** Usage Fees, 77.7% of TTM revenue, fell 6.3% to 166,782.",
+      "status": "MATCHED",
+      "value": 166782.0,
+      "matched_value": 166782.0,
+      "source": "report:'TM revenue, fell 6.3% to 166,782. Pro'"
+    },
+    {
+      "text": "2026",
+      "sentence": "Professional Services and Partnership Income are zero in Jun 2026, and SKU Profiling has been zero since May 2026 (last non-zero Apr 2026, 10,000).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "2026",
+      "sentence": "Professional Services and Partnership Income are zero in Jun 2026, and SKU Profiling has been zero since May 2026 (last non-zero Apr 2026, 10,000).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "2026",
+      "sentence": "Professional Services and Partnership Income are zero in Jun 2026, and SKU Profiling has been zero since May 2026 (last non-zero Apr 2026, 10,000).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "10,000)",
+      "sentence": "Professional Services and Partnership Income are zero in Jun 2026, and SKU Profiling has been zero since May 2026 (last non-zero Apr 2026, 10,000).",
+      "status": "MATCHED",
+      "value": 10000.0,
+      "matched_value": 10000.0,
+      "source": "json:revenue.streams[5].monthly[15]"
+    },
+    {
+      "text": "70.2%",
+      "sentence": "- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%), but 4.2 pp below Jun 2025 (74.3%).",
+      "status": "MATCHED",
+      "value": 70.2,
+      "matched_value": 70.2,
+      "source": "report:'ing.\n- **Gross margin:** 70.2% in J'"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%), but 4.2 pp below Jun 2025 (74.3%).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "3.1 pp",
+      "sentence": "- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%), but 4.2 pp below Jun 2025 (74.3%).",
+      "status": "MATCHED",
+      "value": 3.1,
+      "matched_value": 3.1,
+      "source": "report:'** 70.2% in Jun 2026, up 3.1 pp from'"
+    },
+    {
+      "text": "67.0%",
+      "sentence": "- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%), but 4.2 pp below Jun 2025 (74.3%).",
+      "status": "MATCHED",
+      "value": 67.0,
+      "matched_value": 67.0,
+      "source": "report:'Jun 2026, up 3.1 pp from 67.0% in M'"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%), but 4.2 pp below Jun 2025 (74.3%).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "6",
+      "sentence": "- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%), but 4.2 pp below Jun 2025 (74.3%).",
+      "status": "IGNORED",
+      "rule": "span"
+    },
+    {
+      "text": "(70.2%)",
+      "sentence": "- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%), but 4.2 pp below Jun 2025 (74.3%).",
+      "status": "MATCHED",
+      "value": 70.2,
+      "matched_value": 70.2,
+      "source": "report:'ing.\n- **Gross margin:** 70.2% in J'"
+    },
+    {
+      "text": "4.2 pp",
+      "sentence": "- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%), but 4.2 pp below Jun 2025 (74.3%).",
+      "status": "MATCHED",
+      "value": 4.2,
+      "matched_value": 4.2,
+      "source": "report:'nth average (70.2%), but 4.2 pp belo'"
+    },
+    {
+      "text": "2025",
+      "sentence": "- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%), but 4.2 pp below Jun 2025 (74.3%).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "(74.3%)",
+      "sentence": "- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%), but 4.2 pp below Jun 2025 (74.3%).",
+      "status": "MATCHED",
+      "value": 74.3,
+      "matched_value": 74.3,
+      "source": "report:'ut 4.2 pp below Jun 2025 (74.3%). TTM'"
+    },
+    {
+      "text": "69.5%",
+      "sentence": "TTM gross margin is 69.5%.",
+      "status": "MATCHED",
+      "value": 69.5,
+      "matched_value": 69.5,
+      "source": "report:'3%). TTM gross margin is 69.5%.\n- *'"
+    },
+    {
+      "text": "468,318",
+      "sentence": "- **Operating costs:** 468,318 excluding non-operating items, down 2.4% from May 2026.",
+      "status": "MATCHED",
+      "value": 468318.0,
+      "matched_value": 468318.0,
+      "source": "report:'.\n- **Operating costs:** 468,318 excl'"
+    },
+    {
+      "text": "2.4%",
+      "sentence": "- **Operating costs:** 468,318 excluding non-operating items, down 2.4% from May 2026.",
+      "status": "MATCHED",
+      "value": 2.4,
+      "matched_value": 2.4,
+      "source": "report:'on-operating items, down 2.4% from'"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Operating costs:** 468,318 excluding non-operating items, down 2.4% from May 2026.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "15,243",
+      "sentence": "Finance & Admin swung from 15,243 to (993), with Bad Debts moving from 12,935 to (1,806); Events & Conferences rose from 11,324 to 29,295, and Partnerships Commission fell from 10,800 to 1,800.",
+      "status": "MATCHED",
+      "value": 15243.0,
+      "matched_value": 15243.0,
+      "source": "report:'nance & Admin swung from 15,243 to ('"
+    },
+    {
+      "text": "(993)",
+      "sentence": "Finance & Admin swung from 15,243 to (993), with Bad Debts moving from 12,935 to (1,806); Events & Conferences rose from 11,324 to 29,295, and Partnerships Commission fell from 10,800 to 1,800.",
+      "status": "MATCHED",
+      "value": 993.0,
+      "matched_value": 993.0,
+      "source": "report:'min swung from 15,243 to (993), wit'"
+    },
+    {
+      "text": "12,935",
+      "sentence": "Finance & Admin swung from 15,243 to (993), with Bad Debts moving from 12,935 to (1,806); Events & Conferences rose from 11,324 to 29,295, and Partnerships Commission fell from 10,800 to 1,800.",
+      "status": "MATCHED",
+      "value": 12935.0,
+      "matched_value": 12935.0,
+      "source": "report:'th Bad Debts moving from 12,935 to ('"
+    },
+    {
+      "text": "(1,806)",
+      "sentence": "Finance & Admin swung from 15,243 to (993), with Bad Debts moving from 12,935 to (1,806); Events & Conferences rose from 11,324 to 29,295, and Partnerships Commission fell from 10,800 to 1,800.",
+      "status": "MATCHED",
+      "value": 1806.0,
+      "matched_value": 1806.0,
+      "source": "report:'ts moving from 12,935 to (1,806); Eve'"
+    },
+    {
+      "text": "11,324",
+      "sentence": "Finance & Admin swung from 15,243 to (993), with Bad Debts moving from 12,935 to (1,806); Events & Conferences rose from 11,324 to 29,295, and Partnerships Commission fell from 10,800 to 1,800.",
+      "status": "MATCHED",
+      "value": 11324.0,
+      "matched_value": 11324.0,
+      "source": "report:'& Conferences rose from 11,324 to 2'"
+    },
+    {
+      "text": "29,295",
+      "sentence": "Finance & Admin swung from 15,243 to (993), with Bad Debts moving from 12,935 to (1,806); Events & Conferences rose from 11,324 to 29,295, and Partnerships Commission fell from 10,800 to 1,800.",
+      "status": "MATCHED",
+      "value": 29295.0,
+      "matched_value": 29295.0,
+      "source": "report:'nces rose from 11,324 to 29,295, and'"
+    },
+    {
+      "text": "10,800",
+      "sentence": "Finance & Admin swung from 15,243 to (993), with Bad Debts moving from 12,935 to (1,806); Events & Conferences rose from 11,324 to 29,295, and Partnerships Commission fell from 10,800 to 1,800.",
+      "status": "MATCHED",
+      "value": 10800.0,
+      "matched_value": 10800.0,
+      "source": "json:operating_expenses.accounts[64].monthly[16]"
+    },
+    {
+      "text": "1,800",
+      "sentence": "Finance & Admin swung from 15,243 to (993), with Bad Debts moving from 12,935 to (1,806); Events & Conferences rose from 11,324 to 29,295, and Partnerships Commission fell from 10,800 to 1,800.",
+      "status": "MATCHED",
+      "value": 1800.0,
+      "matched_value": 1800.0,
+      "source": "json:revenue.streams[4].monthly[1]"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Expense lines at zero:** Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "2026",
+      "sentence": "Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773), and Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "2026",
+      "sentence": "Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773), and Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "3,773)",
+      "sentence": "Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773), and Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500).",
+      "status": "MATCHED",
+      "value": 3773.0,
+      "matched_value": 3773.0,
+      "source": "report:'(last non-zero Mar 2026, 3,773), and'"
+    },
+    {
+      "text": "2026",
+      "sentence": "Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773), and Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "2026",
+      "sentence": "Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773), and Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "2,500)",
+      "sentence": "Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773), and Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500).",
+      "status": "MATCHED",
+      "value": 2500.0,
+      "matched_value": 2500.0,
+      "source": "json:operating_expenses.accounts[1].monthly[12]"
+    },
+    {
+      "text": "(330,756)",
+      "sentence": "- **Net income:** (330,756) in Jun 2026, the sixth consecutive negative month (TTM (3,089,780); negative in 17 of 18 months).",
+      "status": "MATCHED",
+      "value": 330756.0,
+      "matched_value": 330756.0,
+      "source": "report:'iming.\n- **Net income:** (330,756) in J'"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Net income:** (330,756) in Jun 2026, the sixth consecutive negative month (TTM (3,089,780); negative in 17 of 18 months).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "(3,089,780)",
+      "sentence": "- **Net income:** (330,756) in Jun 2026, the sixth consecutive negative month (TTM (3,089,780); negative in 17 of 18 months).",
+      "status": "MATCHED",
+      "value": 3089780.0,
+      "matched_value": 3089780.0,
+      "source": "report:'tive negative month (TTM (3,089,780); neg'"
+    },
+    {
+      "text": "17",
+      "sentence": "- **Net income:** (330,756) in Jun 2026, the sixth consecutive negative month (TTM (3,089,780); negative in 17 of 18 months).",
+      "status": "IGNORED",
+      "rule": "n_of_m"
+    },
+    {
+      "text": "18",
+      "sentence": "- **Net income:** (330,756) in Jun 2026, the sixth consecutive negative month (TTM (3,089,780); negative in 17 of 18 months).",
+      "status": "IGNORED",
+      "rule": "count"
+    },
+    {
+      "text": "2025",
+      "sentence": "The only positive month, Dec 2025 (534,551), is positive only because of non-operating items, chiefly the Income Tax Benefit (-1,244,430); excluding them it is (715,902).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "(534,551)",
+      "sentence": "The only positive month, Dec 2025 (534,551), is positive only because of non-operating items, chiefly the Income Tax Benefit (-1,244,430); excluding them it is (715,902).",
+      "status": "MATCHED",
+      "value": 534551.0,
+      "matched_value": 534551.0,
+      "source": "report:'positive month, Dec 2025 (534,551), is'"
+    },
+    {
+      "text": "(-1,244,430)",
+      "sentence": "The only positive month, Dec 2025 (534,551), is positive only because of non-operating items, chiefly the Income Tax Benefit (-1,244,430); excluding them it is (715,902).",
+      "status": "MATCHED",
+      "value": 1244430.0,
+      "matched_value": 1244430.0,
+      "source": "report:'y the Income Tax Benefit (-1,244,430); exc'"
+    },
+    {
+      "text": "(715,902)",
+      "sentence": "The only positive month, Dec 2025 (534,551), is positive only because of non-operating items, chiefly the Income Tax Benefit (-1,244,430); excluding them it is (715,902).",
+      "status": "MATCHED",
+      "value": 715902.0,
+      "matched_value": 715902.0,
+      "source": "report:'0); excluding them it is (715,902). Tha'"
+    },
+    {
+      "text": "(334,661)",
+      "sentence": "That month's Stock-Based Compensation (334,661) and Bonus (80,343) appear to be single-month items; the reviewer should confirm.",
+      "status": "MATCHED",
+      "value": 334661.0,
+      "matched_value": 334661.0,
+      "source": "report:'Stock-Based Compensation (334,661) and'"
+    },
+    {
+      "text": "(80,343)",
+      "sentence": "That month's Stock-Based Compensation (334,661) and Bonus (80,343) appear to be single-month items; the reviewer should confirm.",
+      "status": "MATCHED",
+      "value": 80343.0,
+      "matched_value": 80343.0,
+      "source": "report:'tion (334,661) and Bonus (80,343) appe'"
+    },
+    {
+      "text": "713,481",
+      "sentence": "- **Cash:** Cash and Cash Equivalents is 713,481 at Jun 2026, down 215,543 from May 2026 and 1,871,836 lower than six months earlier (2,585,317).",
+      "status": "MATCHED",
+      "value": 713481.0,
+      "matched_value": 713481.0,
+      "source": "report:'and Cash Equivalents is 713,481 at J'"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Cash:** Cash and Cash Equivalents is 713,481 at Jun 2026, down 215,543 from May 2026 and 1,871,836 lower than six months earlier (2,585,317).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "215,543",
+      "sentence": "- **Cash:** Cash and Cash Equivalents is 713,481 at Jun 2026, down 215,543 from May 2026 and 1,871,836 lower than six months earlier (2,585,317).",
+      "status": "MATCHED",
+      "value": 215543.0,
+      "matched_value": 215543.0,
+      "source": "report:'13,481 at Jun 2026, down 215,543 from'"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Cash:** Cash and Cash Equivalents is 713,481 at Jun 2026, down 215,543 from May 2026 and 1,871,836 lower than six months earlier (2,585,317).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "1,871,836",
+      "sentence": "- **Cash:** Cash and Cash Equivalents is 713,481 at Jun 2026, down 215,543 from May 2026 and 1,871,836 lower than six months earlier (2,585,317).",
+      "status": "MATCHED",
+      "value": 1871836.0,
+      "matched_value": 1871836.0,
+      "source": "report:'15,543 from May 2026 and 1,871,836 lowe'"
+    },
+    {
+      "text": "(2,585,317)",
+      "sentence": "- **Cash:** Cash and Cash Equivalents is 713,481 at Jun 2026, down 215,543 from May 2026 and 1,871,836 lower than six months earlier (2,585,317).",
+      "status": "MATCHED",
+      "value": 2585317.0,
+      "matched_value": 2585317.0,
+      "source": "report:'than six months earlier (2,585,317). Lia'"
+    },
+    {
+      "text": "1,002,176",
+      "sentence": "Liabilities are 1,002,176, up from 747,583 in May 2026.",
+      "status": "MATCHED",
+      "value": 1002176.0,
+      "matched_value": 1002176.0,
+      "source": "report:'85,317). Liabilities are 1,002,176, up'"
+    },
+    {
+      "text": "747,583",
+      "sentence": "Liabilities are 1,002,176, up from 747,583 in May 2026.",
+      "status": "MATCHED",
+      "value": 747583.0,
+      "matched_value": 747583.0,
+      "source": "report:'s are 1,002,176, up from 747,583 in M'"
+    },
+    {
+      "text": "2026",
+      "sentence": "Liabilities are 1,002,176, up from 747,583 in May 2026.",
+      "status": "IGNORED",
+      "rule": "year"
+    }
+  ]
+}
