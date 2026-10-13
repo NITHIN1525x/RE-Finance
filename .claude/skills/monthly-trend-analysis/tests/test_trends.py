@@ -325,6 +325,20 @@ class CliTests(unittest.TestCase):
             self.assertIn("DRAFT for reviewer", md)
             json.loads((Path(out) / files[0]).read_text(encoding="utf-8"))
 
+    def test_outputs_record_file_name_not_absolute_path(self):
+        src = BLUEBIRD.resolve()
+        with tempfile.TemporaryDirectory() as out:
+            self.assertEqual(run_trends.main([str(src), "--out-dir", out, "--months", "3"]), 0)
+            md = next(Path(out).glob("*.md")).read_text(encoding="utf-8")
+            data = json.loads(next(Path(out).glob("*.json")).read_text(encoding="utf-8"))
+        self.assertEqual(data["meta"]["source_file"], "bluebird-bakery.xlsx")
+        self.assertIn("from `bluebird-bakery.xlsx`", md)
+        folder = str(src.parent)
+        for text in (md, json.dumps(data)):
+            self.assertNotIn(folder, text)
+            self.assertNotIn(folder.replace("\\", "\\\\"), text)   # as escaped in JSON
+            self.assertNotIn(Path.home().name + ("\\" if "\\" in folder else "/"), text)
+
     def test_missing_workbook_is_a_clean_error(self):
         self.assertEqual(run_trends.main(["does-not-exist.xlsx", "--out-dir", tempfile.gettempdir()]), 1)
 

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import statistics
 from datetime import datetime, timezone
+from pathlib import Path
 
 from . import mapping
 
@@ -218,7 +219,7 @@ def analyze(income_sheet, balance_sheet, config, source_file, company=None):
     return {
         "meta": {
             "company": company or _company_from_titles(income_sheet.title_lines),
-            "source_file": str(source_file),
+            "source_file": Path(str(source_file)).name,   # file name only: no local folders in shared outputs
             "sheets": {"income_statement": income_sheet.title,
                        "balance_sheet": balance_sheet.title if balance_sheet is not None else None},
             "title_lines": income_sheet.title_lines,

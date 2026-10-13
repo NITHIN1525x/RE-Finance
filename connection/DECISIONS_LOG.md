@@ -1252,3 +1252,35 @@ Claude call. Both layers are summarised in one report.
     file tools on `.secrets` paths are blocked; vetted tools and look-alike names are allowed.
 - **Lesson:** to look for secrets, use the scanner, never a one-off script. The scanner's no-value guarantee is
   tested; a one-off script's isn't.
+
+### D-54: Skill change: no client figure in SKILL.md; reports record the workbook's file name only
+- **SKILL.md style example.**
+  - "Usage Fees fell 6.3% to 166,782" was a real ABC sandbox figure (`Income Statement!C11`). It now reads
+    "Widget Rentals fell 4.2% to 12,340" (an invented example). I checked that the line name and the number appear
+    in neither workbook.
+  - Why: the rule in `CLAUDE.md` and `docs/ARCHITECTURE.md` is no client data or figures in skills.
+  - The other examples were checked too:
+    - The zero-line example's "2,500" coincides with two ABC cells, but not with that line or month, so it is
+      effectively invented. Left as is.
+    - The TTM example, "9 months (Jan–Sep 2026)", is the span of the synthetic Bluebird test workbook (eval case
+      g). That is test data, not client data, so it was left as is. It does mirror case g's facts, which may make
+      R1 easier to pass; noted here as an open point.
+- **Report header and JSON.** `meta.source_file` is now the file name only, not the path passed in. That covers both
+  the JSON contract and the Markdown header ("Generated … from `<file>`").
+  - Before, a run on an absolute path recorded it in full, including the Windows user folder. Seen in the D-53
+    fresh-clone check.
+  - Test: `test_outputs_record_file_name_not_absolute_path` (31 skill tests). It fails without the fix.
+- **Committed outputs checked:**
+  - `trend-reports/` records the relative path `data\ABC Inc - ….xlsx`: no absolute path, no user folder. Not
+    changed.
+  - The skill outputs inside the eval baselines are also clean.
+  - **Historical eval run records** do contain absolute paths, including the Windows user folder name. They appear
+    in `skill_run/stream.jsonl` (21 files, Claude Code's own transcript of the working directory and tool calls)
+    and `skill_run/run_meta.json` (2 files), across `evals/baseline/` and the committed run records. **Left
+    unchanged** as historical records.
+  - New harness runs will still record them, because the harness stores Claude Code's transcript; this skill
+    change doesn't affect that.
+- **Expected eval effect:**
+  - None on structured checks (no golden reads `source_file`).
+  - Commentary may differ only through the style example.
+  - Verified by the v4 run (D-55).

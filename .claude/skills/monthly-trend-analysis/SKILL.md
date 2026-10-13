@@ -85,7 +85,7 @@ Writing rules, and why:
 - **Use only figures that appear in the report or JSON.** If you need a number that isn't there, say
   it's not available instead of computing it in your head. The reviewer has to be able to trace every
   figure.
-- **Describe, don't diagnose.** "Usage Fees fell 6.3% to 166,782" is fine. "Customers are churning" is
+- **Describe, don't diagnose.** "Widget Rentals fell 4.2% to 12,340" (an invented example) is fine. "Customers are churning" is
   a cause the data doesn't show, so leave causes to the reviewer, or phrase them as a question for them.
 - **No forecasts:** no runway, projections or "on track to". That's out of scope (below).
 - **Call a line "new" or "vanished" only when a flag says so.** In the tables, `from 0` means only that the
