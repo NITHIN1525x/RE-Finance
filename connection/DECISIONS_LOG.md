@@ -1262,9 +1262,14 @@ Claude call. Both layers are summarised in one report.
   - The other examples were checked too:
     - The zero-line example's "2,500" coincides with two ABC cells, but not with that line or month, so it is
       effectively invented. Left as is.
-    - The TTM example, "9 months (Jan–Sep 2026)", is the span of the synthetic Bluebird test workbook (eval case
-      g). That is test data, not client data, so it was left as is. It does mirror case g's facts, which may make
-      R1 easier to pass; noted here as an open point.
+    - **Eval leakage, fixed in a follow-up commit.** The TTM example, "the export covers only 9 months (Jan–Sep
+      2026)", was exactly the span of the synthetic Bluebird workbook, which is **case g's input**. So the skill's
+      own instructions contained the sentence case g's R1 rewards, which could inflate R1. It came in with the D-51
+      TTM rule, and baselines v3 (`policy-run-20261013`) and earlier R1 passes after D-51 should be read with that
+      in mind.
+    - It now reads "the export covers only 7 months (Mar–Sep 2025)". Checked with the extractor: it matches neither
+      workbook's span. ABC is Jan 2025–Jun 2026 (18 months), and Bluebird is Jan–Sep 2026 (9 months).
+    - The v4 run (D-55) is the first measurement of R1 without the leak.
 - **Report header and JSON.** `meta.source_file` is now the file name only, not the path passed in. That covers both
   the JSON contract and the Markdown header ("Generated … from `<file>`").
   - Before, a run on an absolute path recorded it in full, including the Windows user folder. Seen in the D-53

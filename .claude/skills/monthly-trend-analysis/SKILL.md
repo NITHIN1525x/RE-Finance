@@ -98,7 +98,7 @@ Writing rules, and why:
 - **Say what you can't compare, and why.** If TTM or year-over-year figures can't be computed (the report shows
   `n/a`), say so explicitly, name which comparisons are missing (TTM, year-over-year, or both), and give the
   number of months in the export. For example: "TTM and year-over-year comparisons aren't available: the export
-  covers only 9 months (Jan–Sep 2026)." Otherwise a reader may assume the comparison was simply skipped.
+  covers only 7 months (Mar–Sep 2025)." Otherwise a reader may assume the comparison was simply skipped.
 - Keep each bullet to one or two sentences, with the number first. Keep "DRAFT" in the title banner.
 
 Then tell the user where the report is, and summarise: data-quality status, the 3–4 most important
