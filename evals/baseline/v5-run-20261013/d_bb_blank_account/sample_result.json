@@ -1,0 +1,215 @@
+{
+  "execution": [
+    {
+      "id": "X1",
+      "desc": "claude -p run completed successfully",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "exit 0, subtype success"
+    },
+    {
+      "id": "X2",
+      "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X3",
+      "desc": "the skill's script run_trends.py was executed",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X4",
+      "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "1 json, 1 md in evals/runs/v5-run-20261013/d_bb_blank_account/skill_output"
+    },
+    {
+      "id": "X5",
+      "desc": "nothing outside evals/runs/ was modified by the skill run",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "no changes made by the skill"
+    },
+    {
+      "id": "X6",
+      "desc": "the narrative placeholder was replaced with commentary",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "structured": [
+    {
+      "id": "S1",
+      "desc": "Charitable Donations is 0 in every month",
+      "type": "value",
+      "source": {
+        "fact": "bb.charitable.zeros",
+        "sheet": "Profit and Loss",
+        "cells": [
+          "B29:J29"
+        ],
+        "formula": "blank cells read as 0 in every month"
+      },
+      "expected": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "actual": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S2",
+      "desc": "Charitable Donations counted as 9 blank months",
+      "type": "value",
+      "source": {
+        "fact": "bb.months",
+        "sheet": "Profit and Loss",
+        "cells": [
+          "B4:J4"
+        ],
+        "formula": "month header cells (K4 is a 'Total' column, not a month)"
+      },
+      "expected": 9,
+      "actual": 9,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S3",
+      "desc": "Instagram Ads (row below) is not grouped under it",
+      "type": "value",
+      "source": "literal",
+      "expected": null,
+      "actual": null,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S4",
+      "desc": "Mystery Shopper Program (2 rows below) is not grouped under it",
+      "type": "value",
+      "source": "literal",
+      "expected": null,
+      "actual": null,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S5",
+      "desc": "Instagram Ads category is the fallback, not Finance & Admin via the blank row's name",
+      "type": "value",
+      "source": "literal",
+      "expected": "Other Opex",
+      "actual": "Other Opex",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S6",
+      "desc": "missing_total warning names Charitable Donations",
+      "type": "count",
+      "source": "literal",
+      "expected": 1,
+      "actual": 1,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S7",
+      "desc": "opex total equals the workbook's Total for Expenses in every month (nothing lost)",
+      "type": "value",
+      "source": {
+        "fact": "bb.expenses_total.monthly",
+        "sheet": "Profit and Loss",
+        "cells": [
+          "B37:J37"
+        ],
+        "formula": "Total for Expenses, Jan..Sep 2026 (stated; equals the true detail sum in this workbook)"
+      },
+      "expected": [
+        25470.0,
+        25215.0,
+        26470.0,
+        25485.0,
+        25450.0,
+        26115.0,
+        25960.0,
+        26085.0,
+        31570.0
+      ],
+      "actual": [
+        25470.0,
+        25215.0,
+        26470.0,
+        25485.0,
+        25450.0,
+        26115.0,
+        25960.0,
+        26085.0,
+        31570.0
+      ],
+      "tolerance": 0.01,
+      "status": "PASS"
+    }
+  ],
+  "provenance": [
+    {
+      "id": "P1",
+      "type": "provenance",
+      "status": "PASS",
+      "desc": "every number in the commentary matches a value in this run's own output",
+      "detail": "43 matched, 22 ignored, 0 unmatched",
+      "unmatched": []
+    }
+  ],
+  "commentary": [
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes 'Charitable Donations' as having spend/activity, or as a group or category containing other accounts.",
+      "status": "PASS",
+      "evidence": "The commentary says 'Charitable Donations' \"has no values and no 'Total Charitable Donations' row\" and was \"treated as an all-blank account (0)\", with the following rows kept at the parent level. It doesn't describe the account as having spend or as containing other accounts."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Says Instagram Ads or Mystery Shopper Program belong to a 'Charitable Donations' or 'Finance & Admin' category.",
+      "status": "PASS",
+      "evidence": "It says Instagram Ads and Mystery Shopper Program \"matched no category rule and sit in Other Opex\". It never places them in Charitable Donations or Finance & Admin."
+    }
+  ],
+  "skill_run": {
+    "model_requested": "claude-opus-5-5",
+    "model_reported": "claude-opus-5-5",
+    "claude_code_version": "2.1.296",
+    "num_turns": 8,
+    "total_cost_usd": 0.3438032,
+    "elapsed_s": 55.9,
+    "permission_mode": "default"
+  },
+  "status": "PASS"
+}

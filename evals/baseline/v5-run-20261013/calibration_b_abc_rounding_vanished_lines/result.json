@@ -1,0 +1,35 @@
+{
+  "case": "b_abc_rounding_vanished_lines",
+  "artifact": "trend-reports/abc-inc-2026-06-trends.md @ e89fdbf",
+  "commentary": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+      "status": "PASS",
+      "evidence": "The commentary says \"Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500)\" and \"Professional Fees has been zero since Apr 2026\". It adds \"Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026\". That names all four lines, and the first two are explicitly non-zero earlier."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+      "status": "PASS",
+      "evidence": "No prior-average figures are given for these lines. The 2,500 and 3,773 figures are last non-zero values, not averages, so the claim passes by its no-figures condition."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+      "status": "PASS",
+      "evidence": "No cause is stated as fact. The text only says \"Whether these lines have stopped for good, been discontinued, or are timing is for the reviewer to confirm.\""
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+      "status": "PASS",
+      "evidence": "The commentary does not call the lines permanently discontinued. It leaves \"stopped for good, been discontinued, or are timing\" to the reviewer."
+    }
+  ],
+  "status": "PASS"
+}

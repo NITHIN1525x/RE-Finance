@@ -1,0 +1,57 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "abc.bonus.dec2025",
+      "value": "80,342.53",
+      "meaning": "Bonus, Dec 2025",
+      "source": "Income Statement!I33"
+    },
+    {
+      "id": "abc.bonus.median_other_months",
+      "value": "2,720.83",
+      "meaning": "median |Bonus| over the other 17 months",
+      "source": "Income Statement!C33:T33 excl. I33"
+    },
+    {
+      "id": "abc.sbc.dec2025",
+      "value": "334,660.53",
+      "meaning": "Stock-Based Compensation Expense, Dec 2025",
+      "source": "Income Statement!I99"
+    },
+    {
+      "id": "abc.sbc.median_other_months",
+      "value": "0",
+      "meaning": "median |Stock-Based Compensation Expense| over the other 17 months",
+      "source": "Income Statement!C99:T99 excl. I99"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Stock-Based Compensation Expense spike (about 334,661) as a possible one-off / single-month item."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Bonus spike (about 80,343) as a possible one-off / single-month item."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Leaves the one-off determination to the reviewer (hedged wording such as 'appears to be' or 'reviewer to confirm') rather than concluding."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as unhedged fact that these Dec 2025 items are non-recurring/one-off."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts an accounting treatment or a cause for these items as fact (e.g. 'year-end bonus accrual', 'option vesting', 'should be excluded/normalised')."
+    }
+  ],
+  "commentary": "- **Revenue 195,898 in Jun 2026, -6.0% vs May 2026 (208,351)**, but May was the highest month in the export. Against the prior 6-month average (196,946) it is -0.5%, and it is +2.8% vs Jun 2025 (190,556). Usage Fees (166,782, -6.3% MoM) is 77.7% of TTM revenue.\n- **Smaller streams at zero:** Professional Services and Partnership Income are zero in Jun 2026, and SKU Profiling has been zero since May 2026 (last non-zero Apr 2026, 10,000). Platform Revenue has been flat at 26,667 each month since Jan 2026 (-27.1% vs Jun 2025). Whether these zeros are timing or have stopped for good is for the reviewer to confirm.\n- **Gross margin 70.2%, up from 67.0% in May 2026 (+3.1 pp)** and equal to the prior 6-month average (70.2%); it is 4.2 pp below Jun 2025 (74.3%). TTM gross margin is 69.5%.\n- **Operating expenses excl. non-operating items 468,318, -2.4% vs May 2026.** Finance & Admin went from 15,243 to (993), mainly Bad Debts moving from 12,935 to (1,806); Events & Conferences rose to 29,295 from 11,324 (+158.7%). Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026; Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773) and Advisory Services since Feb 2026 (last non-zero Jan 2026, 2,500). Reviewer to confirm whether these are timing or have ended.\n- **Net income (330,756) in Jun 2026, the 6th consecutive negative month; TTM (3,089,780).** Net income is negative in 17 of 18 months. The one positive month, Dec 2025 (534,551), is positive only because of non-operating items: excluding them it is (715,902), the largest being Income Tax Benefit (1,244,430).\n- **Cash and Cash Equivalents 713,481 at Jun 2026**, down 215,543 vs May 2026 and 1,871,836 vs six months earlier (2,585,317). Liabilities are 1,002,176, up from 747,583 in May 2026.\n- **Dec 2025 one-offs:** Income Tax Benefit (1,244,430), Stock-Based Compensation Expense 334,661 (typical month 0) and Bonus 80,343 (typical month 2,721) each appear to be a single-month item; reviewer to confirm. All three fall inside the Jul 2025 - Jun 2026 TTM figures. Earlier single-month spikes in Events & Conferences (Feb 2025 89,275; Mar 2025 69,277) and 3rd Party Content Syndication (Jan 2025 61,225) are listed below for the reviewer, along with 39 smaller ones in the accounts table."
+}

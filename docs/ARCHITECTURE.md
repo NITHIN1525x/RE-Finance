@@ -5,7 +5,7 @@
 ## 1. Project structure
 - **`connection/` (Task 1) [BUILT]:** Intuit's official MCP server (pinned, stdio, read-only, sandbox only) and a Django + React Console: OAuth, encrypted tokens, audit, one refresher per token ([CONNECTION.md](../connection/CONNECTION.md)).
 - **`.claude/skills/monthly-trend-analysis/` (Task 2) [BUILT]:** a deterministic extractor computes every number; Claude writes only the commentary. Self-contained (requirements, references, 31 tests), so it can be copied. Mapping is data (`category_map.json`): client gaps get a `--config` copy, not code.
-- **`evals/` (Task 3) [BUILT]:** 7 golden cases checked against raw workbook cells, LLM-graded commentary, and a resampling regression policy ([REGRESSION.md](../evals/REGRESSION.md)). Baseline v4: 132/132.
+- **`evals/` (Task 3) [BUILT]:** 7 golden cases checked against raw workbook cells, LLM-graded commentary, and a resampling regression policy ([REGRESSION.md](../evals/REGRESSION.md)). Baseline v5: 132/132.
 - **Memory:** `CLAUDE.md` = conventions; auto-memory (outside the repo) = two notes, working style and task status. **Rule:** no client data or figures in memory, `CLAUDE.md` or skills; client facts stay in client data.
 
 ## 2. Hosting

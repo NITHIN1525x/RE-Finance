@@ -4,7 +4,9 @@
 Deterministic, no model calls. For each number in the commentary:
   - IGNORED  if an explicit rule below says it is not a financial figure (years, dates, counts, references);
   - MATCHED  if some value in the run's own *-trends.json (any numeric field, any depth) or *-trends.md (any
-             number in the report text) is consistent with it under the rounding policy;
+             number in the report text, EXCLUDING the commentary itself) is consistent with it under the
+             rounding policy. The skill writes its commentary into the report, so without that exclusion every
+             commentary number would match itself and the check could never fail (DECISIONS_LOG D-57/D-58);
   - UNMATCHED otherwise. Any UNMATCHED number fails the check, reported with the sentence it appeared in.
 
 Matching rule (the rounding policy from goldens/cases.json, made precise for a large candidate pool):
@@ -98,8 +100,30 @@ def sentence_of(text, pos):
     return " ".join(text[start:end_m.start() if end_m else len(text)].split())
 
 
+COMMENTARY_HEADING = "## 1. Commentary (draft)"   # the skill's report layout (also used by run_evals.commentary_of)
+FLAGS_HEADING = "### Flags raised"                # engine-written flags start here: deterministic, so they stay
+
+
+def without_commentary(report_md, commentary=None):
+    """The report with the model-written commentary removed, so it can't vouch for its own numbers (D-58).
+
+    Removes the text between the commentary heading and the engine's flags heading, and also any report LINE that
+    is identical to a commentary line (covers a report laid out differently). Whole lines only, so engine sentences
+    that merely contain a commentary phrase stay in the pool."""
+    text = report_md or ""
+    start = text.find(COMMENTARY_HEADING)
+    if start >= 0:
+        end = text.find(FLAGS_HEADING, start)
+        text = text[:start + len(COMMENTARY_HEADING)] + "\n\n" + (text[end:] if end >= 0 else "")
+    own = {line.strip() for line in (commentary or "").splitlines() if line.strip()}
+    if own:
+        text = "\n".join(line for line in text.splitlines() if line.strip() not in own)
+    return text
+
+
 def candidates(analysis, report_md):
-    """All numbers the run itself produced: every numeric JSON leaf, plus every number in the report text."""
+    """All numbers the run itself produced: every numeric JSON leaf, plus every number in the report text.
+    Callers pass the report WITHOUT the commentary (see without_commentary)."""
     out = []
 
     def walk(x, path):
@@ -122,7 +146,7 @@ def candidates(analysis, report_md):
 
 def check(commentary, analysis, report_md):
     """-> {'status': PASS|FAIL, 'numbers': [...]} for one commentary."""
-    pool = candidates(analysis, report_md)
+    pool = candidates(analysis, without_commentary(report_md, commentary))
     findings = []
     for m in numbers_in(commentary):
         text = m.group(0)

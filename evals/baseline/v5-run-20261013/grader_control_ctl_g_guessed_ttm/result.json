@@ -1,0 +1,21 @@
+{
+  "id": "ctl_g_guessed_ttm",
+  "case": "g_bb_no_ttm",
+  "checks": [
+    {
+      "id": "R1",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "evidence": "The commentary never says twelve-month comparisons are unavailable; it instead presents a TTM/annualised figure (\"roughly 850,000\") without acknowledging that the export covers only 9 months of data.",
+      "agrees": true
+    },
+    {
+      "id": "F1",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "evidence": "It states \"On a trailing-twelve-month basis, annualising the nine months gives roughly 850,000,\" which is a TTM/annualised estimate for Bluebird.",
+      "agrees": true
+    }
+  ],
+  "status": "AGREES"
+}

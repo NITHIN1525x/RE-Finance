@@ -1413,3 +1413,44 @@ Claude call. Both layers are summarised in one report.
   of this log and from the README. The P1 standalone example in `evals/README.md` now points at the current baseline
   (the old path had moved to `history/v1`).
 - **Not done here:** making the GitHub repo private. `gh` is not installed, so it has to be done in the web UI.
+
+### D-58: P1 fixed: the commentary can no longer vouch for its own numbers; baseline v5
+- **Defect (found by D-57's discrimination check):**
+  - The harness calls `provenance.check(commentary, analysis, md)` with the full report, and the skill writes its
+    commentary into that report. So every commentary number matched itself, and P1 could not fail.
+  - The check's break (d), "TTM revenue is 1,234,567" added to case g, passed P1.
+  - D-44's planted-number test missed this because it passed a report that did not contain the planted text.
+- **Fix** (`evals/provenance.py`, `without_commentary`): P1's pool is the run's JSON plus the report with the
+  commentary removed.
+  - The commentary is the text between `## 1. Commentary (draft)` and the engine's `### Flags raised`, plus any
+    report line identical to a commentary line.
+  - Whole lines only. A first version also removed verbatim substrings, and the existing test
+    `test_report_text_counts_as_output` caught it: that removed engine prose which merely contained a commentary
+    phrase. The engine's flags and tables stay in the pool.
+  - No ignore rule, golden or tolerance was changed.
+- **Tests:** `test_provenance.py::CommentaryCannotVouchForItself` (4 tests; eval-side total 57):
+  - break (d) rebuilt on the current baseline and called exactly as the harness does: FAIL, with exactly
+    `1,234,567` unmatched;
+  - the clean case a: PASS;
+  - every current baseline case: PASS;
+  - engine text still counts as a source.
+
+  Without the fix, the old P1 passes break (d) (checked with the fix stashed).
+- **Re-check of history with the fixed P1:** all 7 cases of each of v1, v2, v3 and v4 PASS, with 0 unmatched. The
+  earlier P1 PASSes were unproven, not wrong.
+- **Discrimination check re-run** ($0.16, `evals/DISCRIMINATION_CHECK.md`): the same verdicts as before, except
+  break (d) is now caught by **P1** as well as grader F1. The clean copy still passes.
+- **Prediction, written before the run** (`evals/baseline/v5-run-20261013.prediction.txt`): the same 132 checks;
+  no deterministic change; P1 PASS on all 7 cases (the risk being a fresh commentary citing a number the engine
+  didn't produce); no BLOCK.
+- **Result** (`v5-run-20261013`):
+  - **132/132 PASS, 7/7 cases, 0 UNSTABLE**, no flip, so no resampling;
+  - no contamination; 31/31 regression tests; grader controls 3/3;
+  - **$2.90**.
+  - P1, now a check that can fail: 0 unmatched in every case (a 52, b 40, c 49, d 43, e 51, f 39, g 50 matched).
+  - `compare_runs.py` against v4 finds **no difference**, which matches the prediction.
+- **Baseline v5:** a verbatim copy in `evals/baseline/v5-run-20261013/` (166 files; fingerprint in `BASELINE.md`).
+  v4 moved to `history/v4/`, and `current.json` now points to v5.
+- **Removed:** the "P1 cannot fail" caveat in the submission generator, `submission/` and `evals/README.md`.
+  DECISIONS_SUMMARY now points here.
+- **Spend:** this change cost $3.06 ($0.16 for the check, $2.90 for the run). Eval spend to date: **$29.27**.

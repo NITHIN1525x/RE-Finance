@@ -18,4 +18,4 @@ One line each: the decision, why, and where it's argued in full ([DECISIONS_LOG.
 **Incidents and corrections, recorded as they happened:**
 - D-38: eval contamination in the first run.
 - D-53: secret-database fragments printed to session output; key rotated, guard added.
-- D-57: P1 provenance check found to be unable to fail in harness runs; not yet fixed.
+- D-57/D-58: P1 provenance check found to be unable to fail in harness runs; fixed, tested, baseline v5.

@@ -1,0 +1,42 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "bb.mystery_shopper.monthly",
+      "value": "[0.0, 0.0, 400.0, 0.0, 0.0, 400.0, 0.0, 0.0, 400.0]",
+      "meaning": "Jan..Sep 2026",
+      "source": "Profit and Loss!B31:J31"
+    },
+    {
+      "id": "bb.mystery_shopper.nonzero_before_sep",
+      "value": "[\"Mar 2026\", \"Jun 2026\"]",
+      "meaning": "months before Sep with a non-zero value (so it is NOT new in Sep)",
+      "source": "Profit and Loss!B31:I31"
+    },
+    {
+      "id": "bb.wholesale.blank_before_sep",
+      "value": "true",
+      "meaning": "empty Jan..Aug 2026",
+      "source": "Profit and Loss!B10:I10"
+    },
+    {
+      "id": "bb.wholesale.sep2026",
+      "value": "12,000",
+      "meaning": "Wholesale Accounts, Sep 2026",
+      "source": "Profit and Loss!J10"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Identifies Wholesale Accounts as a new revenue stream in Sep 2026 (about 12,000; zero or absent in prior months)."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes Mystery Shopper Program as new, first appearing, or appearing for the first time in Sep 2026. (It was also 400 in Mar and Jun 2026. Saying it was zero in Aug, or rose 'from 0', is allowed.)"
+    }
+  ],
+  "commentary": "- **Data quality first:** 'Total for Professional Services' in Mar 2026 states 2,225 but its detail rows sum to 2,200 (diff 25). The analysis uses the detail rows; the reviewer decides which figure is right. The structure was also partly reconstructed: 'Total Delivery' had no header row (grouped from Delivery Van Fuel and Courier: Same Day), and 'Charitable Donations' had no values and no total row, so it was treated as a blank account.\n- **Revenue 81,300 in Sep 2026**, +17.7% vs Aug 2026 (69,050) and +17.3% vs the prior 6-month average (69,292). Year-over-year and TTM comparisons aren't available: the export covers only 9 months (Jan\u2013Sep 2026).\n- **Wholesale Accounts 12,000 in Sep 2026**, a new revenue stream: zero in every earlier month of the export. Of the existing streams, Bread Sales rose to 49,200 (+1.9%), Pastry Sales fell to 15,700 (-2.2%, down every month since Apr 2026), and Catering Revenue was 3,800 (-5.0%, after 9,100 in Jul 2026).\n- **Gross margin 65.3%**, up from 59.6% in Aug 2026 (+5.7 pp) and above the prior 6-month average of 60.6%; it is the high point of the period (low was 56.8% in Mar 2026). No margin-compression flag was raised.\n- **Payroll & Benefits 22,600**, +28.4% (+5,000) vs Aug 2026, all from Wages & Salaries (16,000 to 21,000). This lifted total operating expenses to 31,570 (+21.0%). Whether this is a new run-rate or a single-month item is for the reviewer to confirm.\n- **Mystery Shopper Program 400** shows \"from 0\" against Aug 2026, but it is not new: it was also 400 in Mar and Jun 2026 and zero in the other months, so it looks quarterly; reviewer to confirm. It is one of 3 accounts with no category rule, grouped as Other Opex (with Instagram Ads and Supplier Rebates).\n- **Net income 21,553** in Sep 2026, up from 15,077 in Aug 2026, and positive in all 9 months. This export has no non-operating items in opex, so the as-exported and excl.-non-operating figures are the same.\n- **Bank Accounts 37,600**, -1,800 vs Aug 2026 and -10,800 vs six months earlier (48,400), even though net income was positive every month. Equity also fell, from 54,660 to 44,940 over the same period. The reviewer should check what drove this (for example, owner draws or distributions); the export doesn't show it."
+}

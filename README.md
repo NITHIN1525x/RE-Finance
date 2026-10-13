@@ -1,14 +1,14 @@
 # QBO ↔ Claude exercise (RE Financial Services take-home)
 
 Sandbox only. No real company data. Every decision, with its reasoning and evidence, is in
-[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-57). The 10 that matter most, on one page:
+[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-58). The 10 that matter most, on one page:
 [`connection/DECISIONS_SUMMARY.md`](connection/DECISIONS_SUMMARY.md).
 
 | Task | Deliverable | Status |
 |---|---|---|
 | 1. QuickBooks Online ↔ Claude connection | [`connection/CONNECTION.md`](connection/CONNECTION.md) | Done |
 | 2. Monthly trend-analysis skill | [`.claude/skills/monthly-trend-analysis/SKILL.md`](.claude/skills/monthly-trend-analysis/SKILL.md) | Done. The stretch goal is deferred (D-36) |
-| 3. Evaluation suite | [`evals/README.md`](evals/README.md), [`evals/REGRESSION.md`](evals/REGRESSION.md) | Done. Baseline v4: 132/132 |
+| 3. Evaluation suite | [`evals/README.md`](evals/README.md), [`evals/REGRESSION.md`](evals/REGRESSION.md) | Done. Baseline v5: 132/132 |
 | 4. Architecture note | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Done |
 
 **For the examiner:** [`submission/`](submission/) has one easy-to-read response file per task, generated from existing outputs by `python scripts/build_submission.py` (free); `--live-task1` re-runs the Task 1 sandbox query.
@@ -60,7 +60,7 @@ claude -p "Monthly trend analysis for ABC Inc from the workbook in data/, draft 
 $py = ".claude/skills/monthly-trend-analysis/.venv/Scripts/python"     # uses the skill's environment
 & $py evals/goldens/derive_facts.py --check      # expected values still match the workbooks
 & $py evals/run_evals.py                         # full suite: real Claude calls (Opus + Sonnet), ~8 min, ~$3
-& $py evals/compare_runs.py evals/baseline/v4-run-20261013 evals/runs/<run-id>
+& $py evals/compare_runs.py evals/baseline/v5-run-20261013 evals/runs/<run-id>
 ```
 
 ## Task 4: architecture note

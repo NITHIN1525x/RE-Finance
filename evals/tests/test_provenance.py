@@ -107,6 +107,44 @@ class MatchingTests(unittest.TestCase):
         self.assertEqual(statuses("software rose about 2,000", [2000.0])[0][1], "MATCHED")
 
 
+def current_baseline_case(case_id):
+    run = json.loads((EVALS / "baseline" / "current.json").read_text(encoding="utf-8"))["run"]
+    out = EVALS / "baseline" / run / case_id / "skill_output"
+    md = next(out.glob("*-trends.md")).read_text(encoding="utf-8")
+    return json.loads(next(out.glob("*-trends.json")).read_text(encoding="utf-8")), md
+
+
+def commentary_in(md):
+    """The commentary as the harness extracts it (run_evals.commentary_of)."""
+    return md.split(P.COMMENTARY_HEADING, 1)[1].split(P.FLAGS_HEADING, 1)[0].strip()
+
+
+class CommentaryCannotVouchForItself(unittest.TestCase):
+    """D-58: the harness passes the FULL report, which contains the commentary. P1 must still catch a number that
+    only the commentary contains. These reproduce break (d) of evals/DISCRIMINATION_CHECK.md on the saved baseline."""
+
+    def test_made_up_ttm_figure_inside_the_report_fails(self):
+        analysis, md = current_baseline_case("g_bb_no_ttm")
+        broken = md.replace(P.FLAGS_HEADING, "- TTM revenue is 1,234,567.\n\n" + P.FLAGS_HEADING, 1)
+        r = P.check(commentary_in(broken), analysis, broken)          # exactly as the harness calls it
+        self.assertEqual(r["status"], "FAIL")
+        self.assertEqual([f["text"] for f in r["numbers"] if f["status"] == "UNMATCHED"], ["1,234,567"])
+
+    def test_clean_copy_passes(self):
+        analysis, md = current_baseline_case("a_abc_jun2026_core")
+        self.assertEqual(P.check(commentary_in(md), analysis, md)["status"], "PASS")
+
+    def test_every_case_of_the_current_baseline_passes(self):
+        run = json.loads((EVALS / "baseline" / "current.json").read_text(encoding="utf-8"))["run"]
+        for case_dir in sorted(p for p in (EVALS / "baseline" / run).iterdir() if (p / "skill_output").is_dir()):
+            analysis, md = current_baseline_case(case_dir.name)
+            self.assertEqual(P.check(commentary_in(md), analysis, md)["status"], "PASS", case_dir.name)
+
+    def test_engine_text_still_counts(self):
+        report = f"{P.COMMENTARY_HEADING}\n\n- Opex fell to 9,999.\n\n{P.FLAGS_HEADING}\n- Opex is 9,999 in Jun."
+        self.assertEqual(P.check("- Opex fell to 9,999.", {}, report)["status"], "PASS")
+
+
 @unittest.skipUnless(BASELINE_CASE.is_dir(), "baseline artifacts not present")
 class BaselineArtifactTests(unittest.TestCase):
     def setUp(self):

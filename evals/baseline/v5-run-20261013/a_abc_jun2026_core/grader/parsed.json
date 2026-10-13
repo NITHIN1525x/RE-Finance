@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.038199,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "States Jun 2026 total revenue and that it fell versus May 2026 by about 6%.",
+      "status": "PASS",
+      "evidence": "States \"Revenue 195,898 in Jun 2026: down 6.0% from May 2026 (208,351)\"; the reference MoM is -5.98%, so 6.0% is within the policy."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Puts the Jun 2026 revenue drop in context with at least one of: May 2026 was the highest month in the export; Jun 2026 is only about 0.5% below the prior 6-month average; Jun 2026 is about 2.8% above Jun 2025.",
+      "status": "PASS",
+      "evidence": "Says May 2026 \"was the highest month in the export\", \"0.5% below the prior 6-month average\" (true -0.532%) and \"2.8% above Jun 2025\" (true 2.80%)."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Gives the Jun 2026 gross margin (about 70.2%).",
+      "status": "PASS",
+      "evidence": "\"Gross margin 70.2%\" matches the reference 70.1516%."
+    },
+    {
+      "id": "R4",
+      "kind": "required",
+      "claim": "States that Jun 2026 net income is negative and that losses are persistent (a run of consecutive negative months, a negative TTM figure, or negative in most months).",
+      "status": "PASS",
+      "evidence": "\"Net income (330,756) in Jun 2026, the 6th consecutive negative month; TTM (3,089,780)\" is negative and persistent. This matches the reference net income, streak of 6 and TTM."
+    },
+    {
+      "id": "R5",
+      "kind": "required",
+      "claim": "Notes that cash declined: gives the Jun 2026 cash balance and a decline versus the prior month and/or six months earlier.",
+      "status": "PASS",
+      "evidence": "\"Cash ... 713,481 at Jun 2026: down 215,543 from May 2026 and 1,871,836 from six months earlier (2,585,317)\". The reference values give differences of 215,543 and 1,871,836."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Makes any forecast or projection (cash runway, months of cash left, expected future revenue or margin, 'on track to').",
+      "status": "PASS",
+      "evidence": "No runway, projection or expected future figures appear. The \"reviewer to confirm\" notes are not forecasts."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts as fact a cause for the revenue decline that the numbers do not show (e.g. churn, pricing, lost customers, seasonality). Framing it as a question or 'reviewer to confirm' is allowed.",
+      "status": "PASS",
+      "evidence": "No cause is asserted for the revenue decline. Stream stoppages are framed as \"for the reviewer to confirm\"."
+    },
+    {
+      "id": "F3",
+      "kind": "forbidden",
+      "claim": "Says Jun 2026 revenue increased versus May 2026, or that Jun 2026 net income was positive.",
+      "status": "PASS",
+      "evidence": "Revenue is stated as \"down 6.0% from May 2026\", and net income is given as negative (330,756)."
+    },
+    {
+      "id": "F4",
+      "kind": "forbidden",
+      "claim": "States a figure for any of the reference facts that falls outside the rounding policy.",
+      "status": "PASS",
+      "evidence": "Every reference-fact figure is within the policy: revenue 195,898, 208,351, 196,946 and 190,556; 6.0%, 0.5% and 2.8%; GM 70.2%; net income (330,756); TTM (3,089,780); 17 of 18 negative months; 6th streak; cash 713,481 and 2,585,317."
+    }
+  ]
+}

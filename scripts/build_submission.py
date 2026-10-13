@@ -199,9 +199,8 @@ def case_doc(n, case, cases, facts):
             f"(currency ± {cases['tolerances']['currency']}, percentages ± {cases['tolerances']['percent']} pp; counts "
             "and text exact).",
             "- **Also applied to every case:** execution checks X1-X6 (the skill really ran, wrote its files, changed "
-            "nothing else) and number provenance P1 (every number in the commentary appears in the run's own output; "
-            "known defect, D-57: in harness runs it cannot fail yet, because the report it checks against contains the "
-            "commentary). "
+            "nothing else) and number provenance P1 (every number in the commentary appears in the run's own output, "
+            "not counting the commentary itself; D-58). "
             "See `evals/README.md`.",
             f"- **Commentary claims** are graded by a separate model (`{GRADER_MODEL}`, no tools, no repo access) "
             "against the reference facts, using this rounding policy:",
@@ -328,10 +327,7 @@ def run_doc(run_dir, current):
                 bad = [f"{x['id']} {x['status']}" for x in g[key] if x["status"] != "PASS"]
                 out.append(f"| {cid.split('_')[0]} | {', '.join(x['id'] for x in g[key]) or '-'} | {', '.join(bad) or 'none'} |")
         elif key == "provenance":
-            out += ["**Caveat (D-57):** in harness runs P1 compares the commentary with a report that contains that same "
-                    "commentary, so it cannot fail. Until that is fixed, these PASSes are not evidence of number "
-                    "provenance (see `evals/DISCRIMINATION_CHECK.md`).", "",
-                    "| Case | Status | Detail |", "|---|---|---|"]
+            out += ["| Case | Status | Detail |", "|---|---|---|"]
             for cid, g in per_case.items():
                 for x in g[key]:
                     out.append(f"| {cid.split('_')[0]} | {x['status']} | {cell(x.get('detail', ''))} |")

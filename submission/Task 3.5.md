@@ -46,7 +46,7 @@ Expected numbers come from `evals/goldens/source_facts.json`, which `evals/golde
 ## How it is graded
 
 - **Structured checks:** the run's own JSON/Markdown must match each expected value within its tolerance (currency ± 0.01, percentages ± 0.01 pp; counts and text exact).
-- **Also applied to every case:** execution checks X1-X6 (the skill really ran, wrote its files, changed nothing else) and number provenance P1 (every number in the commentary appears in the run's own output; known defect, D-57: in harness runs it cannot fail yet, because the report it checks against contains the commentary). See `evals/README.md`.
+- **Also applied to every case:** execution checks X1-X6 (the skill really ran, wrote its files, changed nothing else) and number provenance P1 (every number in the commentary appears in the run's own output, not counting the commentary itself; D-58). See `evals/README.md`.
 - **Commentary claims** are graded by a separate model (`claude-sonnet-5-5`, no tools, no repo access) against the reference facts, using this rounding policy:
 
   > Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.

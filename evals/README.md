@@ -63,11 +63,12 @@ The harness runs layer 1 too, so both appear in one report.
    rule"**: for a forbidden rule, PASS means the forbidden content is absent. If the grader fails,
    returns invalid output, or omits or duplicates a rule id, that rule is **BLOCKED**, never PASS.
 5. **Number provenance (P1, deterministic):** every number in the commentary must match a value in that
-   run's own JSON or report. The match must be at the number's written precision and inside the rounding
+   run's own JSON or report, not counting the commentary itself (otherwise each number would match itself;
+   D-58). The match must be at the number's written precision and inside the rounding
    policy. Years, dates, counts and references are ignored by an explicit list in `provenance.py`. Unmatched
    numbers fail, and are listed with their sentence. A round number can coincidentally match an unrelated
    value, so attribution stays with the grader (DECISIONS_LOG D-44). You can also run it standalone on a
-   saved run: `python evals/provenance.py evals/baseline/v4-run-20261013`.
+   saved run: `python evals/provenance.py evals/baseline/v5-run-20261013`.
 6. **A case passes** only if every execution, structured, provenance and commentary check passes.
 7. **Regression policy** (`REGRESSION.md`, implemented in `policy.py`):
    - Deterministic checks block on a single run.
@@ -79,7 +80,7 @@ The harness runs layer 1 too, so both appear in one report.
    - The report shows each claim's pass rate. Any FAIL makes the
    case FAIL; otherwise any BLOCKED makes it BLOCKED.
 
-**Discrimination check** ([`DISCRIMINATION_CHECK.md`](DISCRIMINATION_CHECK.md), $0.17): 4 deliberately broken copies of v4 outputs all FAIL on the intended check, and a clean copy PASSes. It also found that **P1 cannot fail in harness runs**, because the report it matches against contains the commentary itself (D-57; not yet fixed).
+**Discrimination check** ([`DISCRIMINATION_CHECK.md`](DISCRIMINATION_CHECK.md), $0.17 + $0.16): 4 deliberately broken copies of v4 outputs all FAIL on the intended check, and a clean copy PASSes. Its first run found that P1 could not fail in harness runs (D-57). That is fixed (D-58), and P1 now also catches the invented TTM figure.
 
 Saved per case under `runs/<id>/<case>/`:
 - `skill_run/`: prompt, argv, the full stream.jsonl, stderr, run_meta (model, version, turns, cost, tool
@@ -138,7 +139,7 @@ Exit codes:
 - 3: harness contamination;
 - 2: BLOCKED only.
 
-The baseline is in `evals/baseline/`: v4 is current, and earlier versions are in `history/`; see `BASELINE.md`. To compare a run with it: `python evals/compare_runs.py evals/baseline/v4-run-20261013 evals/runs/<run-id>`.
+The baseline is in `evals/baseline/`: v5 is current, and earlier versions are in `history/`; see `BASELINE.md`. To compare a run with it: `python evals/compare_runs.py evals/baseline/v5-run-20261013 evals/runs/<run-id>`.
 
 ## Known limits
 

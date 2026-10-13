@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "claude",
+    "-p",
+    "I need the monthly trend analysis for ABC Inc for June 2026 from the workbook at \"data/ABC Inc - Financial Statements (1) (1).xlsx\". It's a draft our reviewer will finish, so keep it factual. Save the report files in evals/runs/v5-run-20261013/a_abc_jun2026_core/skill_output.",
+    "--model",
+    "claude-opus-5-5",
+    "--strict-mcp-config",
+    "--allowedTools",
+    "Skill",
+    "Bash",
+    "Read",
+    "Edit",
+    "Write",
+    "Glob",
+    "Grep",
+    "--no-session-persistence",
+    "--max-budget-usd",
+    "3",
+    "--output-format",
+    "stream-json",
+    "--verbose"
+  ],
+  "cwd": "E:\\RE-Finance\\qbo-claude-exercise",
+  "timeout_s": 900
+}

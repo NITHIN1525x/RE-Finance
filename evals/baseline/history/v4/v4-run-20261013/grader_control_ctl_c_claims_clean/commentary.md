@@ -1,0 +1,2 @@
+- All data-quality checks pass and the data is fully reconciled.
+- Sep 2026 revenue was 81,300, up 17.7% on Aug 2026.

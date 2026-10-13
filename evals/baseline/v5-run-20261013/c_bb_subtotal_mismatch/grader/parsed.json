@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.026291000000000002,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Reports the data-quality problem: names the Professional Services subtotal, the month (Mar 2026), and the amount (the 25 difference, or both the stated 2,225 and the detail sum 2,200).",
+      "status": "PASS",
+      "evidence": "Commentary says \"'Total for Professional Services' in Mar 2026 states 2,225.00, but its detail rows sum to 2,200.00 (diff 25.00)\", which matches the reference facts and names the subtotal, month and amounts."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Leaves resolving the mismatch to the reviewer rather than deciding which figure is right.",
+      "status": "PASS",
+      "evidence": "\"The reviewer needs to decide which number is correct.\" This leaves the resolution to the reviewer."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Says all data-quality checks passed or that the data is clean/reconciled.",
+      "status": "PASS",
+      "evidence": "The commentary opens with a data-quality problem. It does not say all checks passed or that the data is clean. The note that gross profit and net income match the summary rows is narrow and does not claim full reconciliation."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts which of the two figures is correct, or that the error was corrected.",
+      "status": "PASS",
+      "evidence": "\"This report uses the detail-row figure\" says which figure was used, not which is correct. It then says the reviewer must decide which number is correct, and it does not claim the error was corrected."
+    }
+  ]
+}

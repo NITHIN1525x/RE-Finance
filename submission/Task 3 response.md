@@ -2,18 +2,18 @@
 
 # Task 3 response: latest completed evaluation run
 
-**Run:** `v4-run-20261013` (the current baseline, v4), from `evals/baseline/v4-run-20261013/results.json`. No new paid run was made to produce this file.
+**Run:** `v5-run-20261013` (the current baseline, v5), from `evals/baseline/v5-run-20261013/results.json`. No new paid run was made to produce this file.
 
 | Field | Value |
 |---|---|
-| Date (UTC) | 2026-10-13T03:19:07+00:00 to 2026-10-13T03:27:20+00:00 |
-| Commit | `6ce42f6` (6 path(s) uncommitted at run time) |
+| Date (UTC) | 2026-10-13T16:30:52+00:00 to 2026-10-13T16:38:43+00:00 |
+| Commit | `e89fdbf` (3 path(s) uncommitted at run time) |
 | Claude Code | `2.1.296 (Claude Code)` |
 | Skill model | requested `claude-opus-5-5`; reported `claude-opus-5-5` |
 | Grader model | requested `claude-sonnet-5-5`; reported in grader calls `claude-haiku-5-5`, `claude-sonnet-5-5` |
-| Skill regression tests | Ran 31 tests in 0.342s -> OK |
+| Skill regression tests | Ran 31 tests in 0.472s -> OK |
 | Harness contamination | none |
-| Cost | $3.05 = $2.78 for 7 skill runs + $0.27 for 11 grader calls (list prices) |
+| Cost | $2.90 = $2.63 for 7 skill runs + $0.27 for 11 grader calls (list prices) |
 | **All checks executed** | **132/132 (100%)**; cases 7/7 PASS |
 
 Pass rates count only checks that actually ran (PASS / FAIL / BLOCKED / UNSTABLE).
@@ -104,17 +104,15 @@ Pass rates count only checks that actually ran (PASS / FAIL / BLOCKED / UNSTABLE
 
 **Pass rate:** 7/7 (100%)
 
-**Caveat (D-57):** in harness runs P1 compares the commentary with a report that contains that same commentary, so it cannot fail. Until that is fixed, these PASSes are not evidence of number provenance (see `evals/DISCRIMINATION_CHECK.md`).
-
 | Case | Status | Detail |
 |---|---|---|
-| a | PASS | 43 matched, 25 ignored, 0 unmatched |
-| b | PASS | 46 matched, 24 ignored, 0 unmatched |
-| c | PASS | 44 matched, 21 ignored, 0 unmatched |
-| d | PASS | 44 matched, 23 ignored, 0 unmatched |
-| e | PASS | 47 matched, 25 ignored, 0 unmatched |
-| f | PASS | 40 matched, 18 ignored, 0 unmatched |
-| g | PASS | 40 matched, 17 ignored, 0 unmatched |
+| a | PASS | 52 matched, 27 ignored, 0 unmatched |
+| b | PASS | 40 matched, 25 ignored, 0 unmatched |
+| c | PASS | 49 matched, 24 ignored, 0 unmatched |
+| d | PASS | 43 matched, 22 ignored, 0 unmatched |
+| e | PASS | 51 matched, 31 ignored, 0 unmatched |
+| f | PASS | 39 matched, 20 ignored, 0 unmatched |
+| g | PASS | 50 matched, 20 ignored, 0 unmatched |
 
 ## Commentary claims (graded by a separate model)
 
@@ -136,15 +134,15 @@ Required claims PASS when the commentary makes them; forbidden claims PASS when 
 
 <details><summary>Grader evidence</summary>
 
-- **R1:** States "195,898 in Jun 2026, down 6.0% from May 2026 (208,351...)"; the reference MoM is -5.98%, so 6.0% is within the policy.
-- **R2:** Says May was "the highest month in the export", "0.5% below the prior 6-month average" (ref -0.532%) and "2.8% above Jun 2025" (ref 2.8036%). All are consistent with the reference facts.
-- **R3:** "Gross margin: 70.2% in Jun 2026" matches the reference 70.1516%.
-- **R4:** "(330,756) in Jun 2026, the sixth consecutive negative month (TTM (3,089,780); negative in 17 of 18 months)" matches the reference net income, streak of 6, TTM and count of 17.
-- **R5:** Gives "713,481 at Jun 2026, down 215,543 from May 2026 and 1,871,836 lower than six months earlier (2,585,317)". The reference differences are 215,543 and 1,871,836.
-- **F1:** No forecast, runway or projection appears. The "reviewer should confirm" lines are not projections.
-- **F2:** The only cause-like wording is "whether any of these have stopped or whether this is timing", framed as a reviewer confirmation. No cause is asserted as fact.
-- **F3:** The commentary says revenue was "down 6.0% from May 2026" and net income was "(330,756)". It states neither a revenue increase nor positive Jun net income.
-- **F4:** Every figure that matches a reference fact is within the policy. These are revenues, MoM -6.0% vs -5.98%, 0.5% vs -0.532%, YoY 2.8%, GM 70.2%, net income, TTM, 17 months, streak of 6, and cash. Figures without a reference fact were not checked.
+- **R1:** States "Revenue 195,898 in Jun 2026: down 6.0% from May 2026 (208,351)"; the reference MoM is -5.98%, so 6.0% is within the policy.
+- **R2:** Says May 2026 "was the highest month in the export", "0.5% below the prior 6-month average" (true -0.532%) and "2.8% above Jun 2025" (true 2.80%).
+- **R3:** "Gross margin 70.2%" matches the reference 70.1516%.
+- **R4:** "Net income (330,756) in Jun 2026, the 6th consecutive negative month; TTM (3,089,780)" is negative and persistent. This matches the reference net income, streak of 6 and TTM.
+- **R5:** "Cash ... 713,481 at Jun 2026: down 215,543 from May 2026 and 1,871,836 from six months earlier (2,585,317)". The reference values give differences of 215,543 and 1,871,836.
+- **F1:** No runway, projection or expected future figures appear. The "reviewer to confirm" notes are not forecasts.
+- **F2:** No cause is asserted for the revenue decline. Stream stoppages are framed as "for the reviewer to confirm".
+- **F3:** Revenue is stated as "down 6.0% from May 2026", and net income is given as negative (330,756).
+- **F4:** Every reference-fact figure is within the policy: revenue 195,898, 208,351, 196,946 and 190,556; 6.0%, 0.5% and 2.8%; GM 70.2%; net income (330,756); TTM (3,089,780); 17 of 18 negative months; 6th streak; cash 713,481 and 2,585,317.
 
 </details>
 
@@ -157,10 +155,10 @@ Required claims PASS when the commentary makes them; forbidden claims PASS when 
 
 <details><summary>Grader evidence</summary>
 
-- **R1:** The commentary says "Federal & State Taxes ... and Marketing/Advertising: Miscellaneous ... are zero in Jun 2026", and it gives prior averages for both, so they were non-zero before. That names two of the listed lines.
-- **R2:** It gives "prior 6-month average 999" for Federal & State Taxes, against a true 998.5083 (about 0.05% off). It gives "average 721" for Marketing Misc, against a true 721.0033 (about 0.0005% off). Both are well inside the 5% band.
-- **F1:** No cause is stated for the zeros. The commentary only says "Whether these are discontinued or timing is for the reviewer to confirm."
-- **F2:** It does not call the lines permanently discontinued or cancelled. It explicitly leaves "discontinued or timing" to the reviewer.
+- **R1:** The commentary says "Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026" and names Professional Fees and Advisory Services as zero with last non-zero months. That names all four lines, and the reference facts show non-zero prior averages.
+- **R2:** The commentary gives no prior-average figures for these lines. The 3,773 and 2,500 figures are last non-zero values, not averages, so the "no such figures" condition applies.
+- **F1:** The commentary states no cause. It says only "Whether these have ended or are timing is for the reviewer to confirm."
+- **F2:** The commentary does not call the lines permanently discontinued or cancelled. It leaves "ended or ... timing" to the reviewer.
 
 </details>
 
@@ -173,10 +171,10 @@ Required claims PASS when the commentary makes them; forbidden claims PASS when 
 
 <details><summary>Grader evidence</summary>
 
-- **R1:** Commentary says "'Total for Professional Services' in Mar 2026 states 2,225.00, but its detail rows sum to 2,200.00 (diff 25.00)", which matches the reference facts (2,225, 2,200, 25).
-- **R2:** "The reviewer should decide which figure is right." This leaves the resolution to the reviewer. The note that the report uses the detail rows is a handling choice, not a ruling on which figure is correct.
-- **F1:** The commentary flags the mismatch under "Data quality, check first" and never says the checks passed or that the data is clean or reconciled.
-- **F2:** It says "This report uses the detail rows" but also "The reviewer should decide which figure is right." It does not claim either figure is correct or that the error was corrected.
+- **R1:** Commentary says "'Total for Professional Services' in Mar 2026 states 2,225.00, but its detail rows sum to 2,200.00 (diff 25.00)", which matches the reference facts and names the subtotal, month and amounts.
+- **R2:** "The reviewer needs to decide which number is correct." This leaves the resolution to the reviewer.
+- **F1:** The commentary opens with a data-quality problem. It does not say all checks passed or that the data is clean. The note that gross profit and net income match the summary rows is narrow and does not claim full reconciliation.
+- **F2:** "This report uses the detail-row figure" says which figure was used, not which is correct. It then says the reviewer must decide which number is correct, and it does not claim the error was corrected.
 
 </details>
 
@@ -187,8 +185,8 @@ Required claims PASS when the commentary makes them; forbidden claims PASS when 
 
 <details><summary>Grader evidence</summary>
 
-- **F1:** The commentary says 'Charitable Donations' has "no values in any of the 9 months and no total row" and was "treated as an all-blank account (0)". The 4 rows after it "were kept at the parent level", so it is not described as having spend or as a group containing accounts.
-- **F2:** Mystery Shopper Program is mentioned only as an opex item (400, quarterly) with no category given. Instagram Ads is not mentioned. Neither is placed under 'Charitable Donations' or 'Finance & Admin'.
+- **F1:** The commentary says 'Charitable Donations' "has no values and no 'Total Charitable Donations' row" and was "treated as an all-blank account (0)", with the following rows kept at the parent level. It doesn't describe the account as having spend or as containing other accounts.
+- **F2:** It says Instagram Ads and Mystery Shopper Program "matched no category rule and sit in Other Opex". It never places them in Charitable Donations or Finance & Admin.
 
 </details>
 
@@ -202,11 +200,11 @@ Required claims PASS when the commentary makes them; forbidden claims PASS when 
 
 <details><summary>Grader evidence</summary>
 
-- **R1:** Commentary says "Stock-Based Compensation Expense 334,661 (typical month 0)... each appear to be a single-month item"; matches the reference 334,660.53.
-- **R2:** Commentary says "Bonus 80,343 (typical 2,721)... appear to be a single-month item"; matches the reference 80,342.53 and the median 2,720.83.
+- **R1:** Commentary says "Stock-Based Compensation Expense 334,661 (typical month 0)... each appear to be a single-month item"; the figure matches 334,660.53 and is flagged as a possible one-off.
+- **R2:** Commentary says "Bonus 80,343 (typical month 2,721) ... appear to be a single-month item"; the figure matches 80,342.53 and the median 2,720.83, and it is flagged as a possible one-off.
 - **R3:** Uses hedged wording "each appear to be a single-month item; reviewer to confirm", so the determination is left to the reviewer.
-- **F1:** The one-off claim is hedged ("appear to be... reviewer to confirm"), not stated as unhedged fact.
-- **F2:** The commentary gives no accounting treatment or cause for these items. It only notes they fall inside the TTM window, which is a factual statement, not an assertion about treatment or exclusion.
+- **F1:** The one-off claim is hedged ("appear to be... reviewer to confirm"), not stated as unhedged fact. The heading "Dec 2025 one-offs" is a label rather than a factual conclusion.
+- **F2:** No cause or accounting treatment is asserted for SBC or Bonus. There is no mention of bonus accrual, vesting, or exclusion/normalisation for these items.
 
 </details>
 
@@ -217,8 +215,8 @@ Required claims PASS when the commentary makes them; forbidden claims PASS when 
 
 <details><summary>Grader evidence</summary>
 
-- **R1:** Commentary says "'Wholesale Accounts' is flagged as a new stream: 12,000 in Sep 2026 and zero in the prior 6 months," matching the reference value of 12,000 and blank Jan–Aug.
-- **F1:** Commentary says Mystery Shopper Program "shows as 'from 0'... but it isn't new: it also recorded 400 in Mar 2026 and Jun 2026," so it does not describe the item as new in Sep.
+- **R1:** Commentary says "Wholesale Accounts 12,000 in Sep 2026, a new revenue stream: zero in every earlier month of the export," matching reference 12,000 and blank before Sep.
+- **F1:** Commentary says Mystery Shopper "shows 'from 0' against Aug 2026, but it is not new: it was also 400 in Mar and Jun 2026," so it does not describe it as new or first appearing.
 
 </details>
 
@@ -229,8 +227,8 @@ Required claims PASS when the commentary makes them; forbidden claims PASS when 
 
 <details><summary>Grader evidence</summary>
 
-- **R1:** Commentary says "TTM and year-over-year comparisons can't be computed, because the export covers only 9 months (Jan–Sep 2026)", matching the reference fact of 9 months (fewer than 12).
-- **F1:** No TTM, trailing-twelve-month, annualised or YoY figure is stated; it only says these are unavailable and that same-month-last-year comparison is not available. All figures given are month-over-month or against the prior 6-month average.
+- **R1:** The commentary says "TTM and year-over-year comparisons aren't available because the export covers only 9 months (Jan–Sep 2026)." This matches the reference fact of 9 months, which is fewer than 12.
+- **F1:** The only mention of TTM or year-over-year is the statement that they are unavailable. No TTM, annualised or YoY figure or estimate is given. The other comparisons are month-over-month or against a 6-month average.
 
 </details>
 
@@ -245,11 +243,11 @@ Required claims PASS when the commentary makes them; forbidden claims PASS when 
 
 ## Comparison with the previous baseline
 
-Output of `python evals/compare_runs.py evals/baseline/history/v3/policy-run-20261013 evals/baseline/v4-run-20261013`:
+Output of `python evals/compare_runs.py evals/baseline/history/v4/v4-run-20261013 evals/baseline/v5-run-20261013`:
 
 ```
-OLD policy-run-20261013: score 132/132, cases 7/7, cost $2.9514
-NEW v4-run-20261013: score 132/132, cases 7/7, cost $3.0524, contamination: none
+OLD v4-run-20261013: score 132/132, cases 7/7, cost $3.0524
+NEW v5-run-20261013: score 132/132, cases 7/7, cost $2.9007, contamination: none
 
 a_abc_jun2026_core: PASS -> PASS  (no change in verdicts or structured values)
    P1 provenance: PASS -> PASS

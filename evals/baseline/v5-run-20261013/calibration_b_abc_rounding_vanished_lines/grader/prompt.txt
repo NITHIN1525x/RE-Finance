@@ -1,0 +1,103 @@
+You are a strict, literal auditor grading the COMMENTARY section of a draft monthly financial trend report.
+You do not write or improve commentary. You only decide, for each rule, whether the commentary satisfies it.
+
+You are given one JSON object with:
+- `rounding_policy`: the ONLY rule for judging whether a figure in prose is acceptable.
+- `reference_facts`: true values derived from the source workbook cells. Treat them as ground truth.
+- `rules`: a list of rules. Each has `id`, `kind` ("required" or "forbidden") and `claim`.
+- `commentary`: the exact text to grade.
+
+How to grade each rule:
+- `required`: PASS only if the commentary actually makes that claim, including every element the claim
+  names, and any figure it uses is consistent with the reference facts under the rounding policy.
+  FAIL if the claim is missing, only partly made, or made with a misstated figure.
+- `forbidden`: PASS if the commentary does NOT contain the forbidden content. FAIL if it does.
+  So for every rule, PASS always means "the commentary is acceptable on this rule".
+- Judge only what the commentary text says. Do not assume content that isn't there. Do not penalise
+  content that no rule mentions.
+- Apply the rounding policy exactly as written. Compute the relative difference when it matters, and
+  state it in the evidence.
+- A rule that says it PASSES when some condition is absent (e.g. "if no such figures are given, PASS")
+  must PASS when the condition is absent.
+
+Return one verdict for EVERY rule id, exactly once. `evidence` must be one or two sentences: quote the
+relevant words from the commentary (or say they are absent), and give the reason, citing a reference
+fact where relevant.
+
+INPUT:
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "abc.vanished.advisory_services.jun2026",
+      "value": "0",
+      "meaning": "Advisory Services, Jun 2026",
+      "source": "Income Statement!C30"
+    },
+    {
+      "id": "abc.vanished.advisory_services.prior6_avg",
+      "value": "1,250",
+      "meaning": "AVERAGE(D30:I30) Advisory Services, Dec 2025..May 2026",
+      "source": "Income Statement!D30:I30"
+    },
+    {
+      "id": "abc.vanished.federal_state_taxes.jun2026",
+      "value": "0",
+      "meaning": "Federal & State Taxes, Jun 2026",
+      "source": "Income Statement!C40"
+    },
+    {
+      "id": "abc.vanished.federal_state_taxes.prior6_avg",
+      "value": "998.5083",
+      "meaning": "AVERAGE(D40:I40) Federal & State Taxes, Dec 2025..May 2026",
+      "source": "Income Statement!D40:I40"
+    },
+    {
+      "id": "abc.vanished.mkt_misc.jun2026",
+      "value": "0",
+      "meaning": "Marketing/Advertising: Miscellaneous, Jun 2026",
+      "source": "Income Statement!C68"
+    },
+    {
+      "id": "abc.vanished.mkt_misc.prior6_avg",
+      "value": "721.0033",
+      "meaning": "AVERAGE(D68:I68) Marketing/Advertising: Miscellaneous, Dec 2025..May 2026",
+      "source": "Income Statement!D68:I68"
+    },
+    {
+      "id": "abc.vanished.professional_fees.jun2026",
+      "value": "0",
+      "meaning": "Professional Fees, Jun 2026",
+      "source": "Income Statement!C85"
+    },
+    {
+      "id": "abc.vanished.professional_fees.prior6_avg",
+      "value": "1,045.4617",
+      "meaning": "AVERAGE(D85:I85) Professional Fees, Dec 2025..May 2026",
+      "source": "Income Statement!D85:I85"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped)."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer."
+    }
+  ],
+  "commentary": "- **Top line:** Total revenue was 195,898 in Jun 2026, -6.0% vs May 2026 (208,351, the highest month in the export), -0.5% vs the prior 6-month average (196,946), and +2.8% vs Jun 2025 (190,556). TTM revenue is 2,303,976.\n- **Revenue streams:** Usage Fees is the largest stream (166,782 in Jun 2026; 77.7% TTM share) and fell 6.3% from May. Professional Services is zero in Jun 2026 after 833 in May. SKU Profiling has been zero since May 2026 (last non-zero Apr 2026, 10,000). Partnership Income and White-Label each show a negative month in Mar 2026 (-1,608 and -550), likely credits or refunds; reviewer to confirm.\n- **Margin:** Gross margin was 70.2% in Jun 2026, up 3.1 pp from 67.0% in May and in line with the prior 6-month average (70.2%); it is 4.2 pp below Jun 2025 (74.3%). Over the period it ranged from 63.0% (Aug 2025) to 78.8% (Feb 2025).\n- **Costs:** Operating expenses excluding non-operating items were 468,318 in Jun 2026 (-2.4% vs May). The largest account movers were Bad Debts (12,935 to (1,806)), which drove Finance & Admin from 15,243 to (993), and Events & Conferences (11,324 to 29,295). Travel & Entertainment rose 327.2% to 3,793. Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500), and Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773). Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026. Whether these lines have stopped for good, been discontinued, or are timing is for the reviewer to confirm.\n- **Profitability:** Net income was (330,756) in Jun 2026, negative for 6 consecutive months; TTM is (3,089,780). Dec 2025 shows positive net income of 534,551 only because of non-operating items; excluding them it is (715,902), mainly from 'Income Tax Benefit' (-1,244,430 in Dec 2025).\n- **Cash:** Cash and Cash Equivalents was 713,481 at Jun 2026, down 215,543 from May 2026 (929,025) and down from 2,585,317 six months earlier.\n- **One-offs (appears to be single-month items; reviewer to confirm):** Stock-Based Compensation Expense of 334,661 and Bonus of 80,343 in Dec 2025, Events & Conferences of 89,275 in Feb 2025 and 69,277 in Mar 2025, and 'Marketing/Advertising: 3rd Party Content Syndication' of 61,225 in Jan 2025."
+}

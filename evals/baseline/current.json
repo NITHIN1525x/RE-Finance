@@ -1,5 +1,5 @@
 {
-  "run": "v4-run-20261013",
-  "version": "v4",
+  "run": "v5-run-20261013",
+  "version": "v5",
   "_about": "Baseline whose commentary verdicts define a PASS->FAIL flip for the resampling policy (REGRESSION.md). Update when the baseline changes."
 }
