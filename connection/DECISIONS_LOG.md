@@ -1046,3 +1046,31 @@ Claude call. Both layers are summarised in one report.
 - **New tool:** `evals/compare_runs.py <old> <new>`, a per-case, per-check diff (verdicts, structured actual
   values, added/removed checks, P1, cost). Its first version wrongly counted "P1 newly live" as a
   difference in its summary line; fixed before use.
+
+### D-48: Same "has been zero since" logic for the revenue-stream flag (intentional behaviour change)
+- **Change** (`analysis.py`, `_flag_revenue`): a stream that is zero in the latest month after a material
+  month in the lookback window says **"has been zero since <first zero month> (last non-zero: <month>,
+  <value>) after <peak> at its peak…"** if it stopped before the latest month. If it really stopped in the
+  latest month, the text is **byte-identical** to before ("is zero in <latest> after …").
+- **Affected lines** (from raw cells):
+
+  | Workbook | Stream | Effect | Source |
+  |---|---|---|---|
+  | ABC | **SKU Profiling** | now "has been zero since May 2026 (last non-zero: Apr 2026, 10,000)" | `IS!E13` |
+  | ABC | Partnership Income | unchanged | May 476.73, `IS!D9` |
+  | ABC | Professional Services | unchanged | May 833.33, `IS!D10` |
+  | Bluebird | (none) | no stream triggers the flag | — |
+- **Test 30:** `test_vanished_revenue_stream_wording_says_zero_since`. Skill regression tests: 30.
+- **Golden change, in case a** (the core revenue case): S17 requires SKU Profiling's new wording; S18 forbids
+  its old "is zero in Jun 2026". New facts `abc.sku_profiling.*` (cells C13, D13, E5, E13). No commentary
+  claim is added, for the same reason as D-45. Intentional behaviour change, not a fit-to-pass.
+- **PREDICTION, written before the run:** only **case a** changes: it gains S17 and S18, both PASS, with no
+  verdict flips. Every other case (b–g) keeps identical verdicts and identical structured actual values.
+  The ABC reports in cases b and e contain the SKU flag text, but none of their checks reference it. P1
+  passes in all cases. Commentary content will vary as usual (D-43).
+- **Result of the commit-4 run (`commit4-run-20261012`): FAIL, recorded honestly.** Case a changed exactly as
+  predicted (S17/S18 PASS), but **case b's F2 flipped PASS → FAIL**. The commentary headed the zero-lines bullet
+  "Expense lines no longer recurring", which asserts permanence, and the grader caught it. Case b's structured checks
+  and P1 were unchanged. **The diff did not match the prediction, so the change was blocked**: no commit and no
+  baseline from that run. The run's report, results and an explanatory NOTE.md are committed under
+  `evals/runs/commit4-run-20261012/`. The fix is in D-50 to D-52; the policy that now governs such flips is in D-49.

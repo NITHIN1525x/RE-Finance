@@ -384,6 +384,38 @@
     ],
     "formula": "Professional Fees in its last non-zero month (added for the D-45 'zero since' wording)"
   },
+  "abc.sku_profiling.jun2026": {
+    "value": 0.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "C13"
+    ],
+    "formula": "SKU Profiling, Jun 2026"
+  },
+  "abc.sku_profiling.may2026": {
+    "value": 0.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "D13"
+    ],
+    "formula": "SKU Profiling, May 2026"
+  },
+  "abc.sku_profiling.last_nonzero_month": {
+    "value": "Apr 2026",
+    "sheet": "Income Statement",
+    "cells": [
+      "E5"
+    ],
+    "formula": "header of the newest column before Jun 2026 where SKU Profiling is non-zero"
+  },
+  "abc.sku_profiling.last_nonzero_value": {
+    "value": 10000.0,
+    "sheet": "Income Statement",
+    "cells": [
+      "E13"
+    ],
+    "formula": "SKU Profiling in its last non-zero month"
+  },
   "abc.cash.jun2026": {
     "value": 713481.26,
     "sheet": "Balance Sheet",

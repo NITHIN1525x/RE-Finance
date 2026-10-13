@@ -238,6 +238,17 @@ class RealWorkbookTests(unittest.TestCase):
         self.assertNotIn("'Advisory Services' (Professional Fees) is zero in Jun 2026", text)
         self.assertEqual(len(flags), 4)
 
+    def test_vanished_revenue_stream_wording_says_zero_since(self):
+        # Test 30 (intentional behaviour change, DECISIONS_LOG D-48): same "zero since" logic for revenue streams.
+        text = "\n".join(f["message"] for f in self.a["flags"] if f["kind"] == "revenue_stream")
+        self.assertIn("Revenue stream 'SKU Profiling' has been zero since May 2026 (last non-zero: Apr 2026, 10,000) "
+                      "after 10,000 at its peak in the prior 6 months.", text)
+        self.assertNotIn("Revenue stream 'SKU Profiling' is zero in Jun 2026", text)
+        # Streams that really stopped in Jun 2026 keep the original wording, byte for byte.
+        self.assertIn("Revenue stream 'Partnership Income' is zero in Jun 2026 after 1,608 at its peak in the prior 6 months.", text)
+        self.assertIn("Revenue stream 'Professional Services' is zero in Jun 2026 after 15,833 at its peak in the prior 6 months.",
+                      text)
+
     def test_all_cross_checks_pass(self):
         self.assertEqual({c["status"] for c in self.a["data_quality"]["checks"]}, {"pass"})
 

@@ -42,6 +42,12 @@ evals/runs/first-run-20261012/*
 !evals/runs/first-run-20261012/report.md
 !evals/runs/first-run-20261012/results.json
 !evals/runs/first-run-20261012/NOTE.md
+# commit-4 run: recorded as an honest FAIL (blocked by the regression policy)
+!evals/runs/commit4-run-20261012/
+evals/runs/commit4-run-20261012/*
+!evals/runs/commit4-run-20261012/report.md
+!evals/runs/commit4-run-20261012/results.json
+!evals/runs/commit4-run-20261012/NOTE.md
 
 # ---------------------------------------------------------------------------
 # Build output, dependencies, caches

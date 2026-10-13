@@ -314,7 +314,10 @@ def _flag_revenue(flags, total, streams, months, th, lb, materiality):
             flags.append(_flag("medium", "revenue_stream", f"New revenue stream '{s['name']}': {v[-1]:,.0f} in {latest}, "
                                f"zero in the prior {lb} months."))
         if abs(v[-1]) < 0.005 and any(abs(x) >= materiality for x in window):
-            flags.append(_flag("medium", "revenue_stream", f"Revenue stream '{s['name']}' is zero in {latest} after "
+            last_nz = next(i for i in range(len(v) - 2, -1, -1) if abs(v[i]) >= 0.005)   # exists: window has a material month
+            when = (f"is zero in {latest}" if last_nz == len(v) - 2 else
+                    f"has been zero since {mlabel(months[last_nz + 1])} (last non-zero: {mlabel(months[last_nz])}, {v[last_nz]:,.0f})")
+            flags.append(_flag("medium", "revenue_stream", f"Revenue stream '{s['name']}' {when} after "
                                f"{max(window, key=abs):,.0f} at its peak in the prior {lb} months."))
         negatives = [(mlabel(m), x) for m, x in zip(months, v) if x < 0]
         if negatives:

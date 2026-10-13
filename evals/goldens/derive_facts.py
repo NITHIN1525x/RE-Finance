@@ -114,6 +114,16 @@ for fid, label in (("advisory_services", "Advisory Services"), ("federal_state_t
     fact(f"abc.vanished.{fid}.last_nonzero_value", v(IS, r, last_c), S, [f"{L(last_c)}{r}"],
          f"{label} in its last non-zero month (added for the D-45 'zero since' wording)")
 
+# Revenue stream that stopped before Jun 2026 (added for D-48 'zero since' wording on revenue streams).
+r_sku = row_of(IS, "SKU Profiling")
+fact("abc.sku_profiling.jun2026", v(IS, r_sku, JUN), S, [f"C{r_sku}"], "SKU Profiling, Jun 2026")
+fact("abc.sku_profiling.may2026", v(IS, r_sku, MAY), S, [f"D{r_sku}"], "SKU Profiling, May 2026")
+sku_last = next(c for c in range(MAY, 21) if v(IS, r_sku, c) != 0)
+fact("abc.sku_profiling.last_nonzero_month", IS.cell(5, sku_last).value, S, [f"{L(sku_last)}5"],
+     "header of the newest column before Jun 2026 where SKU Profiling is non-zero")
+fact("abc.sku_profiling.last_nonzero_value", v(IS, r_sku, sku_last), S, [f"{L(sku_last)}{r_sku}"],
+     "SKU Profiling in its last non-zero month")
+
 assert BS.cell(5, 4).value == "30 Jun 2026" and BS.cell(5, 10).value == "31 Dec 2025"
 r_cash = row_of(BS, "Total Cash and Cash Equivalents")
 fact("abc.cash.jun2026", v(BS, r_cash, 4), "Balance Sheet", [f"D{r_cash}"], "Total Cash and Cash Equivalents, 30 Jun 2026")
