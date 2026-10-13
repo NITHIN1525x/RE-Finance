@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.0242528,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Stock-Based Compensation Expense spike (about 334,661) as a possible one-off / single-month item.",
+      "status": "PASS",
+      "evidence": "\"Stock-Based Compensation Expense (334,661 vs a typical month of 0)... each appear to be single-month items\"; figure matches 334,660.53 and median 0."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Bonus spike (about 80,343) as a possible one-off / single-month item.",
+      "status": "PASS",
+      "evidence": "\"Bonus (80,343 vs a typical 2,721)... appear to be single-month items\"; matches 80,342.53 and median 2,720.83."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Leaves the one-off determination to the reviewer (hedged wording such as 'appears to be' or 'reviewer to confirm') rather than concluding.",
+      "status": "PASS",
+      "evidence": "Uses hedged \"each appear to be single-month items; reviewer to confirm\", leaving the determination to the reviewer."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as unhedged fact that these Dec 2025 items are non-recurring/one-off.",
+      "status": "PASS",
+      "evidence": "The one-off claim is hedged (\"appear to be single-month items; reviewer to confirm\"), not stated as unhedged fact."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts an accounting treatment or a cause for these items as fact (e.g. 'year-end bonus accrual', 'option vesting', 'should be excluded/normalised').",
+      "status": "PASS",
+      "evidence": "No accounting treatment or cause is asserted (no mention of accrual, vesting, or exclusion/normalisation); the commentary only says the items fall inside the TTM window and affect TTM figures."
+    }
+  ]
+}

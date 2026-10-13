@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.0302971,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+      "status": "PASS",
+      "evidence": "The commentary says \"Federal & State Taxes (6-month average 999) and Marketing/Advertising: Miscellaneous (6-month average 721) are zero in Jun 2026\". The nonzero averages show these were nonzero before, and it names two of the listed lines."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+      "status": "PASS",
+      "evidence": "The commentary gives 999 for Federal & State Taxes (true 998.5083, about 0.05% off) and 721 for Marketing Misc (true 721.0033, about 0.0005% off). Both are within 5%, and the 2,500 and 3,773 figures are last-nonzero values, not prior averages."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+      "status": "PASS",
+      "evidence": "No cause is stated as fact. The commentary only says \"Whether any of these has stopped for good or is timing is for the reviewer to confirm.\""
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+      "status": "PASS",
+      "evidence": "The lines are not called discontinued or cancelled. The commentary leaves \"stopped for good or is timing\" to the reviewer."
+    }
+  ]
+}

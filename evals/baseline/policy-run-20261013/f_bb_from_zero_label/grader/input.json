@@ -1,0 +1,42 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "bb.mystery_shopper.monthly",
+      "value": "[0.0, 0.0, 400.0, 0.0, 0.0, 400.0, 0.0, 0.0, 400.0]",
+      "meaning": "Jan..Sep 2026",
+      "source": "Profit and Loss!B31:J31"
+    },
+    {
+      "id": "bb.mystery_shopper.nonzero_before_sep",
+      "value": "[\"Mar 2026\", \"Jun 2026\"]",
+      "meaning": "months before Sep with a non-zero value (so it is NOT new in Sep)",
+      "source": "Profit and Loss!B31:I31"
+    },
+    {
+      "id": "bb.wholesale.blank_before_sep",
+      "value": "true",
+      "meaning": "empty Jan..Aug 2026",
+      "source": "Profit and Loss!B10:I10"
+    },
+    {
+      "id": "bb.wholesale.sep2026",
+      "value": "12,000",
+      "meaning": "Wholesale Accounts, Sep 2026",
+      "source": "Profit and Loss!J10"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Identifies Wholesale Accounts as a new revenue stream in Sep 2026 (about 12,000; zero or absent in prior months)."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes Mystery Shopper Program as new, first appearing, or appearing for the first time in Sep 2026. (It was also 400 in Mar and Jun 2026. Saying it was zero in Aug, or rose 'from 0', is allowed.)"
+    }
+  ],
+  "commentary": "- **Data quality first:** 'Total for Professional Services' in Mar 2026 states 2,225 but its detail rows sum to 2,200 (diff 25). The analysis uses the detail rows; the reviewer should confirm which figure is correct. Part of the sheet structure was also reconstructed: 'Total Delivery' had no header row, so it was grouped from Delivery Van Fuel and Courier: Same Day, and 'Charitable Donations' had no total row, so it was treated as a blank account.\n- **Revenue 81,300 in Sep 2026**, +17.7% vs Aug 2026 (69,050) and +17.3% vs the prior 6-month average (69,292). Year-over-year and TTM comparisons aren't available: the export covers only 9 months (Jan\u2013Sep 2026).\n- **12,000 of September revenue comes from a new stream, 'Wholesale Accounts'**, which is zero in every earlier month of the export. Among existing streams, Bread Sales rose to 49,200 (+1.9%), Pastry Sales fell to 15,700 (-2.2%, down every month shown), and Catering Revenue was 3,800 (-5.0%), after 4,000 in Aug 2026 and 9,100 in Jul 2026.\n- **Gross margin 65.3%**, up from 59.6% in Aug 2026 (+5.7 pp) and above the prior 6-month average of 60.6%. It's the highest in the period, which ranges from 56.8% (Mar 2026) to 65.3% (Sep 2026).\n- **Payroll & Benefits 22,600 (+28.4% / +5,000 vs Aug 2026)**, all of it from Wages & Salaries (16,000 \u2192 21,000), after the category held at 17,600 every month from Apr to Aug 2026. Total operating expenses were 31,570 (+21.0%). Whether this is a new run-rate or a one-month item is for the reviewer to confirm.\n- **Mystery Shopper Program 400** shows as \"from 0\" against Aug 2026, but it isn't a new line: it was also 400 in Mar 2026 and Jun 2026 and zero in the other months, which looks like a quarterly charge (reviewer to confirm). It's one of 3 accounts that matched no category rule, along with Instagram Ads and Supplier Rebates, and these sit in Other Opex (1,500 in Sep 2026).\n- **Net income 21,553**, up from 15,077 in Aug 2026. It's positive in all 9 months, and no non-operating items affect it.\n- **Bank Accounts 37,600**, -1,800 vs Aug 2026 and -10,800 vs six months earlier (48,400), even though net income was positive every month. The export doesn't show what drove the cash decline; question for the reviewer."
+}

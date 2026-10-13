@@ -1,0 +1,46 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "bb.prof_services.mar2026.detail_sum",
+      "value": "2,200",
+      "meaning": "D33+D34 (Bookkeeping + Legal)",
+      "source": "Profit and Loss!D33,D34"
+    },
+    {
+      "id": "bb.prof_services.mar2026.diff",
+      "value": "25",
+      "meaning": "stated - detail sum",
+      "source": "Profit and Loss!D35,D33,D34"
+    },
+    {
+      "id": "bb.prof_services.mar2026.stated",
+      "value": "2,225",
+      "meaning": "Total for Professional Services, Mar 2026",
+      "source": "Profit and Loss!D35"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Reports the data-quality problem: names the Professional Services subtotal, the month (Mar 2026), and the amount (the 25 difference, or both the stated 2,225 and the detail sum 2,200)."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Leaves resolving the mismatch to the reviewer rather than deciding which figure is right."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Says all data-quality checks passed or that the data is clean/reconciled."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts which of the two figures is correct, or that the error was corrected."
+    }
+  ],
+  "commentary": "- **Data quality, please resolve first:** In Mar 2026, 'Total for Professional Services' states 2,225.00, but its detail rows sum to 2,200.00 (diff 25.00). This analysis uses the detail rows. The reviewer should confirm which figure is right. The structure was also partly reconstructed. 'Total Delivery' had no header row, so it was grouped from Delivery Van Fuel and Courier: Same Day, which sum to it in every month. 'Charitable Donations' had no values and no total row, so the 4 rows after it were kept at the parent level.\n- **Limited comparisons:** TTM and year-over-year figures aren't available because the export covers only 9 months (Jan\u2013Sep 2026). Every comparison below is month-over-month or against the prior 6-month average.\n- **Revenue 81,300, up 17.7%** from 69,050 in Aug 2026 and 17.3% above the prior 6-month average (69,292). Sep includes 12,000 from 'Wholesale Accounts', a new stream that was zero in the prior 6 months. Bread Sales rose 1.9% to 49,200 and Pastry Sales fell 2.2% to 15,700, continuing a steady monthly pattern in both. Catering Revenue was 3,800 (-5.0%), after 4,000 in Aug and 9,100 in Jul.\n- **Gross margin 65.3%,** up from 59.6% in Aug 2026 (+5.7 pp) and above the prior 6-month average of 60.6%. It is the highest month in the period, which ranges from 56.8% (Mar 2026) to 65.3% (Sep 2026). COGS was 28,220 against 27,930 in Aug.\n- **Operating expenses 31,570, up 21.0%.** Almost all of the increase is Payroll & Benefits: 22,600, up 5,000 or 28.4%, driven by Wages & Salaries (16,000 \u2192 21,000, +31.2%). Payroll & Benefits had been 17,600 in each month from Apr to Aug 2026. The reviewer should confirm whether this is a single-month item or a new level. Mystery Shopper Program (400) shows as \"from 0\", but it is not new: it was 400 in Mar, Jun and Sep 2026.\n- **Net income 21,553,** up from 15,077 in Aug 2026 (+6,476, +42.9%). It was positive in all 9 months, and the lowest month was Mar 2026 (8,387). The as-exported and excl.-non-operating figures are the same, because this export has no non-operating items inside opex.\n- **Cash: Bank Accounts 37,600,** down 1,800 from Aug and down 10,800 from six months earlier (48,400). Over the same six months, equity went from 54,660 to 44,940 while net income was positive every month. The reviewer may want to check what accounts for this, such as owner draws or distributions, since the P&L doesn't show it.\n- **Other items to review:** Gift Cards was negative in Mar 2026 (-300). This may be credits or refunds, which the reviewer should confirm. Three expense accounts matched no category rule and sit in 'Other Opex': Instagram Ads, Mystery Shopper Program and Supplier Rebates. Supplier Rebates is a credit (negative) line."
+}

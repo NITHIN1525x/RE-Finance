@@ -1108,3 +1108,82 @@ Claude call. Both layers are summarised in one report.
   Eval-side tests now 40.
 - **Also:** `REGRESSION.md` did not exist before this commit; the policy had only been stated in instructions.
   It is now the written source.
+
+### D-50: SKILL.md rule: a zero line is an observation, not a conclusion (case b F2)
+- **Trigger:** `commit4-run` case b failed F2 (forbidden: implying a zero line has permanently stopped). The heading
+  was "Expense lines no longer recurring". Nothing relevant to that wording had changed in the skill.
+- **Change:** a writing rule in SKILL.md. State only what the numbers show ("zero in Jun 2026", "has been zero since
+  Feb 2026 (last non-zero Jan 2026, 2,500)"). Say that whether the line has stopped, been discontinued or is timing
+  is for the reviewer to confirm. Headings count too.
+- **Measured** (case b alone, 5 runs before the rule, 5 after; `evals/runs/caseb-before-1..5`, `caseb-after-1..5`):
+
+  | Measure | Before | After |
+  |---|---|---|
+  | F2 FAIL | 0/5 | 0/5 |
+  | Near-miss headings ("no longer appearing", "no longer posting") | 2/5 | 0/5 |
+  | Explicit reviewer deferral on expense lines | 0/5 | 4/5 (after-1 lacks it) |
+  | Explicit reviewer deferral on revenue streams | 0/5 | 5/5 |
+
+- **Honest reading:**
+  - F2 did not fail in any of these 10 runs. So **the measurement doesn't show the rule fixing a failure rate**:
+    the original failure rate is somewhere below what 5 samples can resolve.
+  - What the rule measurably changes is wording. The near-miss phrasing disappeared, and the reviewer deferral
+    became nearly consistent.
+  - With n = 5 per arm, 2/5 → 0/5 is suggestive, not significant.
+- **Not done:** the optional check of commit 3 in a worktree. It was skipped because the "before" F2 failure rate was
+  already 0/5. Cost of the 10 runs: $2.46 before, $2.72 after.
+
+### D-51: Case g R1 is grader noise at a borderline; SKILL.md rule to name missing comparisons
+- **Trigger:** `commit5-run` case g R1 flipped PASS → FAIL. R1 requires the commentary to acknowledge that TTM/YoY
+  comparisons aren't available because the export covers fewer than 12 months. The only relevant sentence was "No
+  same-month-last-year comparison is available, because the export starts in Jan 2026". The grader called that
+  "only partly made".
+- **Measured:** re-grading the **identical** commentary 3 times (`evals/runs/caseg-regrade-1..3`, $0.07) gave R1
+  PASS, PASS, FAIL. With the original grading that is **2 FAIL in 4, on unchanged text**. The sample is tiny, but it
+  is enough to show the verdict isn't stable at that wording.
+- **Change:** a SKILL.md rule. If TTM or YoY can't be computed, say so explicitly, name which comparisons are missing,
+  and give the number of months in the export. This targets the borderline: the "partly made" wording omitted TTM
+  and the month count.
+- **Deliberately not changed:** the R1 golden and the grader rubric. The flaky sentence was a weaker statement of the
+  claim, not a correct statement graded wrongly, so loosening R1 would have hidden that.
+- **Effect seen so far:** one run (`policy-run-20261013`) wrote "TTM and year-over-year figures aren't available
+  because the export covers only 9 months (Jan–Sep 2026)", and R1 passed. That is n = 1; the noise rate after the
+  rule isn't measured.
+- **Process response:** the resampling policy (D-49).
+
+### D-52: Full run under the resampling policy; baseline v3
+- **Prediction, written before the run** (`evals/runs/policy-run-prediction.txt`, 2026-10-13T02:16:56Z): vs v2, case a
+  gains S17/S18 (PASS); every other verdict and structured value is identical; any commentary flip resamples to 4
+  samples; no BLOCK expected.
+- **Result** (`policy-run-20261013`):
+  - 132/132 checks PASS, 7/7 cases;
+  - 0 UNSTABLE, no commentary flip vs v2, so **no resampling was triggered**;
+  - no contamination;
+  - 30/30 regression tests; grader controls 3/3 agree;
+  - $2.95.
+- **Diff vs v2** (`compare_runs.py`): only case a S17/S18, **matching the prediction**.
+- **Both SKILL.md rules were followed in this run.** Case b states zeros as observations and defers to the reviewer;
+  case g names TTM, YoY and the 9-month span. That is one sample each.
+- **Not exercised:** the resampling path itself ran only in unit tests (`test_policy.py`), never in a live run.
+- **Baseline v3** = verbatim copy in `evals/baseline/policy-run-20261013/` (166 files, fingerprint in `BASELINE.md`).
+  v2 moved to `evals/baseline/history/v2/`, and `current.json` now points to v3.
+- **Committed run records:**
+  - `commit5-run` (an honest FAIL, with NOTE.md);
+  - the case b before/after runs (summary plus commentary);
+  - the case g re-grades;
+  - both prediction files.
+- **Eval spend to date: $22.99.**
+
+  | Item | Cost |
+  |---|---:|
+  | first-run | $2.73 |
+  | v1 clean-run | $2.74 |
+  | v2 commit3-run | $3.04 |
+  | commit4-run | $2.99 |
+  | commit5-run | $2.96 |
+  | policy-run | $2.95 |
+  | case b ×10 | $5.18 |
+  | case g re-grades | $0.07 |
+  | deleted smoke/probe runs | $0.33 |
+
+  Since the case g decision: ≈ $3.02, against the $10 budget.

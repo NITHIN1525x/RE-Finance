@@ -1,0 +1,10 @@
+Data-quality checks all pass (subtotals, gross profit, operating income, net income and balance sheet tie out in every month); no parsing warnings, and Jun 2026 is not flagged as a partial month.
+
+- **Revenue 195,898 in Jun 2026, -6.0% vs May 2026 (208,351).** May 2026 was the highest month in the export, so the drop is measured from a peak; Jun 2026 is -0.5% vs the prior 6-month average (196,946) and +2.8% vs Jun 2025 (190,556).
+- **Usage Fees fell 6.3% to 166,782** (77.7% of TTM revenue). Professional Services and Partnership Income are zero in Jun 2026, and SKU Profiling has been zero since May 2026 (last non-zero: Apr 2026, 10,000).
+- **Gross margin 70.2% in Jun 2026, +3.1 pp vs May 2026 (67.0%)** and equal to the prior 6-month average (70.2%); it is -4.2 pp vs Jun 2025 (74.3%).
+- **Total operating expenses (as exported) 468,182, -2.2% vs May 2026.** Finance & Admin moved to (993) from 15,243, driven by Bad Debts at (1,806) vs 12,935 in May 2026; reviewer to confirm the nature of the credit. Events & Conferences rose to 29,295 from 11,324 (+158.7%), while Partnerships Commission fell to 1,800 from 10,800 (-83.3%).
+- **Expense lines no longer posting:** Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026 (prior 6-month averages 999 and 721). Advisory Services has been zero since Feb 2026 (last non-zero: Jan 2026, 2,500), and Professional Fees has been zero since Apr 2026 (last non-zero: Mar 2026, 3,773).
+- **Net income (330,756) in Jun 2026, the 6th consecutive negative month; TTM (3,089,780).** The only positive month in the export, Dec 2025 (534,551), is positive only because of non-operating items; excluding them it is -715,902 (largest: Income Tax Benefit -1,244,430).
+- **Cash and Cash Equivalents 713,481 at Jun 2026,** down 215,543 vs May 2026 and 1,871,836 vs six months earlier (2,585,317).
+- **Dec 2025 Stock-Based Compensation Expense (334,661) and Bonus (80,343)** each appear to be a single-month item; reviewer to confirm.

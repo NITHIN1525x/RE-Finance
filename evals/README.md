@@ -4,7 +4,7 @@
 
 | Layer | What it checks | Where |
 |---|---|---|
-| **1. Deterministic extractor** | parsing, the subtotal rule, category roll-ups, MoM / TTM / YoY math | `.claude/skills/monthly-trend-analysis/tests/test_trends.py` (28 unit and regression tests). Task 3 added one test for a real gap: TTM / YoY values were never asserted. |
+| **1. Deterministic extractor** | parsing, the subtotal rule, category roll-ups, MoM / TTM / YoY math | `.claude/skills/monthly-trend-analysis/tests/test_trends.py` (30 unit and regression tests). Task 3 added one test for a real gap: TTM / YoY values were never asserted. |
 | **2. Skill end to end** | the real skill run by Claude Code, **including the commentary Claude writes**, which can drift even when the extractor is right | this folder: 7 golden cases |
 
 The harness runs layer 1 too, so both appear in one report.
@@ -14,12 +14,12 @@ The harness runs layer 1 too, so both appear in one report.
 | File | Purpose |
 |---|---|
 | `goldens/derive_facts.py` | Reads the **raw workbook cells** with plain openpyxl, not the skill's extractor, and writes every expected value with its sheet, cells and formula. |
-| `goldens/source_facts.json` | Its output: 57 auditable facts. `run_evals.py` refuses to run if this file no longer matches the workbooks. |
+| `goldens/source_facts.json` | Its output: 69 auditable facts. `run_evals.py` refuses to run if this file no longer matches the workbooks. |
 | `goldens/cases.json` | The golden cases. Checks reference fact ids, never typed numbers. It also holds the rounding policy, the skill prompts and the grader negative controls. |
 | `grader_prompt.md` | The grader's instructions; the inputs are appended as JSON. |
 | `run_evals.py` | The harness. |
 | `runs/<run-id>/` | Every artifact of a run (below). |
-| `baseline/` | The first honest run, recorded as-is, failures included. |
+| `baseline/` | The current baseline run (v3), copied verbatim; earlier versions in `baseline/history/`. `current.json` names it. |
 
 ## How a case is evaluated
 
@@ -136,12 +136,13 @@ Exit codes:
 - 3: harness contamination;
 - 2: BLOCKED only.
 
-The baseline is in `evals/baseline/`: v2 is current, and earlier versions are in `history/`; see `BASELINE.md`. To compare a run with it: `python evals/compare_runs.py evals/baseline/commit3-run-20261012 evals/runs/<run-id>`.
+The baseline is in `evals/baseline/`: v3 is current, and earlier versions are in `history/`; see `BASELINE.md`. To compare a run with it: `python evals/compare_runs.py evals/baseline/policy-run-20261013 evals/runs/<run-id>`.
 
 ## Known limits
 
-- **One sample per case per run.** The commentary is non-deterministic, so a single run is evidence,
-  not proof. Repeat runs to estimate flakiness before treating one FAIL or PASS as definitive.
+- **One sample per case per run, unless a commentary claim flips.** The commentary is non-deterministic, so a
+  single run is evidence, not proof. A flip triggers 3 resamples (`REGRESSION.md`), but a single PASS is still
+  only one sample.
 - **The grader is a model.** Its reliability is checked by the negative controls (synthetic bad
   commentary with known verdicts) and by recording evidence for every verdict. It isn't infallible.
 - **Some structured checks depend on the report's exact wording** (flag text, table rows). That's

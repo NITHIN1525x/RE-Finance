@@ -1,0 +1,84 @@
+You are a strict, literal auditor grading the COMMENTARY section of a draft monthly financial trend report.
+You do not write or improve commentary. You only decide, for each rule, whether the commentary satisfies it.
+
+You are given one JSON object with:
+- `rounding_policy`: the ONLY rule for judging whether a figure in prose is acceptable.
+- `reference_facts`: true values derived from the source workbook cells. Treat them as ground truth.
+- `rules`: a list of rules. Each has `id`, `kind` ("required" or "forbidden") and `claim`.
+- `commentary`: the exact text to grade.
+
+How to grade each rule:
+- `required`: PASS only if the commentary actually makes that claim, including every element the claim
+  names, and any figure it uses is consistent with the reference facts under the rounding policy.
+  FAIL if the claim is missing, only partly made, or made with a misstated figure.
+- `forbidden`: PASS if the commentary does NOT contain the forbidden content. FAIL if it does.
+  So for every rule, PASS always means "the commentary is acceptable on this rule".
+- Judge only what the commentary text says. Do not assume content that isn't there. Do not penalise
+  content that no rule mentions.
+- Apply the rounding policy exactly as written. Compute the relative difference when it matters, and
+  state it in the evidence.
+- A rule that says it PASSES when some condition is absent (e.g. "if no such figures are given, PASS")
+  must PASS when the condition is absent.
+
+Return one verdict for EVERY rule id, exactly once. `evidence` must be one or two sentences: quote the
+relevant words from the commentary (or say they are absent), and give the reason, citing a reference
+fact where relevant.
+
+INPUT:
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "abc.bonus.dec2025",
+      "value": "80,342.53",
+      "meaning": "Bonus, Dec 2025",
+      "source": "Income Statement!I33"
+    },
+    {
+      "id": "abc.bonus.median_other_months",
+      "value": "2,720.83",
+      "meaning": "median |Bonus| over the other 17 months",
+      "source": "Income Statement!C33:T33 excl. I33"
+    },
+    {
+      "id": "abc.sbc.dec2025",
+      "value": "334,660.53",
+      "meaning": "Stock-Based Compensation Expense, Dec 2025",
+      "source": "Income Statement!I99"
+    },
+    {
+      "id": "abc.sbc.median_other_months",
+      "value": "0",
+      "meaning": "median |Stock-Based Compensation Expense| over the other 17 months",
+      "source": "Income Statement!C99:T99 excl. I99"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Stock-Based Compensation Expense spike (about 334,661) as a possible one-off / single-month item."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Bonus spike (about 80,343) as a possible one-off / single-month item."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Leaves the one-off determination to the reviewer (hedged wording such as 'appears to be' or 'reviewer to confirm') rather than concluding."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as unhedged fact that these Dec 2025 items are non-recurring/one-off."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts an accounting treatment or a cause for these items as fact (e.g. 'year-end bonus accrual', 'option vesting', 'should be excluded/normalised')."
+    }
+  ],
+  "commentary": "- **Revenue 195,898 in Jun 2026**: -6.0% vs May 2026 (208,351, the highest month in the export), -0.5% vs the prior 6-month average (196,946), and +2.8% vs Jun 2025 (190,556). Usage Fees, 77.7% of TTM revenue, fell 6.3% to 166,782.\n- **Three smaller revenue streams are zero in Jun 2026**: Professional Services (833 in each month Feb\u2013May 2026) and Partnership Income (477 in May 2026) are zero in Jun 2026. SKU Profiling has been zero since May 2026 (last non-zero Apr 2026, 10,000). Whether any of these has stopped for good or is just timing is for the reviewer to confirm.\n- **Gross margin 70.2%**, up 3.1 pp from 67.0% in May 2026 and equal to the prior 6-month average (70.2%). It is 4.2 pp below Jun 2025 (74.3%).\n- **Operating expenses excl. non-operating items 468,318**, -2.4% vs May 2026. The largest account movements were Events & Conferences (+17,971 to 29,295), Bad Debts (12,935 in May to (1,806), which takes Finance & Admin to (993)) and Partnerships Commission (-9,000 to 1,800).\n- **Expense lines at zero**: Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026. Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773), and Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500). Whether these have stopped or are timing is for the reviewer to confirm.\n- **Net income (330,756) in Jun 2026**, the 6th consecutive negative month, and negative in 17 of the 18 months. Dec 2025 (534,551) is the only positive month, and only because of non-operating items: excluding them it is (715,902). TTM net income is (3,089,780) as exported and (4,399,038) excluding non-operating items, because the Dec 2025 Income Tax Benefit (-1,244,430) falls inside the TTM window.\n- **Cash and Cash Equivalents 713,481**: -215,543 vs May 2026 and -1,871,836 vs six months earlier (2,585,317). Liabilities rose from 747,583 to 1,002,176 over the month.\n- **Dec 2025 one-offs**: Stock-Based Compensation Expense (334,661 vs a typical month of 0), Bonus (80,343 vs a typical 2,721) and Income Tax Benefit (-1,244,430 vs a typical 0) each appear to be single-month items; reviewer to confirm. All three fall inside the TTM window and affect the TTM opex and net income figures."
+}

@@ -1,0 +1,21 @@
+{
+  "id": "ctl_g_guessed_ttm",
+  "case": "g_bb_no_ttm",
+  "checks": [
+    {
+      "id": "R1",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "evidence": "The commentary never says twelve-month comparisons are unavailable; it instead presents a TTM/annualised figure (\"annualising the nine months gives roughly 850,000\"), with no acknowledgement that the export covers fewer than 12 months.",
+      "agrees": true
+    },
+    {
+      "id": "F1",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "evidence": "It states \"On a trailing-twelve-month basis, annualising the nine months gives roughly 850,000\", which is a TTM/annualised estimate and is forbidden.",
+      "agrees": true
+    }
+  ],
+  "status": "AGREES"
+}

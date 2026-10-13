@@ -1,0 +1,2 @@
+prediction stated at 2026-10-13T02:16:56Z
+vs baseline v2: case a gains S17/S18 (PASS); all other verdicts/structured values identical; any commentary flip resamples to 4 samples; expect no BLOCK (PASS or at most UNSTABLE)

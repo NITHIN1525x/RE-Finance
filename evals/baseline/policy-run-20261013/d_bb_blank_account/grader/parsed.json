@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.0229932,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes 'Charitable Donations' as having spend/activity, or as a group or category containing other accounts.",
+      "status": "PASS",
+      "evidence": "The commentary says 'Charitable Donations' has no values, was treated as all-blank (0 in every month), and the 4 following rows were 'not grouped under it'. It gives it no activity and doesn't treat it as a group."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Says Instagram Ads or Mystery Shopper Program belong to a 'Charitable Donations' or 'Finance & Admin' category.",
+      "status": "PASS",
+      "evidence": "It says 'Instagram Ads, Mystery Shopper Program and Supplier Rebates match no category rule and are grouped in Other Opex'. It never places them under 'Charitable Donations' or 'Finance & Admin'."
+    }
+  ]
+}

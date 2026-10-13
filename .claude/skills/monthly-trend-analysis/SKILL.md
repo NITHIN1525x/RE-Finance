@@ -90,6 +90,15 @@ Writing rules, and why:
 - **No forecasts:** no runway, projections or "on track to". That's out of scope (below).
 - **Call a line "new" or "vanished" only when a flag says so.** In the tables, `from 0` means only that the
   *previous month* was zero. The line may recur quarterly, so check its monthly history before calling it new.
+- **A zero is an observation, not a conclusion.** When an expense line or revenue stream is zero, state only
+  what the numbers show, such as "zero in Jun 2026" or "has been zero since Feb 2026 (last non-zero Jan 2026,
+  2,500)". Then say explicitly that whether it has stopped for good, been discontinued, or is just timing is
+  for the reviewer to confirm. Headings and summary phrases count too: don't let a label like "lines that
+  stopped" imply permanence the data doesn't show.
+- **Say what you can't compare, and why.** If TTM or year-over-year figures can't be computed (the report shows
+  `n/a`), say so explicitly, name which comparisons are missing (TTM, year-over-year, or both), and give the
+  number of months in the export. For example: "TTM and year-over-year comparisons aren't available: the export
+  covers only 9 months (Jan–Sep 2026)." Otherwise a reader may assume the comparison was simply skipped.
 - Keep each bullet to one or two sentences, with the number first. Keep "DRAFT" in the title banner.
 
 Then tell the user where the report is, and summarise: data-quality status, the 3–4 most important

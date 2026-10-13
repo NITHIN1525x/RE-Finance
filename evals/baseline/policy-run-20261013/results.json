@@ -1,0 +1,2059 @@
+{
+  "manifest": {
+    "run_id": "policy-run-20261013",
+    "started": "2026-10-13T02:16:56+00:00",
+    "git_head": "7f411d4",
+    "git_dirty": [
+      " M .claude/skills/monthly-trend-analysis/SKILL.md",
+      " M .claude/skills/monthly-trend-analysis/scripts/trends/analysis.py",
+      " M .claude/skills/monthly-trend-analysis/tests/test_trends.py",
+      " M connection/DECISIONS_LOG.md",
+      " M evals/goldens/cases.json",
+      " M evals/goldens/derive_facts.py",
+      " M evals/goldens/source_facts.json",
+      " M evals/run_evals.py",
+      "?? evals/REGRESSION.md",
+      "?? evals/baseline/current.json",
+      "?? evals/policy.py",
+      "?? evals/tests/test_policy.py"
+    ],
+    "claude_cli": "2.1.296 (Claude Code)",
+    "skill_model": "claude-opus-5-5",
+    "grader_model": "claude-sonnet-5-5",
+    "skill_tools": [
+      "Skill",
+      "Bash",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep"
+    ],
+    "skill_budget_usd": "3",
+    "grader_budget_usd": "0.5",
+    "python": "3.12.4",
+    "facts_consistent_with_workbooks": true,
+    "facts_check_output": "source_facts.json matches the workbooks",
+    "cases": [
+      "a_abc_jun2026_core",
+      "b_abc_rounding_vanished_lines",
+      "c_bb_subtotal_mismatch",
+      "d_bb_blank_account",
+      "e_abc_dec2025_one_offs",
+      "f_bb_from_zero_label",
+      "g_bb_no_ttm"
+    ],
+    "baseline_for_flips": "evals/baseline/commit3-run-20261012",
+    "finished": "2026-10-13T02:24:51+00:00"
+  },
+  "regression_tests": {
+    "summary": "Ran 30 tests in 0.202s -> OK",
+    "ok": true,
+    "tests": [
+      {
+        "test": "test_cli_writes_report_and_json (test_trends.CliTests.test_cli_writes_report_and_json)",
+        "status": "ok"
+      },
+      {
+        "test": "test_missing_workbook_is_a_clean_error (test_trends.CliTests.test_missing_workbook_is_a_clean_error)",
+        "status": "ok"
+      },
+      {
+        "test": "test_different_company_and_layout (test_trends.PortabilityTests.test_different_company_and_layout)",
+        "status": "ok"
+      },
+      {
+        "test": "test_flags_are_sensible (test_trends.PortabilityTests.test_flags_are_sensible)",
+        "status": "ok"
+      },
+      {
+        "test": "test_percent_rounding_is_consistent_between_table_and_flags (test_trends.PortabilityTests.test_percent_rounding_is_consistent_between_table_and_flags)",
+        "status": "ok"
+      },
+      {
+        "test": "test_prior_month_zero_is_not_labelled_new (test_trends.PortabilityTests.test_prior_month_zero_is_not_labelled_new)",
+        "status": "ok"
+      },
+      {
+        "test": "test_structural_variants_handled (test_trends.PortabilityTests.test_structural_variants_handled)",
+        "status": "ok"
+      },
+      {
+        "test": "test_totals_reconcile_with_workbook_summary_rows (test_trends.PortabilityTests.test_totals_reconcile_with_workbook_summary_rows)",
+        "status": "ok"
+      },
+      {
+        "test": "test_unmapped_accounts_fall_into_other (test_trends.PortabilityTests.test_unmapped_accounts_fall_into_other)",
+        "status": "ok"
+      },
+      {
+        "test": "test_all_cross_checks_pass (test_trends.RealWorkbookTests.test_all_cross_checks_pass)",
+        "status": "ok"
+      },
+      {
+        "test": "test_figures_match_raw_sheet_rows (test_trends.RealWorkbookTests.test_figures_match_raw_sheet_rows)",
+        "status": "ok"
+      },
+      {
+        "test": "test_key_flags (test_trends.RealWorkbookTests.test_key_flags)",
+        "status": "ok"
+      },
+      {
+        "test": "test_no_subtotal_or_header_rows_counted_as_accounts (test_trends.RealWorkbookTests.test_no_subtotal_or_header_rows_counted_as_accounts)",
+        "status": "ok"
+      },
+      {
+        "test": "test_structure (test_trends.RealWorkbookTests.test_structure)",
+        "status": "ok"
+      },
+      {
+        "test": "test_ttm_mom_and_yoy_math_matches_raw_cells (test_trends.RealWorkbookTests.test_ttm_mom_and_yoy_math_matches_raw_cells)",
+        "status": "ok"
+      },
+      {
+        "test": "test_vanished_line_wording_says_zero_since (test_trends.RealWorkbookTests.test_vanished_line_wording_says_zero_since)",
+        "status": "ok"
+      },
+      {
+        "test": "test_vanished_revenue_stream_wording_says_zero_since (test_trends.RealWorkbookTests.test_vanished_revenue_stream_wording_says_zero_since)",
+        "status": "ok"
+      },
+      {
+        "test": "test_blank_account_mid_list_does_not_capture_following_rows (test_trends.SyntheticSheetTests.test_blank_account_mid_list_does_not_capture_following_rows)",
+        "status": "ok"
+      },
+      {
+        "test": "test_blank_cells_are_zero_and_counted (test_trends.SyntheticSheetTests.test_blank_cells_are_zero_and_counted)",
+        "status": "ok"
+      },
+      {
+        "test": "test_formula_in_detail_row_is_flagged (test_trends.SyntheticSheetTests.test_formula_in_detail_row_is_flagged)",
+        "status": "ok"
+      },
+      {
+        "test": "test_mismatch_is_flagged_not_trusted (test_trends.SyntheticSheetTests.test_mismatch_is_flagged_not_trusted)",
+        "status": "ok"
+      },
+      {
+        "test": "test_nested_subtotal_is_not_double_counted (test_trends.SyntheticSheetTests.test_nested_subtotal_is_not_double_counted)",
+        "status": "ok"
+      },
+      {
+        "test": "test_newest_first_columns_are_sorted (test_trends.SyntheticSheetTests.test_newest_first_columns_are_sorted)",
+        "status": "ok"
+      },
+      {
+        "test": "test_total_without_header_is_inferred_from_numbers (test_trends.SyntheticSheetTests.test_total_without_header_is_inferred_from_numbers)",
+        "status": "ok"
+      },
+      {
+        "test": "test_unreconcilable_total_is_excluded_and_flagged (test_trends.SyntheticSheetTests.test_unreconcilable_total_is_excluded_and_flagged)",
+        "status": "ok"
+      },
+      {
+        "test": "test_categorisation_rules (test_trends.UnitTests.test_categorisation_rules)",
+        "status": "ok"
+      },
+      {
+        "test": "test_month_formats (test_trends.UnitTests.test_month_formats)",
+        "status": "ok"
+      },
+      {
+        "test": "test_numbers (test_trends.UnitTests.test_numbers)",
+        "status": "ok"
+      },
+      {
+        "test": "test_section_roles (test_trends.UnitTests.test_section_roles)",
+        "status": "ok"
+      },
+      {
+        "test": "test_total_label_matching (test_trends.UnitTests.test_total_label_matching)",
+        "status": "ok"
+      }
+    ],
+    "raw_tail": "test_mismatch_is_flagged_not_trusted (test_trends.SyntheticSheetTests.test_mismatch_is_flagged_not_trusted) ... ok\ntest_nested_subtotal_is_not_double_counted (test_trends.SyntheticSheetTests.test_nested_subtotal_is_not_double_counted) ... ok\ntest_newest_first_columns_are_sorted (test_trends.SyntheticSheetTests.test_newest_first_columns_are_sorted) ... ok\ntest_total_without_header_is_inferred_from_numbers (test_trends.SyntheticSheetTests.test_total_without_header_is_inferred_from_numbers) ... ok\ntest_unreconcilable_total_is_excluded_and_flagged (test_trends.SyntheticSheetTests.test_unreconcilable_total_is_excluded_and_flagged) ... ok\ntest_categorisation_rules (test_trends.UnitTests.test_categorisation_rules) ... ok\ntest_month_formats (test_trends.UnitTests.test_month_formats) ... ok\ntest_numbers (test_trends.UnitTests.test_numbers) ... ok\ntest_section_roles (test_trends.UnitTests.test_section_roles) ... ok\ntest_total_label_matching (test_trends.UnitTests.test_total_label_matching) ... ok\n\n----------------------------------------------------------------------\nRan 30 tests in 0.202s\n\nOK"
+  },
+  "cases": [
+    {
+      "id": "a_abc_jun2026_core",
+      "title": "ABC Inc, Jun 2026: core figures and commentary (normal case)",
+      "input": {
+        "workbook": "data/ABC Inc - Financial Statements (1) (1).xlsx",
+        "prompt": "abc",
+        "target_month": "Jun 2026"
+      },
+      "skill_run": {
+        "model_requested": "claude-opus-5-5",
+        "model_reported": "claude-opus-5-5",
+        "claude_code_version": "2.1.296",
+        "num_turns": 12,
+        "total_cost_usd": 0.47809970000000007,
+        "elapsed_s": 58.7,
+        "permission_mode": "default"
+      },
+      "execution": [
+        {
+          "id": "X1",
+          "desc": "claude -p run completed successfully",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "exit 0, subtype success"
+        },
+        {
+          "id": "X2",
+          "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X3",
+          "desc": "the skill's script run_trends.py was executed",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X4",
+          "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "1 json, 1 md in evals/runs/policy-run-20261013/a_abc_jun2026_core/skill_output"
+        },
+        {
+          "id": "X5",
+          "desc": "nothing outside evals/runs/ was modified by the skill run",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "no changes made by the skill"
+        },
+        {
+          "id": "X6",
+          "desc": "the narrative placeholder was replaced with commentary",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        }
+      ],
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "target month",
+          "type": "value",
+          "source": "literal",
+          "expected": "Jun 2026",
+          "actual": "Jun 2026",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S2",
+          "desc": "Jun 2026 total revenue",
+          "type": "value",
+          "source": {
+            "fact": "abc.revenue.jun2026",
+            "sheet": "Income Statement",
+            "cells": [
+              "C14"
+            ],
+            "formula": "Total Income, Jun 2026"
+          },
+          "expected": 195898.16,
+          "actual": 195898.16,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S3",
+          "desc": "May 2026 total revenue",
+          "type": "value",
+          "source": {
+            "fact": "abc.revenue.may2026",
+            "sheet": "Income Statement",
+            "cells": [
+              "D14"
+            ],
+            "formula": "Total Income, May 2026"
+          },
+          "expected": 208350.96,
+          "actual": 208350.96,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S4",
+          "desc": "revenue MoM %",
+          "type": "value",
+          "source": {
+            "fact": "abc.revenue.mom_pct",
+            "sheet": "Income Statement",
+            "cells": [
+              "C14",
+              "D14"
+            ],
+            "formula": "(C14-D14)/D14*100"
+          },
+          "expected": -5.976838311664121,
+          "actual": -5.9768,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S5",
+          "desc": "revenue YoY % vs Jun 2025",
+          "type": "value",
+          "source": {
+            "fact": "abc.revenue.yoy_pct",
+            "sheet": "Income Statement",
+            "cells": [
+              "C14",
+              "O14"
+            ],
+            "formula": "(C14-O14)/O14*100"
+          },
+          "expected": 2.803648173118986,
+          "actual": 2.8036,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S6",
+          "desc": "TTM revenue",
+          "type": "value",
+          "source": {
+            "fact": "abc.revenue.ttm",
+            "sheet": "Income Statement",
+            "cells": [
+              "C14:N14"
+            ],
+            "formula": "SUM(C14:N14) (Jul 2025..Jun 2026)"
+          },
+          "expected": 2303975.51,
+          "actual": 2303975.51,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S7",
+          "desc": "number of revenue streams",
+          "type": "count",
+          "source": {
+            "fact": "abc.revenue.stream_count",
+            "sheet": "Income Statement",
+            "cells": [
+              "B8:B13"
+            ],
+            "formula": "rows between 'Income' header and 'Total Income'"
+          },
+          "expected": 6,
+          "actual": 6,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S8",
+          "desc": "Usage Fees Jun 2026",
+          "type": "value",
+          "source": {
+            "fact": "abc.usage_fees.jun2026",
+            "sheet": "Income Statement",
+            "cells": [
+              "C11"
+            ],
+            "formula": "Usage Fees, Jun 2026"
+          },
+          "expected": 166781.5,
+          "actual": 166781.5,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S9",
+          "desc": "gross margin % Jun 2026",
+          "type": "value",
+          "source": {
+            "fact": "abc.gm_pct.jun2026",
+            "sheet": "Income Statement",
+            "cells": [
+              "C26",
+              "C14"
+            ],
+            "formula": "C26/C14*100"
+          },
+          "expected": 70.15161347099942,
+          "actual": 70.1516,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S10",
+          "desc": "TTM gross margin %",
+          "type": "value",
+          "source": {
+            "fact": "abc.gm_pct.ttm",
+            "sheet": "Income Statement",
+            "cells": [
+              "C26:N26",
+              "C14:N14"
+            ],
+            "formula": "SUM(GP TTM)/SUM(Revenue TTM)*100"
+          },
+          "expected": 69.46375528097519,
+          "actual": 69.4638,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S11",
+          "desc": "total opex Jun 2026 (as exported)",
+          "type": "value",
+          "source": {
+            "fact": "abc.opex_total.jun2026",
+            "sheet": "Income Statement",
+            "cells": [
+              "C103"
+            ],
+            "formula": "Total Operating Expenses, Jun 2026"
+          },
+          "expected": 468181.79999999993,
+          "actual": 468181.8,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S12",
+          "desc": "net income Jun 2026",
+          "type": "value",
+          "source": {
+            "fact": "abc.net_income.jun2026",
+            "sheet": "Income Statement",
+            "cells": [
+              "C107"
+            ],
+            "formula": "Net Income, Jun 2026"
+          },
+          "expected": -330756.07999999996,
+          "actual": -330756.08,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S13",
+          "desc": "TTM net income",
+          "type": "value",
+          "source": {
+            "fact": "abc.net_income.ttm",
+            "sheet": "Income Statement",
+            "cells": [
+              "C107:N107"
+            ],
+            "formula": "SUM(C107:N107)"
+          },
+          "expected": -3089779.59,
+          "actual": -3089779.59,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S14",
+          "desc": "negative net-income streak",
+          "type": "value",
+          "source": {
+            "fact": "abc.net_income.negative_streak",
+            "sheet": "Income Statement",
+            "cells": [
+              "C107:I107"
+            ],
+            "formula": "consecutive negative months ending Jun 2026"
+          },
+          "expected": 6,
+          "actual": 6,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S15",
+          "desc": "cash Jun 2026",
+          "type": "value",
+          "source": {
+            "fact": "abc.cash.jun2026",
+            "sheet": "Balance Sheet",
+            "cells": [
+              "D15"
+            ],
+            "formula": "Total Cash and Cash Equivalents, 30 Jun 2026"
+          },
+          "expected": 713481.26,
+          "actual": 713481.26,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S16",
+          "desc": "all data-quality checks pass",
+          "type": "all_field",
+          "source": "literal",
+          "expected": [
+            "pass"
+          ],
+          "actual": [
+            "pass"
+          ],
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S17",
+          "desc": "revenue-stream flag: SKU Profiling has been zero since May 2026 (last non-zero Apr 2026, 10,000) [added D-48]",
+          "type": "flag_regex",
+          "source": {
+            "fact": "abc.sku_profiling.last_nonzero_value",
+            "sheet": "Income Statement",
+            "cells": [
+              "E13"
+            ],
+            "formula": "SKU Profiling in its last non-zero month"
+          },
+          "expected": "present: /Revenue stream 'SKU Profiling' has been zero since May 2026 \\(last non-zero: Apr 2026, 10,000\\) after 10,000 at its peak/",
+          "actual": "Revenue stream 'SKU Profiling' has been zero since May 2026 (last non-zero: Apr 2026, 10,000) after 10,000 at its peak",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S18",
+          "desc": "SKU Profiling is NOT described as 'is zero in Jun 2026' (it stopped after Apr 2026) [added D-48]",
+          "type": "flag_regex",
+          "source": {
+            "fact": "abc.sku_profiling.last_nonzero_month",
+            "sheet": "Income Statement",
+            "cells": [
+              "E5"
+            ],
+            "formula": "header of the newest column before Jun 2026 where SKU Profiling is non-zero"
+          },
+          "expected": "absent: /Revenue stream 'SKU Profiling' is zero in Jun 2026/",
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        }
+      ],
+      "provenance": [
+        {
+          "id": "P1",
+          "type": "provenance",
+          "status": "PASS",
+          "desc": "every number in the commentary matches a value in this run's own output",
+          "detail": "47 matched, 26 ignored, 0 unmatched",
+          "unmatched": []
+        }
+      ],
+      "commentary": [
+        {
+          "id": "R1",
+          "kind": "required",
+          "claim": "States Jun 2026 total revenue and that it fell versus May 2026 by about 6%.",
+          "status": "PASS",
+          "evidence": "States \"Revenue 195,898 in Jun 2026, -6.0% vs May 2026 (208,351)\"; the reference MoM is -5.98%, so this is accurate.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "R2",
+          "kind": "required",
+          "claim": "Puts the Jun 2026 revenue drop in context with at least one of: May 2026 was the highest month in the export; Jun 2026 is only about 0.5% below the prior 6-month average; Jun 2026 is about 2.8% above Jun 2025.",
+          "status": "PASS",
+          "evidence": "Says \"May was the highest month in the export\", Jun is -0.5% vs the prior 6-month average, and +2.8% vs Jun 2025. These match the reference facts (-0.532%, 2.8036%, May is max).",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "R3",
+          "kind": "required",
+          "claim": "Gives the Jun 2026 gross margin (about 70.2%).",
+          "status": "PASS",
+          "evidence": "\"Gross margin 70.2%\" matches the reference 70.1516%.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "R4",
+          "kind": "required",
+          "claim": "States that Jun 2026 net income is negative and that losses are persistent (a run of consecutive negative months, a negative TTM figure, or negative in most months).",
+          "status": "PASS",
+          "evidence": "\"Net income (330,756) in Jun 2026, the sixth consecutive negative month (negative in 17 of 18 months; TTM (3,089,780))\". This gives the negative figure and the persistence, and matches the reference facts.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "R5",
+          "kind": "required",
+          "claim": "Notes that cash declined: gives the Jun 2026 cash balance and a decline versus the prior month and/or six months earlier.",
+          "status": "PASS",
+          "evidence": "\"Cash and Cash Equivalents 713,481 at Jun 2026, down 215,543 vs May 2026 and down 1,871,836 vs six months earlier\". The reference values give 215,543 and 1,871,836, so both declines are correct.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F1",
+          "kind": "forbidden",
+          "claim": "Makes any forecast or projection (cash runway, months of cash left, expected future revenue or margin, 'on track to').",
+          "status": "PASS",
+          "evidence": "No forecast, runway or projection appears. The \"stopped for good or are timing\" remarks are left for the reviewer to confirm and are not predictions.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F2",
+          "kind": "forbidden",
+          "claim": "Asserts as fact a cause for the revenue decline that the numbers do not show (e.g. churn, pricing, lost customers, seasonality). Framing it as a question or 'reviewer to confirm' is allowed.",
+          "status": "PASS",
+          "evidence": "No cause for the revenue decline is asserted as fact. Stream changes are described numerically, and whether zero lines have stopped or are timing is left to the reviewer.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F3",
+          "kind": "forbidden",
+          "claim": "Says Jun 2026 revenue increased versus May 2026, or that Jun 2026 net income was positive.",
+          "status": "PASS",
+          "evidence": "The commentary says revenue was \"-6.0% vs May 2026\" and net income was negative (330,756). It claims no increase and no positive Jun net income.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F4",
+          "kind": "forbidden",
+          "claim": "States a figure for any of the reference facts that falls outside the rounding policy.",
+          "status": "PASS",
+          "evidence": "Every figure that matches a reference fact is within the rounding policy: revenue 195,898 and 208,351, -6.0% vs -5.98%, -0.5%, +2.8%, 70.2%, net income, 17 negative months, sixth consecutive month, TTM, cash 713,481 and 2,585,317, and the cash declines.",
+          "pass_rate": "1/1"
+        }
+      ],
+      "resample": null,
+      "samples": [
+        {
+          "status": "PASS",
+          "skill_run": {
+            "model_requested": "claude-opus-5-5",
+            "model_reported": "claude-opus-5-5",
+            "claude_code_version": "2.1.296",
+            "num_turns": 12,
+            "total_cost_usd": 0.47809970000000007,
+            "elapsed_s": 58.7,
+            "permission_mode": "default"
+          },
+          "commentary": {
+            "R1": "PASS",
+            "R2": "PASS",
+            "R3": "PASS",
+            "R4": "PASS",
+            "R5": "PASS",
+            "F1": "PASS",
+            "F2": "PASS",
+            "F3": "PASS",
+            "F4": "PASS"
+          },
+          "deterministic_ok": true
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "b_abc_rounding_vanished_lines",
+      "title": "ABC Inc, Jun 2026: expense lines that went to zero, judged under the rounding policy (generalises the Task 2 '721 -> roughly 700' instance)",
+      "input": {
+        "workbook": "data/ABC Inc - Financial Statements (1) (1).xlsx",
+        "prompt": "abc",
+        "target_month": "Jun 2026"
+      },
+      "skill_run": {
+        "model_requested": "claude-opus-5-5",
+        "model_reported": "claude-opus-5-5",
+        "claude_code_version": "2.1.296",
+        "num_turns": 9,
+        "total_cost_usd": 0.3745987,
+        "elapsed_s": 50.1,
+        "permission_mode": "default"
+      },
+      "execution": [
+        {
+          "id": "X1",
+          "desc": "claude -p run completed successfully",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "exit 0, subtype success"
+        },
+        {
+          "id": "X2",
+          "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X3",
+          "desc": "the skill's script run_trends.py was executed",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X4",
+          "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "1 json, 1 md in evals/runs/policy-run-20261013/b_abc_rounding_vanished_lines/skill_output"
+        },
+        {
+          "id": "X5",
+          "desc": "nothing outside evals/runs/ was modified by the skill run",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "no changes made by the skill"
+        },
+        {
+          "id": "X6",
+          "desc": "the narrative placeholder was replaced with commentary",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        }
+      ],
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "Marketing/Advertising: Miscellaneous is 0 in Jun 2026",
+          "type": "value",
+          "source": {
+            "fact": "abc.vanished.mkt_misc.jun2026",
+            "sheet": "Income Statement",
+            "cells": [
+              "C68"
+            ],
+            "formula": "Marketing/Advertising: Miscellaneous, Jun 2026"
+          },
+          "expected": 0.0,
+          "actual": 0.0,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S2",
+          "desc": "vanished-line flag: Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500; avg 1,250) [changed D-45]",
+          "type": "flag_regex",
+          "source": {
+            "fact": "abc.vanished.advisory_services.last_nonzero_value",
+            "sheet": "Income Statement",
+            "cells": [
+              "H30"
+            ],
+            "formula": "Advisory Services in its last non-zero month (added for the D-45 'zero since' wording)"
+          },
+          "expected": "present: /Expense line 'Advisory Services' .*has been zero since Feb 2026 \\(last non-zero: Jan 2026, 2,500\\); it averaged 1,250 /",
+          "actual": "Expense line 'Advisory Services' (Professional Fees) has been zero since Feb 2026 (last non-zero: Jan 2026, 2,500); it averaged 1,250 ",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S3",
+          "desc": "vanished-line flag: Federal & State Taxes (avg 999)",
+          "type": "flag_regex",
+          "source": "literal",
+          "expected": "present: /Expense line 'Federal & State Taxes' .*zero in Jun 2026; it averaged 999 /",
+          "actual": "Expense line 'Federal & State Taxes' (Finance & Admin) is zero in Jun 2026; it averaged 999 ",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S4",
+          "desc": "vanished-line flag: Marketing/Advertising: Miscellaneous (avg 721)",
+          "type": "flag_regex",
+          "source": "literal",
+          "expected": "present: /Expense line 'Marketing/Advertising: Miscellaneous' .*zero in Jun 2026; it averaged 721 /",
+          "actual": "Expense line 'Marketing/Advertising: Miscellaneous' (Sales & Marketing) is zero in Jun 2026; it averaged 721 ",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S5",
+          "desc": "vanished-line flag: Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773; avg 1,045) [changed D-45]",
+          "type": "flag_regex",
+          "source": {
+            "fact": "abc.vanished.professional_fees.last_nonzero_value",
+            "sheet": "Income Statement",
+            "cells": [
+              "F85"
+            ],
+            "formula": "Professional Fees in its last non-zero month (added for the D-45 'zero since' wording)"
+          },
+          "expected": "present: /Expense line 'Professional Fees' .*has been zero since Apr 2026 \\(last non-zero: Mar 2026, 3,773\\); it averaged 1,045 /",
+          "actual": "Expense line 'Professional Fees' (Professional Fees) has been zero since Apr 2026 (last non-zero: Mar 2026, 3,773); it averaged 1,045 ",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S6",
+          "desc": "Advisory Services is NOT described as 'is zero in Jun 2026' (it stopped after Jan 2026) [added D-45]",
+          "type": "flag_regex",
+          "source": {
+            "fact": "abc.vanished.advisory_services.last_nonzero_month",
+            "sheet": "Income Statement",
+            "cells": [
+              "H5"
+            ],
+            "formula": "header of the newest column before Jun 2026 where Advisory Services is non-zero"
+          },
+          "expected": "absent: /Expense line 'Advisory Services' \\([^)]*\\) is zero in Jun 2026/",
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S7",
+          "desc": "Professional Fees is NOT described as 'is zero in Jun 2026' (it stopped after Mar 2026) [added D-45]",
+          "type": "flag_regex",
+          "source": {
+            "fact": "abc.vanished.professional_fees.last_nonzero_month",
+            "sheet": "Income Statement",
+            "cells": [
+              "F5"
+            ],
+            "formula": "header of the newest column before Jun 2026 where Professional Fees is non-zero"
+          },
+          "expected": "absent: /Expense line 'Professional Fees' \\([^)]*\\) is zero in Jun 2026/",
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        }
+      ],
+      "provenance": [
+        {
+          "id": "P1",
+          "type": "provenance",
+          "status": "PASS",
+          "desc": "every number in the commentary matches a value in this run's own output",
+          "detail": "49 matched, 29 ignored, 0 unmatched",
+          "unmatched": []
+        }
+      ],
+      "commentary": [
+        {
+          "id": "R1",
+          "kind": "required",
+          "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+          "status": "PASS",
+          "evidence": "The commentary says \"Federal & State Taxes (6-month average 999) and Marketing/Advertising: Miscellaneous (6-month average 721) are zero in Jun 2026\". The nonzero averages show these were nonzero before, and it names two of the listed lines.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "R2",
+          "kind": "required",
+          "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+          "status": "PASS",
+          "evidence": "The commentary gives 999 for Federal & State Taxes (true 998.5083, about 0.05% off) and 721 for Marketing Misc (true 721.0033, about 0.0005% off). Both are within 5%, and the 2,500 and 3,773 figures are last-nonzero values, not prior averages.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F1",
+          "kind": "forbidden",
+          "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+          "status": "PASS",
+          "evidence": "No cause is stated as fact. The commentary only says \"Whether any of these has stopped for good or is timing is for the reviewer to confirm.\"",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F2",
+          "kind": "forbidden",
+          "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+          "status": "PASS",
+          "evidence": "The lines are not called discontinued or cancelled. The commentary leaves \"stopped for good or is timing\" to the reviewer.",
+          "pass_rate": "1/1"
+        }
+      ],
+      "resample": null,
+      "samples": [
+        {
+          "status": "PASS",
+          "skill_run": {
+            "model_requested": "claude-opus-5-5",
+            "model_reported": "claude-opus-5-5",
+            "claude_code_version": "2.1.296",
+            "num_turns": 9,
+            "total_cost_usd": 0.3745987,
+            "elapsed_s": 50.1,
+            "permission_mode": "default"
+          },
+          "commentary": {
+            "R1": "PASS",
+            "R2": "PASS",
+            "F1": "PASS",
+            "F2": "PASS"
+          },
+          "deterministic_ok": true
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "c_bb_subtotal_mismatch",
+      "title": "Bluebird, Sep 2026: deliberately wrong subtotal is reported, not resolved",
+      "input": {
+        "workbook": ".claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx",
+        "prompt": "bluebird",
+        "target_month": "Sep 2026"
+      },
+      "skill_run": {
+        "model_requested": "claude-opus-5-5",
+        "model_reported": "claude-opus-5-5",
+        "claude_code_version": "2.1.296",
+        "num_turns": 8,
+        "total_cost_usd": 0.35211719999999996,
+        "elapsed_s": 54.2,
+        "permission_mode": "default"
+      },
+      "execution": [
+        {
+          "id": "X1",
+          "desc": "claude -p run completed successfully",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "exit 0, subtype success"
+        },
+        {
+          "id": "X2",
+          "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X3",
+          "desc": "the skill's script run_trends.py was executed",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X4",
+          "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "1 json, 1 md in evals/runs/policy-run-20261013/c_bb_subtotal_mismatch/skill_output"
+        },
+        {
+          "id": "X5",
+          "desc": "nothing outside evals/runs/ was modified by the skill run",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "no changes made by the skill"
+        },
+        {
+          "id": "X6",
+          "desc": "the narrative placeholder was replaced with commentary",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        }
+      ],
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "target month",
+          "type": "value",
+          "source": "literal",
+          "expected": "Sep 2026",
+          "actual": "Sep 2026",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S2",
+          "desc": "exactly one subtotal_mismatch warning",
+          "type": "count",
+          "source": "literal",
+          "expected": 1,
+          "actual": 1,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S3",
+          "desc": "mismatch month",
+          "type": "value",
+          "source": "literal",
+          "expected": "2026-03",
+          "actual": "2026-03",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S4",
+          "desc": "mismatch names the Professional Services subtotal",
+          "type": "regex",
+          "source": "literal",
+          "expected": "Professional Services$",
+          "actual": "Expenses > Professional Services",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S5",
+          "desc": "stated subtotal",
+          "type": "value",
+          "source": {
+            "fact": "bb.prof_services.mar2026.stated",
+            "sheet": "Profit and Loss",
+            "cells": [
+              "D35"
+            ],
+            "formula": "Total for Professional Services, Mar 2026"
+          },
+          "expected": 2225.0,
+          "actual": 2225.0,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S6",
+          "desc": "detail-row sum",
+          "type": "value",
+          "source": {
+            "fact": "bb.prof_services.mar2026.detail_sum",
+            "sheet": "Profit and Loss",
+            "cells": [
+              "D33",
+              "D34"
+            ],
+            "formula": "D33+D34 (Bookkeeping + Legal)"
+          },
+          "expected": 2200.0,
+          "actual": 2200.0,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S7",
+          "desc": "difference",
+          "type": "value",
+          "source": {
+            "fact": "bb.prof_services.mar2026.diff",
+            "sheet": "Profit and Loss",
+            "cells": [
+              "D35",
+              "D33",
+              "D34"
+            ],
+            "formula": "stated - detail sum"
+          },
+          "expected": 25.0,
+          "actual": 25.0,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S8",
+          "desc": "report banner shows the mismatch",
+          "type": "md_regex",
+          "source": "literal",
+          "expected": "present: /Data-quality checks: \\*\\*1 MISMATCH/",
+          "actual": "Data-quality checks: **1 MISMATCH",
+          "tolerance": 0.0,
+          "status": "PASS"
+        }
+      ],
+      "provenance": [
+        {
+          "id": "P1",
+          "type": "provenance",
+          "status": "PASS",
+          "desc": "every number in the commentary matches a value in this run's own output",
+          "detail": "49 matched, 18 ignored, 0 unmatched",
+          "unmatched": []
+        }
+      ],
+      "commentary": [
+        {
+          "id": "R1",
+          "kind": "required",
+          "claim": "Reports the data-quality problem: names the Professional Services subtotal, the month (Mar 2026), and the amount (the 25 difference, or both the stated 2,225 and the detail sum 2,200).",
+          "status": "PASS",
+          "evidence": "Commentary says \"In Mar 2026, 'Total for Professional Services' states 2,225.00, but its detail rows sum to 2,200.00 (diff 25.00)\", naming the subtotal, month, and both figures plus the difference, matching the reference facts.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "R2",
+          "kind": "required",
+          "claim": "Leaves resolving the mismatch to the reviewer rather than deciding which figure is right.",
+          "status": "PASS",
+          "evidence": "\"The reviewer should confirm which figure is right.\" leaves resolution to the reviewer without deciding.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F1",
+          "kind": "forbidden",
+          "claim": "Says all data-quality checks passed or that the data is clean/reconciled.",
+          "status": "PASS",
+          "evidence": "The commentary flags the mismatch as a problem to resolve first and does not say checks passed or that the data is clean/reconciled.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F2",
+          "kind": "forbidden",
+          "claim": "Asserts which of the two figures is correct, or that the error was corrected.",
+          "status": "PASS",
+          "evidence": "It says \"This analysis uses the detail rows\" but explicitly asks the reviewer to confirm which figure is right; it does not assert which is correct or that the error was corrected.",
+          "pass_rate": "1/1"
+        }
+      ],
+      "resample": null,
+      "samples": [
+        {
+          "status": "PASS",
+          "skill_run": {
+            "model_requested": "claude-opus-5-5",
+            "model_reported": "claude-opus-5-5",
+            "claude_code_version": "2.1.296",
+            "num_turns": 8,
+            "total_cost_usd": 0.35211719999999996,
+            "elapsed_s": 54.2,
+            "permission_mode": "default"
+          },
+          "commentary": {
+            "R1": "PASS",
+            "R2": "PASS",
+            "F1": "PASS",
+            "F2": "PASS"
+          },
+          "deterministic_ok": true
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "d_bb_blank_account",
+      "title": "Bluebird: an account blank in every month is zero and does not swallow the rows after it",
+      "input": {
+        "workbook": ".claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx",
+        "prompt": "bluebird",
+        "target_month": "Sep 2026"
+      },
+      "skill_run": {
+        "model_requested": "claude-opus-5-5",
+        "model_reported": "claude-opus-5-5",
+        "claude_code_version": "2.1.296",
+        "num_turns": 10,
+        "total_cost_usd": 0.35620880000000005,
+        "elapsed_s": 49.3,
+        "permission_mode": "default"
+      },
+      "execution": [
+        {
+          "id": "X1",
+          "desc": "claude -p run completed successfully",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "exit 0, subtype success"
+        },
+        {
+          "id": "X2",
+          "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X3",
+          "desc": "the skill's script run_trends.py was executed",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X4",
+          "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "1 json, 1 md in evals/runs/policy-run-20261013/d_bb_blank_account/skill_output"
+        },
+        {
+          "id": "X5",
+          "desc": "nothing outside evals/runs/ was modified by the skill run",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "no changes made by the skill"
+        },
+        {
+          "id": "X6",
+          "desc": "the narrative placeholder was replaced with commentary",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        }
+      ],
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "Charitable Donations is 0 in every month",
+          "type": "value",
+          "source": {
+            "fact": "bb.charitable.zeros",
+            "sheet": "Profit and Loss",
+            "cells": [
+              "B29:J29"
+            ],
+            "formula": "blank cells read as 0 in every month"
+          },
+          "expected": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "actual": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S2",
+          "desc": "Charitable Donations counted as 9 blank months",
+          "type": "value",
+          "source": {
+            "fact": "bb.months",
+            "sheet": "Profit and Loss",
+            "cells": [
+              "B4:J4"
+            ],
+            "formula": "month header cells (K4 is a 'Total' column, not a month)"
+          },
+          "expected": 9,
+          "actual": 9,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S3",
+          "desc": "Instagram Ads (row below) is not grouped under it",
+          "type": "value",
+          "source": "literal",
+          "expected": null,
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S4",
+          "desc": "Mystery Shopper Program (2 rows below) is not grouped under it",
+          "type": "value",
+          "source": "literal",
+          "expected": null,
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S5",
+          "desc": "Instagram Ads category is the fallback, not Finance & Admin via the blank row's name",
+          "type": "value",
+          "source": "literal",
+          "expected": "Other Opex",
+          "actual": "Other Opex",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S6",
+          "desc": "missing_total warning names Charitable Donations",
+          "type": "count",
+          "source": "literal",
+          "expected": 1,
+          "actual": 1,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S7",
+          "desc": "opex total equals the workbook's Total for Expenses in every month (nothing lost)",
+          "type": "value",
+          "source": {
+            "fact": "bb.expenses_total.monthly",
+            "sheet": "Profit and Loss",
+            "cells": [
+              "B37:J37"
+            ],
+            "formula": "Total for Expenses, Jan..Sep 2026 (stated; equals the true detail sum in this workbook)"
+          },
+          "expected": [
+            25470.0,
+            25215.0,
+            26470.0,
+            25485.0,
+            25450.0,
+            26115.0,
+            25960.0,
+            26085.0,
+            31570.0
+          ],
+          "actual": [
+            25470.0,
+            25215.0,
+            26470.0,
+            25485.0,
+            25450.0,
+            26115.0,
+            25960.0,
+            26085.0,
+            31570.0
+          ],
+          "tolerance": 0.01,
+          "status": "PASS"
+        }
+      ],
+      "provenance": [
+        {
+          "id": "P1",
+          "type": "provenance",
+          "status": "PASS",
+          "desc": "every number in the commentary matches a value in this run's own output",
+          "detail": "49 matched, 22 ignored, 0 unmatched",
+          "unmatched": []
+        }
+      ],
+      "commentary": [
+        {
+          "id": "F1",
+          "kind": "forbidden",
+          "claim": "Describes 'Charitable Donations' as having spend/activity, or as a group or category containing other accounts.",
+          "status": "PASS",
+          "evidence": "The commentary says 'Charitable Donations' has no values, was treated as all-blank (0 in every month), and the 4 following rows were 'not grouped under it'. It gives it no activity and doesn't treat it as a group.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F2",
+          "kind": "forbidden",
+          "claim": "Says Instagram Ads or Mystery Shopper Program belong to a 'Charitable Donations' or 'Finance & Admin' category.",
+          "status": "PASS",
+          "evidence": "It says 'Instagram Ads, Mystery Shopper Program and Supplier Rebates match no category rule and are grouped in Other Opex'. It never places them under 'Charitable Donations' or 'Finance & Admin'.",
+          "pass_rate": "1/1"
+        }
+      ],
+      "resample": null,
+      "samples": [
+        {
+          "status": "PASS",
+          "skill_run": {
+            "model_requested": "claude-opus-5-5",
+            "model_reported": "claude-opus-5-5",
+            "claude_code_version": "2.1.296",
+            "num_turns": 10,
+            "total_cost_usd": 0.35620880000000005,
+            "elapsed_s": 49.3,
+            "permission_mode": "default"
+          },
+          "commentary": {
+            "F1": "PASS",
+            "F2": "PASS"
+          },
+          "deterministic_ok": true
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "e_abc_dec2025_one_offs",
+      "title": "ABC Inc: Dec 2025 stock-based compensation and bonus spikes are flagged as possible one-offs for the reviewer",
+      "input": {
+        "workbook": "data/ABC Inc - Financial Statements (1) (1).xlsx",
+        "prompt": "abc",
+        "target_month": "Jun 2026"
+      },
+      "skill_run": {
+        "model_requested": "claude-opus-5-5",
+        "model_reported": "claude-opus-5-5",
+        "claude_code_version": "2.1.296",
+        "num_turns": 7,
+        "total_cost_usd": 0.3416097,
+        "elapsed_s": 43.9,
+        "permission_mode": "default"
+      },
+      "execution": [
+        {
+          "id": "X1",
+          "desc": "claude -p run completed successfully",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "exit 0, subtype success"
+        },
+        {
+          "id": "X2",
+          "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X3",
+          "desc": "the skill's script run_trends.py was executed",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X4",
+          "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "1 json, 1 md in evals/runs/policy-run-20261013/e_abc_dec2025_one_offs/skill_output"
+        },
+        {
+          "id": "X5",
+          "desc": "nothing outside evals/runs/ was modified by the skill run",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "no changes made by the skill"
+        },
+        {
+          "id": "X6",
+          "desc": "the narrative placeholder was replaced with commentary",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        }
+      ],
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "spike flag: Stock-Based Compensation Expense, Dec 2025",
+          "type": "flag_regex",
+          "source": "literal",
+          "expected": "present: /Single-month spike: 'Stock-Based Compensation Expense' .* is 334,661 in Dec 2025/",
+          "actual": "Single-month spike: 'Stock-Based Compensation Expense' (Payroll & Benefits) is 334,661 in Dec 2025",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S2",
+          "desc": "spike flag: Bonus, Dec 2025",
+          "type": "flag_regex",
+          "source": "literal",
+          "expected": "present: /Single-month spike: 'Bonus' .* is 80,343 in Dec 2025/",
+          "actual": "Single-month spike: 'Bonus' (Payroll & Benefits) is 80,343 in Dec 2025",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S3",
+          "desc": "Dec 2025 SBC value",
+          "type": "value",
+          "source": {
+            "fact": "abc.sbc.dec2025",
+            "sheet": "Income Statement",
+            "cells": [
+              "I99"
+            ],
+            "formula": "Stock-Based Compensation Expense, Dec 2025"
+          },
+          "expected": 334660.53,
+          "actual": 334660.53,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S4",
+          "desc": "Dec 2025 Bonus value",
+          "type": "value",
+          "source": {
+            "fact": "abc.bonus.dec2025",
+            "sheet": "Income Statement",
+            "cells": [
+              "I33"
+            ],
+            "formula": "Bonus, Dec 2025"
+          },
+          "expected": 80342.53,
+          "actual": 80342.53,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S5",
+          "desc": "Dec 2025 is the only positive net-income month",
+          "type": "value",
+          "source": "literal",
+          "expected": [
+            "Dec 2025"
+          ],
+          "actual": [
+            "Dec 2025"
+          ],
+          "tolerance": 0.0,
+          "status": "PASS"
+        }
+      ],
+      "provenance": [
+        {
+          "id": "P1",
+          "type": "provenance",
+          "status": "PASS",
+          "desc": "every number in the commentary matches a value in this run's own output",
+          "detail": "49 matched, 25 ignored, 0 unmatched",
+          "unmatched": []
+        }
+      ],
+      "commentary": [
+        {
+          "id": "R1",
+          "kind": "required",
+          "claim": "Flags the Dec 2025 Stock-Based Compensation Expense spike (about 334,661) as a possible one-off / single-month item.",
+          "status": "PASS",
+          "evidence": "\"Stock-Based Compensation Expense (334,661 vs a typical month of 0)... each appear to be single-month items\"; figure matches 334,660.53 and median 0.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "R2",
+          "kind": "required",
+          "claim": "Flags the Dec 2025 Bonus spike (about 80,343) as a possible one-off / single-month item.",
+          "status": "PASS",
+          "evidence": "\"Bonus (80,343 vs a typical 2,721)... appear to be single-month items\"; matches 80,342.53 and median 2,720.83.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "R3",
+          "kind": "required",
+          "claim": "Leaves the one-off determination to the reviewer (hedged wording such as 'appears to be' or 'reviewer to confirm') rather than concluding.",
+          "status": "PASS",
+          "evidence": "Uses hedged \"each appear to be single-month items; reviewer to confirm\", leaving the determination to the reviewer.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F1",
+          "kind": "forbidden",
+          "claim": "States as unhedged fact that these Dec 2025 items are non-recurring/one-off.",
+          "status": "PASS",
+          "evidence": "The one-off claim is hedged (\"appear to be single-month items; reviewer to confirm\"), not stated as unhedged fact.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F2",
+          "kind": "forbidden",
+          "claim": "Asserts an accounting treatment or a cause for these items as fact (e.g. 'year-end bonus accrual', 'option vesting', 'should be excluded/normalised').",
+          "status": "PASS",
+          "evidence": "No accounting treatment or cause is asserted (no mention of accrual, vesting, or exclusion/normalisation); the commentary only says the items fall inside the TTM window and affect TTM figures.",
+          "pass_rate": "1/1"
+        }
+      ],
+      "resample": null,
+      "samples": [
+        {
+          "status": "PASS",
+          "skill_run": {
+            "model_requested": "claude-opus-5-5",
+            "model_reported": "claude-opus-5-5",
+            "claude_code_version": "2.1.296",
+            "num_turns": 7,
+            "total_cost_usd": 0.3416097,
+            "elapsed_s": 43.9,
+            "permission_mode": "default"
+          },
+          "commentary": {
+            "R1": "PASS",
+            "R2": "PASS",
+            "R3": "PASS",
+            "F1": "PASS",
+            "F2": "PASS"
+          },
+          "deterministic_ok": true
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "f_bb_from_zero_label",
+      "title": "Bluebird, Sep 2026: prior-month-zero account labelled 'from 0', not 'new'; genuinely new stream still called new",
+      "input": {
+        "workbook": ".claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx",
+        "prompt": "bluebird",
+        "target_month": "Sep 2026"
+      },
+      "skill_run": {
+        "model_requested": "claude-opus-5-5",
+        "model_reported": "claude-opus-5-5",
+        "claude_code_version": "2.1.296",
+        "num_turns": 9,
+        "total_cost_usd": 0.35699860000000005,
+        "elapsed_s": 66.3,
+        "permission_mode": "default"
+      },
+      "execution": [
+        {
+          "id": "X1",
+          "desc": "claude -p run completed successfully",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "exit 0, subtype success"
+        },
+        {
+          "id": "X2",
+          "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X3",
+          "desc": "the skill's script run_trends.py was executed",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X4",
+          "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "1 json, 1 md in evals/runs/policy-run-20261013/f_bb_from_zero_label/skill_output"
+        },
+        {
+          "id": "X5",
+          "desc": "nothing outside evals/runs/ was modified by the skill run",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "no changes made by the skill"
+        },
+        {
+          "id": "X6",
+          "desc": "the narrative placeholder was replaced with commentary",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        }
+      ],
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "movers table labels Mystery Shopper Program 'from 0'",
+          "type": "md_regex",
+          "source": "literal",
+          "expected": "present: /\\| Mystery Shopper Program \\| Other Opex \\| 0 \\| 400 \\| 400 \\| from 0 \\|/",
+          "actual": "| Mystery Shopper Program | Other Opex | 0 | 400 | 400 | from 0 |",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S2",
+          "desc": "no 'new expense line' flag for Mystery Shopper Program",
+          "type": "flag_regex",
+          "source": "literal",
+          "expected": "absent: /New expense line 'Mystery Shopper Program'/",
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S3",
+          "desc": "new-stream flag for Wholesale Accounts",
+          "type": "flag_regex",
+          "source": "literal",
+          "expected": "present: /New revenue stream 'Wholesale Accounts': 12,000 in Sep 2026/",
+          "actual": "New revenue stream 'Wholesale Accounts': 12,000 in Sep 2026",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S4",
+          "desc": "Wholesale Accounts Sep 2026",
+          "type": "value",
+          "source": {
+            "fact": "bb.wholesale.sep2026",
+            "sheet": "Profit and Loss",
+            "cells": [
+              "J10"
+            ],
+            "formula": "Wholesale Accounts, Sep 2026"
+          },
+          "expected": 12000.0,
+          "actual": 12000.0,
+          "tolerance": 0.01,
+          "status": "PASS"
+        }
+      ],
+      "provenance": [
+        {
+          "id": "P1",
+          "type": "provenance",
+          "status": "PASS",
+          "desc": "every number in the commentary matches a value in this run's own output",
+          "detail": "41 matched, 22 ignored, 0 unmatched",
+          "unmatched": []
+        }
+      ],
+      "commentary": [
+        {
+          "id": "R1",
+          "kind": "required",
+          "claim": "Identifies Wholesale Accounts as a new revenue stream in Sep 2026 (about 12,000; zero or absent in prior months).",
+          "status": "PASS",
+          "evidence": "Commentary says \"12,000 of September revenue comes from a new stream, 'Wholesale Accounts', which is zero in every earlier month\"; matches reference 12,000 in Sep and blank before.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F1",
+          "kind": "forbidden",
+          "claim": "Describes Mystery Shopper Program as new, first appearing, or appearing for the first time in Sep 2026. (It was also 400 in Mar and Jun 2026. Saying it was zero in Aug, or rose 'from 0', is allowed.)",
+          "status": "PASS",
+          "evidence": "Commentary says Mystery Shopper \"shows as 'from 0' against Aug 2026, but it isn't a new line: it was also 400 in Mar 2026 and Jun 2026\", so it does not describe it as new.",
+          "pass_rate": "1/1"
+        }
+      ],
+      "resample": null,
+      "samples": [
+        {
+          "status": "PASS",
+          "skill_run": {
+            "model_requested": "claude-opus-5-5",
+            "model_reported": "claude-opus-5-5",
+            "claude_code_version": "2.1.296",
+            "num_turns": 9,
+            "total_cost_usd": 0.35699860000000005,
+            "elapsed_s": 66.3,
+            "permission_mode": "default"
+          },
+          "commentary": {
+            "R1": "PASS",
+            "F1": "PASS"
+          },
+          "deterministic_ok": true
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "g_bb_no_ttm",
+      "title": "Bluebird: only 9 months, so TTM / YoY are stated as unavailable, never guessed",
+      "input": {
+        "workbook": ".claude/skills/monthly-trend-analysis/tests/test_data/bluebird-bakery.xlsx",
+        "prompt": "bluebird",
+        "target_month": "Sep 2026"
+      },
+      "skill_run": {
+        "model_requested": "claude-opus-5-5",
+        "model_reported": "claude-opus-5-5",
+        "claude_code_version": "2.1.296",
+        "num_turns": 13,
+        "total_cost_usd": 0.4202259,
+        "elapsed_s": 63.0,
+        "permission_mode": "default"
+      },
+      "execution": [
+        {
+          "id": "X1",
+          "desc": "claude -p run completed successfully",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "exit 0, subtype success"
+        },
+        {
+          "id": "X2",
+          "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X3",
+          "desc": "the skill's script run_trends.py was executed",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X4",
+          "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "1 json, 1 md in evals/runs/policy-run-20261013/g_bb_no_ttm/skill_output"
+        },
+        {
+          "id": "X5",
+          "desc": "nothing outside evals/runs/ was modified by the skill run",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "no changes made by the skill"
+        },
+        {
+          "id": "X6",
+          "desc": "the narrative placeholder was replaced with commentary",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        }
+      ],
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "9 months extracted (trailing Total column ignored)",
+          "type": "count",
+          "source": {
+            "fact": "bb.months",
+            "sheet": "Profit and Loss",
+            "cells": [
+              "B4:J4"
+            ],
+            "formula": "month header cells (K4 is a 'Total' column, not a month)"
+          },
+          "expected": 9,
+          "actual": 9,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S2",
+          "desc": "ttm_available is false",
+          "type": "value",
+          "source": "literal",
+          "expected": false,
+          "actual": false,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S3",
+          "desc": "TTM revenue is null",
+          "type": "value",
+          "source": "literal",
+          "expected": null,
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S4",
+          "desc": "YoY revenue is null",
+          "type": "value",
+          "source": "literal",
+          "expected": null,
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S5",
+          "desc": "TTM gross margin is null",
+          "type": "value",
+          "source": "literal",
+          "expected": null,
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S6",
+          "desc": "report states TTM is not available",
+          "type": "md_regex",
+          "source": "literal",
+          "expected": "present: /TTM \\(n/a: <12 months\\)/",
+          "actual": "TTM (n/a: <12 months)",
+          "tolerance": 0.0,
+          "status": "PASS"
+        }
+      ],
+      "provenance": [
+        {
+          "id": "P1",
+          "type": "provenance",
+          "status": "PASS",
+          "desc": "every number in the commentary matches a value in this run's own output",
+          "detail": "41 matched, 20 ignored, 0 unmatched",
+          "unmatched": []
+        }
+      ],
+      "commentary": [
+        {
+          "id": "R1",
+          "kind": "required",
+          "claim": "Acknowledges that twelve-month comparisons (TTM and/or year-over-year) are not available because the export covers fewer than 12 months.",
+          "status": "PASS",
+          "evidence": "The commentary says \"TTM and year-over-year figures aren't available because the export covers only 9 months (Jan\u2013Sep 2026)\". This matches the reference fact of 9 months.",
+          "pass_rate": "1/1"
+        },
+        {
+          "id": "F1",
+          "kind": "forbidden",
+          "claim": "States any TTM, trailing-twelve-month, annualised or year-over-year figure for Bluebird, including estimates.",
+          "status": "PASS",
+          "evidence": "The commentary gives no TTM, annualised or year-over-year figures. Its comparisons are month-over-month, against the prior 6-month average, or against six months earlier.",
+          "pass_rate": "1/1"
+        }
+      ],
+      "resample": null,
+      "samples": [
+        {
+          "status": "PASS",
+          "skill_run": {
+            "model_requested": "claude-opus-5-5",
+            "model_reported": "claude-opus-5-5",
+            "claude_code_version": "2.1.296",
+            "num_turns": 13,
+            "total_cost_usd": 0.4202259,
+            "elapsed_s": 63.0,
+            "permission_mode": "default"
+          },
+          "commentary": {
+            "R1": "PASS",
+            "F1": "PASS"
+          },
+          "deterministic_ok": true
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "harness_contamination": [],
+  "cost": {
+    "skill_runs_usd": 2.6799,
+    "skill_runs": 7,
+    "grader_calls_usd": 0.2715,
+    "grader_calls": 11,
+    "total_usd": 2.9514,
+    "basis": "total_cost_usd reported by Claude Code for each call (list prices)"
+  },
+  "calibrations": [
+    {
+      "case": "b_abc_rounding_vanished_lines",
+      "artifact": "trend-reports/abc-inc-2026-06-trends.md @ 7f411d4",
+      "commentary": [
+        {
+          "id": "R1",
+          "kind": "required",
+          "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+          "status": "PASS",
+          "evidence": "Says \"Four expense lines are zero in Jun 2026 after averaging roughly 700\u20131,250 a month over the prior 6 months\" and names all four lines, which matches the zero Jun 2026 values and non-zero prior averages."
+        },
+        {
+          "id": "R2",
+          "kind": "required",
+          "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+          "status": "PASS",
+          "evidence": "The range \"roughly 700\u20131,250\" fits the true averages of 721.0, 998.5, 1,045.5 and 1,250. The low end of 700 is about 2.9% off 721.0 and the high end of 1,250 is exact, so both are within 5%."
+        },
+        {
+          "id": "F1",
+          "kind": "forbidden",
+          "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+          "status": "PASS",
+          "evidence": "No cause is stated as fact. It only says \"the reviewer should check whether this is timing\", which is a suggestion to check."
+        },
+        {
+          "id": "F2",
+          "kind": "forbidden",
+          "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+          "status": "PASS",
+          "evidence": "The commentary does not call the lines discontinued or cancelled, and it leaves the question to the reviewer: \"the reviewer should check whether this is timing\"."
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "grader_controls": [
+    {
+      "id": "ctl_c_claims_clean",
+      "case": "c_bb_subtotal_mismatch",
+      "checks": [
+        {
+          "id": "R1",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "The commentary never mentions the Professional Services subtotal, Mar 2026, or the 25 difference (2,225 vs 2,200); it only says \"All data-quality checks pass\".",
+          "agrees": true
+        },
+        {
+          "id": "R2",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "No mismatch is raised, so nothing is left to the reviewer to resolve.",
+          "agrees": true
+        },
+        {
+          "id": "F1",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "The commentary says \"All data-quality checks pass and the data is fully reconciled.\" That is a forbidden claim, and the reference facts show a 25 mismatch in Professional Services.",
+          "agrees": true
+        },
+        {
+          "id": "F2",
+          "expected": "PASS",
+          "got": "PASS",
+          "evidence": "The commentary does not say which figure is correct or that any error was corrected.",
+          "agrees": true
+        }
+      ],
+      "status": "AGREES"
+    },
+    {
+      "id": "ctl_b_bad_rounding_and_cause",
+      "case": "b_abc_rounding_vanished_lines",
+      "checks": [
+        {
+          "id": "R1",
+          "expected": "PASS",
+          "got": "PASS",
+          "evidence": "The commentary says \"Four expense lines (Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees) were zero in Jun 2026 after averaging...\". It names all four lines, and the reference facts show each had a non-zero prior average.",
+          "agrees": true
+        },
+        {
+          "id": "R2",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "The commentary gives a range of \"roughly 500-1,250\". The true averages run from 721.0 (Marketing Misc) to 1,250 (Advisory). The low end of 500 is about 31% below 721, which is outside the 5% band.",
+          "agrees": true
+        },
+        {
+          "id": "F1",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "The commentary says \"This is because those vendor contracts ended in May.\" That states a cause as fact, and the reference facts support no such cause.",
+          "agrees": true
+        }
+      ],
+      "status": "AGREES"
+    },
+    {
+      "id": "ctl_g_guessed_ttm",
+      "case": "g_bb_no_ttm",
+      "checks": [
+        {
+          "id": "R1",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "The commentary never says twelve-month comparisons are unavailable; it instead presents a TTM/annualised figure (\"annualising the nine months gives roughly 850,000\"), with no acknowledgement that the export covers fewer than 12 months.",
+          "agrees": true
+        },
+        {
+          "id": "F1",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "It states \"On a trailing-twelve-month basis, annualising the nine months gives roughly 850,000\", which is a TTM/annualised estimate and is forbidden.",
+          "agrees": true
+        }
+      ],
+      "status": "AGREES"
+    }
+  ],
+  "score": {
+    "PASS": 132,
+    "FAIL": 0,
+    "BLOCKED": 0,
+    "UNSTABLE": 0,
+    "total": 132,
+    "cases_passed": 7,
+    "cases_unstable": 0,
+    "cases_total": 7
+  }
+}

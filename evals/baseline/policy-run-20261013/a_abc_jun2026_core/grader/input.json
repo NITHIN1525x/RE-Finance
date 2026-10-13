@@ -1,0 +1,149 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "abc.cash.dec2025",
+      "value": "2,585,317.3",
+      "meaning": "Total Cash and Cash Equivalents, 31 Dec 2025",
+      "source": "Balance Sheet!J15"
+    },
+    {
+      "id": "abc.cash.jun2026",
+      "value": "713,481.26",
+      "meaning": "Total Cash and Cash Equivalents, 30 Jun 2026",
+      "source": "Balance Sheet!D15"
+    },
+    {
+      "id": "abc.cash.may2026",
+      "value": "929,024.59",
+      "meaning": "Total Cash and Cash Equivalents, 31 May 2026",
+      "source": "Balance Sheet!E15"
+    },
+    {
+      "id": "abc.gm_pct.jun2026",
+      "value": "70.1516",
+      "meaning": "C26/C14*100",
+      "source": "Income Statement!C26,C14"
+    },
+    {
+      "id": "abc.net_income.jun2026",
+      "value": "-330,756.08",
+      "meaning": "Net Income, Jun 2026",
+      "source": "Income Statement!C107"
+    },
+    {
+      "id": "abc.net_income.negative_months",
+      "value": "17",
+      "meaning": "COUNTIF(<0)",
+      "source": "Income Statement!C107:T107"
+    },
+    {
+      "id": "abc.net_income.negative_streak",
+      "value": "6",
+      "meaning": "consecutive negative months ending Jun 2026",
+      "source": "Income Statement!C107:I107"
+    },
+    {
+      "id": "abc.net_income.ttm",
+      "value": "-3,089,779.59",
+      "meaning": "SUM(C107:N107)",
+      "source": "Income Statement!C107:N107"
+    },
+    {
+      "id": "abc.revenue.jun2025",
+      "value": "190,555.65",
+      "meaning": "Total Income, Jun 2025",
+      "source": "Income Statement!O14"
+    },
+    {
+      "id": "abc.revenue.jun2026",
+      "value": "195,898.16",
+      "meaning": "Total Income, Jun 2026",
+      "source": "Income Statement!C14"
+    },
+    {
+      "id": "abc.revenue.may2026",
+      "value": "208,350.96",
+      "meaning": "Total Income, May 2026",
+      "source": "Income Statement!D14"
+    },
+    {
+      "id": "abc.revenue.may_is_max",
+      "value": "true",
+      "meaning": "May 2026 is the maximum of all months before Jun 2026",
+      "source": "Income Statement!D14:T14"
+    },
+    {
+      "id": "abc.revenue.mom_pct",
+      "value": "-5.9768",
+      "meaning": "(C14-D14)/D14*100",
+      "source": "Income Statement!C14,D14"
+    },
+    {
+      "id": "abc.revenue.prior6_avg",
+      "value": "196,945.8867",
+      "meaning": "AVERAGE(D14:I14) (Dec 2025..May 2026)",
+      "source": "Income Statement!D14:I14"
+    },
+    {
+      "id": "abc.revenue.vs_prior6_pct",
+      "value": "-0.532",
+      "meaning": "(Jun - prior-6 average)/average*100",
+      "source": "Income Statement!C14,D14:I14"
+    },
+    {
+      "id": "abc.revenue.yoy_pct",
+      "value": "2.8036",
+      "meaning": "(C14-O14)/O14*100",
+      "source": "Income Statement!C14,O14"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "States Jun 2026 total revenue and that it fell versus May 2026 by about 6%."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Puts the Jun 2026 revenue drop in context with at least one of: May 2026 was the highest month in the export; Jun 2026 is only about 0.5% below the prior 6-month average; Jun 2026 is about 2.8% above Jun 2025."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Gives the Jun 2026 gross margin (about 70.2%)."
+    },
+    {
+      "id": "R4",
+      "kind": "required",
+      "claim": "States that Jun 2026 net income is negative and that losses are persistent (a run of consecutive negative months, a negative TTM figure, or negative in most months)."
+    },
+    {
+      "id": "R5",
+      "kind": "required",
+      "claim": "Notes that cash declined: gives the Jun 2026 cash balance and a decline versus the prior month and/or six months earlier."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Makes any forecast or projection (cash runway, months of cash left, expected future revenue or margin, 'on track to')."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts as fact a cause for the revenue decline that the numbers do not show (e.g. churn, pricing, lost customers, seasonality). Framing it as a question or 'reviewer to confirm' is allowed."
+    },
+    {
+      "id": "F3",
+      "kind": "forbidden",
+      "claim": "Says Jun 2026 revenue increased versus May 2026, or that Jun 2026 net income was positive."
+    },
+    {
+      "id": "F4",
+      "kind": "forbidden",
+      "claim": "States a figure for any of the reference facts that falls outside the rounding policy."
+    }
+  ],
+  "commentary": "- **Revenue 195,898 in Jun 2026, -6.0% vs May 2026 (208,351)**. May was the highest month in the export, so the drop is measured from a peak. Against the prior 6-month average (196,946) Jun is -0.5%, and against Jun 2025 (190,556) it is +2.8%. All data-quality checks pass, and Jun 2026 is not flagged as a partial month.\n- **Usage Fees fell 6.3% to 166,782** and remain the largest stream (77.7% of TTM revenue). Professional Services (833 in May) and Partnership Income (477 in May) are zero in Jun 2026. SKU Profiling has been zero since May 2026 (last non-zero Apr 2026, 10,000). Whether any of these have stopped or are timing is for the reviewer to confirm.\n- **Gross margin 70.2%, up 3.1 pp from 67.0% in May 2026** and equal to the prior 6-month average (70.2%). It is 4.2 pp below Jun 2025 (74.3%). TTM gross margin is 69.5%.\n- **Operating expenses (as exported) 468,182, -2.2% vs May 2026.** The largest category move is Finance & Admin, which went from 15,243 to (993), mainly because Bad Debts went from 12,935 to (1,806); the reviewer should confirm what sits behind the negative balance. At account level, Events & Conferences rose 17,971 to 29,295, while Partnerships Commission fell 9,000 to 1,800 and Partner Marketing fell 8,395 to 4,020.\n- **Zero expense lines:** Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026. Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500), and the Professional Fees account has been zero since Apr 2026 (last non-zero Mar 2026, 3,773). Whether these have stopped for good or are timing is for the reviewer to confirm.\n- **Net income (330,756) in Jun 2026**, the sixth consecutive negative month (negative in 17 of 18 months; TTM (3,089,780)). The only positive month, Dec 2025 (534,551), is positive only because of non-operating items, mainly the Income Tax Benefit of -1,244,430. Excluding non-operating items, Dec 2025 is -715,902.\n- **Cash and Cash Equivalents 713,481 at Jun 2026**, down 215,543 vs May 2026 and down 1,871,836 vs six months earlier (2,585,317). Liabilities stand at 1,002,176, against 747,583 in May 2026.\n- **Dec 2025 single-month items:** Stock-Based Compensation Expense (334,661) and Bonus (80,343) each appear to be a single-month item; the reviewer should confirm. Both fall in the TTM window, so they affect TTM payroll and net income."
+}

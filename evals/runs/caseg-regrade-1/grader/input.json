@@ -1,0 +1,24 @@
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [
+    {
+      "id": "bb.months",
+      "value": "9",
+      "meaning": "month header cells (K4 is a 'Total' column, not a month)",
+      "source": "Profit and Loss!B4:J4"
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Acknowledges that twelve-month comparisons (TTM and/or year-over-year) are not available because the export covers fewer than 12 months."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States any TTM, trailing-twelve-month, annualised or year-over-year figure for Bluebird, including estimates."
+    }
+  ],
+  "commentary": "- **Data quality, Mar 2026: 'Total for Professional Services' states 2,225, but its detail rows (Bookkeeping, Legal) sum to 2,200 (diff 25).** The analysis uses the detail rows. The reviewer needs to confirm which figure is right. Separately, some structure was reconstructed: 'Total Delivery' had no header row, and 'Charitable Donations' had no total row (see section 8). Gross profit, net income and the balance sheet all tie to the workbook.\n- **Revenue 81,300 in Sep 2026: +17.7% vs Aug 2026 (69,050) and +17.3% vs the prior 6-month average (69,292).** It's the highest month in the export. A new stream, 'Wholesale Accounts', has 12,000 in Sep 2026 and is zero in every earlier month. Whether it recurs is for the reviewer to confirm. No same-month-last-year comparison is available, because the export starts in Jan 2026.\n- **The existing streams moved in different directions.** Bread Sales were 49,200 (+1.9%) and have risen every month since Jan 2026. Pastry Sales were 15,700 (-2.2%) and have fallen every month since Jan 2026 (18,500). Catering Revenue was 3,800 (-5.0%), after dropping 56.0% in Aug 2026 from 9,100.\n- **Gross margin 65.3%, +5.7 pp vs Aug 2026 (59.6%), against a prior 6-month average of 60.6%.** It's the top of the period's range (56.8% in Mar 2026 to 65.3%). COGS was 28,220 vs 27,930 in Aug 2026. The reviewer may want to confirm whether the Wholesale revenue has its related costs booked in the same month.\n- **Operating expenses 31,570, +21.0% vs Aug 2026.** Payroll & Benefits drove it: 22,600 (+28.4%, +5,000). All of that came from Wages & Salaries, which was 21,000 against 16,000 in every month Jan\u2013Aug 2026. With only one month at this level, whether it's a new run-rate or a single-month item is for the reviewer to confirm.\n- **Mystery Shopper Program 400 shows as \"from 0\" in the movers table but is not a new line.** It also posted 400 in Mar 2026 and Jun 2026, so it recurs quarterly.\n- **Net income 21,553, vs 15,077 in Aug 2026 (+6,476).** It's positive in all 9 months, with the low point in Mar 2026 (8,387). No non-operating items (tax, interest) appear in this export, so the as-exported and underlying figures are the same.\n- **Cash: Bank Accounts 37,600, -1,800 vs Aug 2026 and -10,800 vs six months earlier (48,400), while net income was positive every month.** Equity fell from 54,660 to 44,940 over the same period. The export doesn't show why cash and equity are falling while profit is positive. That's a question for the reviewer."
+}

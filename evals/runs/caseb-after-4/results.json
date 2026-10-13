@@ -1,0 +1,516 @@
+{
+  "manifest": {
+    "run_id": "caseb-after-4",
+    "started": "2026-10-12T13:01:05+00:00",
+    "git_head": "7f411d4",
+    "git_dirty": [
+      " M .claude/skills/monthly-trend-analysis/SKILL.md",
+      " M .claude/skills/monthly-trend-analysis/scripts/trends/analysis.py",
+      " M .claude/skills/monthly-trend-analysis/tests/test_trends.py",
+      " M connection/DECISIONS_LOG.md",
+      " M evals/goldens/cases.json",
+      " M evals/goldens/derive_facts.py",
+      " M evals/goldens/source_facts.json"
+    ],
+    "claude_cli": "2.1.296 (Claude Code)",
+    "skill_model": "claude-opus-5-5",
+    "grader_model": "claude-sonnet-5-5",
+    "skill_tools": [
+      "Skill",
+      "Bash",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep"
+    ],
+    "skill_budget_usd": "3",
+    "grader_budget_usd": "0.5",
+    "python": "3.12.4",
+    "facts_consistent_with_workbooks": true,
+    "facts_check_output": "source_facts.json matches the workbooks",
+    "cases": [
+      "b_abc_rounding_vanished_lines"
+    ],
+    "finished": "2026-10-12T13:02:32+00:00"
+  },
+  "regression_tests": {
+    "summary": "Ran 30 tests in 0.240s -> OK",
+    "ok": true,
+    "tests": [
+      {
+        "test": "test_cli_writes_report_and_json (test_trends.CliTests.test_cli_writes_report_and_json)",
+        "status": "ok"
+      },
+      {
+        "test": "test_missing_workbook_is_a_clean_error (test_trends.CliTests.test_missing_workbook_is_a_clean_error)",
+        "status": "ok"
+      },
+      {
+        "test": "test_different_company_and_layout (test_trends.PortabilityTests.test_different_company_and_layout)",
+        "status": "ok"
+      },
+      {
+        "test": "test_flags_are_sensible (test_trends.PortabilityTests.test_flags_are_sensible)",
+        "status": "ok"
+      },
+      {
+        "test": "test_percent_rounding_is_consistent_between_table_and_flags (test_trends.PortabilityTests.test_percent_rounding_is_consistent_between_table_and_flags)",
+        "status": "ok"
+      },
+      {
+        "test": "test_prior_month_zero_is_not_labelled_new (test_trends.PortabilityTests.test_prior_month_zero_is_not_labelled_new)",
+        "status": "ok"
+      },
+      {
+        "test": "test_structural_variants_handled (test_trends.PortabilityTests.test_structural_variants_handled)",
+        "status": "ok"
+      },
+      {
+        "test": "test_totals_reconcile_with_workbook_summary_rows (test_trends.PortabilityTests.test_totals_reconcile_with_workbook_summary_rows)",
+        "status": "ok"
+      },
+      {
+        "test": "test_unmapped_accounts_fall_into_other (test_trends.PortabilityTests.test_unmapped_accounts_fall_into_other)",
+        "status": "ok"
+      },
+      {
+        "test": "test_all_cross_checks_pass (test_trends.RealWorkbookTests.test_all_cross_checks_pass)",
+        "status": "ok"
+      },
+      {
+        "test": "test_figures_match_raw_sheet_rows (test_trends.RealWorkbookTests.test_figures_match_raw_sheet_rows)",
+        "status": "ok"
+      },
+      {
+        "test": "test_key_flags (test_trends.RealWorkbookTests.test_key_flags)",
+        "status": "ok"
+      },
+      {
+        "test": "test_no_subtotal_or_header_rows_counted_as_accounts (test_trends.RealWorkbookTests.test_no_subtotal_or_header_rows_counted_as_accounts)",
+        "status": "ok"
+      },
+      {
+        "test": "test_structure (test_trends.RealWorkbookTests.test_structure)",
+        "status": "ok"
+      },
+      {
+        "test": "test_ttm_mom_and_yoy_math_matches_raw_cells (test_trends.RealWorkbookTests.test_ttm_mom_and_yoy_math_matches_raw_cells)",
+        "status": "ok"
+      },
+      {
+        "test": "test_vanished_line_wording_says_zero_since (test_trends.RealWorkbookTests.test_vanished_line_wording_says_zero_since)",
+        "status": "ok"
+      },
+      {
+        "test": "test_vanished_revenue_stream_wording_says_zero_since (test_trends.RealWorkbookTests.test_vanished_revenue_stream_wording_says_zero_since)",
+        "status": "ok"
+      },
+      {
+        "test": "test_blank_account_mid_list_does_not_capture_following_rows (test_trends.SyntheticSheetTests.test_blank_account_mid_list_does_not_capture_following_rows)",
+        "status": "ok"
+      },
+      {
+        "test": "test_blank_cells_are_zero_and_counted (test_trends.SyntheticSheetTests.test_blank_cells_are_zero_and_counted)",
+        "status": "ok"
+      },
+      {
+        "test": "test_formula_in_detail_row_is_flagged (test_trends.SyntheticSheetTests.test_formula_in_detail_row_is_flagged)",
+        "status": "ok"
+      },
+      {
+        "test": "test_mismatch_is_flagged_not_trusted (test_trends.SyntheticSheetTests.test_mismatch_is_flagged_not_trusted)",
+        "status": "ok"
+      },
+      {
+        "test": "test_nested_subtotal_is_not_double_counted (test_trends.SyntheticSheetTests.test_nested_subtotal_is_not_double_counted)",
+        "status": "ok"
+      },
+      {
+        "test": "test_newest_first_columns_are_sorted (test_trends.SyntheticSheetTests.test_newest_first_columns_are_sorted)",
+        "status": "ok"
+      },
+      {
+        "test": "test_total_without_header_is_inferred_from_numbers (test_trends.SyntheticSheetTests.test_total_without_header_is_inferred_from_numbers)",
+        "status": "ok"
+      },
+      {
+        "test": "test_unreconcilable_total_is_excluded_and_flagged (test_trends.SyntheticSheetTests.test_unreconcilable_total_is_excluded_and_flagged)",
+        "status": "ok"
+      },
+      {
+        "test": "test_categorisation_rules (test_trends.UnitTests.test_categorisation_rules)",
+        "status": "ok"
+      },
+      {
+        "test": "test_month_formats (test_trends.UnitTests.test_month_formats)",
+        "status": "ok"
+      },
+      {
+        "test": "test_numbers (test_trends.UnitTests.test_numbers)",
+        "status": "ok"
+      },
+      {
+        "test": "test_section_roles (test_trends.UnitTests.test_section_roles)",
+        "status": "ok"
+      },
+      {
+        "test": "test_total_label_matching (test_trends.UnitTests.test_total_label_matching)",
+        "status": "ok"
+      }
+    ],
+    "raw_tail": "test_mismatch_is_flagged_not_trusted (test_trends.SyntheticSheetTests.test_mismatch_is_flagged_not_trusted) ... ok\ntest_nested_subtotal_is_not_double_counted (test_trends.SyntheticSheetTests.test_nested_subtotal_is_not_double_counted) ... ok\ntest_newest_first_columns_are_sorted (test_trends.SyntheticSheetTests.test_newest_first_columns_are_sorted) ... ok\ntest_total_without_header_is_inferred_from_numbers (test_trends.SyntheticSheetTests.test_total_without_header_is_inferred_from_numbers) ... ok\ntest_unreconcilable_total_is_excluded_and_flagged (test_trends.SyntheticSheetTests.test_unreconcilable_total_is_excluded_and_flagged) ... ok\ntest_categorisation_rules (test_trends.UnitTests.test_categorisation_rules) ... ok\ntest_month_formats (test_trends.UnitTests.test_month_formats) ... ok\ntest_numbers (test_trends.UnitTests.test_numbers) ... ok\ntest_section_roles (test_trends.UnitTests.test_section_roles) ... ok\ntest_total_label_matching (test_trends.UnitTests.test_total_label_matching) ... ok\n\n----------------------------------------------------------------------\nRan 30 tests in 0.240s\n\nOK"
+  },
+  "cases": [
+    {
+      "id": "b_abc_rounding_vanished_lines",
+      "title": "ABC Inc, Jun 2026: expense lines that went to zero, judged under the rounding policy (generalises the Task 2 '721 -> roughly 700' instance)",
+      "input": {
+        "workbook": "data/ABC Inc - Financial Statements (1) (1).xlsx",
+        "prompt": "abc",
+        "target_month": "Jun 2026"
+      },
+      "skill_run": {
+        "model_requested": "claude-opus-5-5",
+        "model_reported": "claude-opus-5-5",
+        "claude_code_version": "2.1.296",
+        "num_turns": 8,
+        "total_cost_usd": 0.33326100000000003,
+        "elapsed_s": 53.7,
+        "permission_mode": "default"
+      },
+      "execution": [
+        {
+          "id": "X1",
+          "desc": "claude -p run completed successfully",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "exit 0, subtype success"
+        },
+        {
+          "id": "X2",
+          "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X3",
+          "desc": "the skill's script run_trends.py was executed",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "id": "X4",
+          "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "1 json, 1 md in evals/runs/caseb-after-4/b_abc_rounding_vanished_lines/skill_output"
+        },
+        {
+          "id": "X5",
+          "desc": "nothing outside evals/runs/ was modified by the skill run",
+          "type": "execution",
+          "status": "PASS",
+          "detail": "no changes made by the skill"
+        },
+        {
+          "id": "X6",
+          "desc": "the narrative placeholder was replaced with commentary",
+          "type": "execution",
+          "status": "PASS",
+          "detail": ""
+        }
+      ],
+      "structured": [
+        {
+          "id": "S1",
+          "desc": "Marketing/Advertising: Miscellaneous is 0 in Jun 2026",
+          "type": "value",
+          "source": {
+            "fact": "abc.vanished.mkt_misc.jun2026",
+            "sheet": "Income Statement",
+            "cells": [
+              "C68"
+            ],
+            "formula": "Marketing/Advertising: Miscellaneous, Jun 2026"
+          },
+          "expected": 0.0,
+          "actual": 0.0,
+          "tolerance": 0.01,
+          "status": "PASS"
+        },
+        {
+          "id": "S2",
+          "desc": "vanished-line flag: Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500; avg 1,250) [changed D-45]",
+          "type": "flag_regex",
+          "source": {
+            "fact": "abc.vanished.advisory_services.last_nonzero_value",
+            "sheet": "Income Statement",
+            "cells": [
+              "H30"
+            ],
+            "formula": "Advisory Services in its last non-zero month (added for the D-45 'zero since' wording)"
+          },
+          "expected": "present: /Expense line 'Advisory Services' .*has been zero since Feb 2026 \\(last non-zero: Jan 2026, 2,500\\); it averaged 1,250 /",
+          "actual": "Expense line 'Advisory Services' (Professional Fees) has been zero since Feb 2026 (last non-zero: Jan 2026, 2,500); it averaged 1,250 ",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S3",
+          "desc": "vanished-line flag: Federal & State Taxes (avg 999)",
+          "type": "flag_regex",
+          "source": "literal",
+          "expected": "present: /Expense line 'Federal & State Taxes' .*zero in Jun 2026; it averaged 999 /",
+          "actual": "Expense line 'Federal & State Taxes' (Finance & Admin) is zero in Jun 2026; it averaged 999 ",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S4",
+          "desc": "vanished-line flag: Marketing/Advertising: Miscellaneous (avg 721)",
+          "type": "flag_regex",
+          "source": "literal",
+          "expected": "present: /Expense line 'Marketing/Advertising: Miscellaneous' .*zero in Jun 2026; it averaged 721 /",
+          "actual": "Expense line 'Marketing/Advertising: Miscellaneous' (Sales & Marketing) is zero in Jun 2026; it averaged 721 ",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S5",
+          "desc": "vanished-line flag: Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773; avg 1,045) [changed D-45]",
+          "type": "flag_regex",
+          "source": {
+            "fact": "abc.vanished.professional_fees.last_nonzero_value",
+            "sheet": "Income Statement",
+            "cells": [
+              "F85"
+            ],
+            "formula": "Professional Fees in its last non-zero month (added for the D-45 'zero since' wording)"
+          },
+          "expected": "present: /Expense line 'Professional Fees' .*has been zero since Apr 2026 \\(last non-zero: Mar 2026, 3,773\\); it averaged 1,045 /",
+          "actual": "Expense line 'Professional Fees' (Professional Fees) has been zero since Apr 2026 (last non-zero: Mar 2026, 3,773); it averaged 1,045 ",
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S6",
+          "desc": "Advisory Services is NOT described as 'is zero in Jun 2026' (it stopped after Jan 2026) [added D-45]",
+          "type": "flag_regex",
+          "source": {
+            "fact": "abc.vanished.advisory_services.last_nonzero_month",
+            "sheet": "Income Statement",
+            "cells": [
+              "H5"
+            ],
+            "formula": "header of the newest column before Jun 2026 where Advisory Services is non-zero"
+          },
+          "expected": "absent: /Expense line 'Advisory Services' \\([^)]*\\) is zero in Jun 2026/",
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        },
+        {
+          "id": "S7",
+          "desc": "Professional Fees is NOT described as 'is zero in Jun 2026' (it stopped after Mar 2026) [added D-45]",
+          "type": "flag_regex",
+          "source": {
+            "fact": "abc.vanished.professional_fees.last_nonzero_month",
+            "sheet": "Income Statement",
+            "cells": [
+              "F5"
+            ],
+            "formula": "header of the newest column before Jun 2026 where Professional Fees is non-zero"
+          },
+          "expected": "absent: /Expense line 'Professional Fees' \\([^)]*\\) is zero in Jun 2026/",
+          "actual": null,
+          "tolerance": 0.0,
+          "status": "PASS"
+        }
+      ],
+      "provenance": [
+        {
+          "id": "P1",
+          "type": "provenance",
+          "status": "PASS",
+          "desc": "every number in the commentary matches a value in this run's own output",
+          "detail": "39 matched, 22 ignored, 0 unmatched",
+          "unmatched": []
+        }
+      ],
+      "commentary": [
+        {
+          "id": "R1",
+          "kind": "required",
+          "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+          "status": "PASS",
+          "evidence": "Commentary says \"Expense lines at zero: Advisory Services has been zero since Feb 2026... Professional Fees... zero since Apr 2026... Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026\", naming all four lines as zero after earlier non-zero values."
+        },
+        {
+          "id": "R2",
+          "kind": "required",
+          "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+          "status": "PASS",
+          "evidence": "No prior-average figures are given for these lines. The only figures are last non-zero values (2,500 and 3,773), which are not averages, so the claim passes by its own condition."
+        },
+        {
+          "id": "F1",
+          "kind": "forbidden",
+          "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+          "status": "PASS",
+          "evidence": "No cause is stated as fact. The text says \"Whether each line has stopped or is timing is for the reviewer to confirm.\""
+        },
+        {
+          "id": "F2",
+          "kind": "forbidden",
+          "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+          "status": "PASS",
+          "evidence": "The lines are not called permanently discontinued or cancelled. The commentary leaves \"stopped or is timing\" to the reviewer."
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "harness_contamination": [],
+  "cost": {
+    "skill_runs_usd": 0.3333,
+    "skill_runs": 1,
+    "grader_calls_usd": 0.1139,
+    "grader_calls": 5,
+    "total_usd": 0.4472,
+    "basis": "total_cost_usd reported by Claude Code for each call (list prices)"
+  },
+  "calibrations": [
+    {
+      "case": "b_abc_rounding_vanished_lines",
+      "artifact": "trend-reports/abc-inc-2026-06-trends.md @ 7f411d4",
+      "commentary": [
+        {
+          "id": "R1",
+          "kind": "required",
+          "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+          "status": "PASS",
+          "evidence": "The commentary says \"Four expense lines are zero in Jun 2026 after averaging roughly 700\u20131,250 a month over the prior 6 months\" and names all four lines, which matches the zero Jun 2026 values and non-zero prior averages."
+        },
+        {
+          "id": "R2",
+          "kind": "required",
+          "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+          "status": "PASS",
+          "evidence": "The range \"roughly 700\u20131,250\" fits the reference averages, which run from 721.0 to 1,250. The upper bound is exact. The lower bound 700 vs 721.0033 is a 2.9% relative difference, inside the 5% band."
+        },
+        {
+          "id": "F1",
+          "kind": "forbidden",
+          "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+          "status": "PASS",
+          "evidence": "No cause is stated as fact. \"the reviewer should check whether this is timing\" only suggests a possibility for the reviewer to check."
+        },
+        {
+          "id": "F2",
+          "kind": "forbidden",
+          "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+          "status": "PASS",
+          "evidence": "The commentary never calls the lines discontinued or cancelled. It leaves the question to the reviewer."
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "grader_controls": [
+    {
+      "id": "ctl_c_claims_clean",
+      "case": "c_bb_subtotal_mismatch",
+      "checks": [
+        {
+          "id": "R1",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "The commentary never mentions the Professional Services subtotal, Mar 2026, or the 25 difference (2,225 vs 2,200); the claim is absent.",
+          "agrees": true
+        },
+        {
+          "id": "R2",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "No mismatch is mentioned, so nothing is left to the reviewer to resolve; the claim is absent.",
+          "agrees": true
+        },
+        {
+          "id": "F1",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "It says \"All data-quality checks pass and the data is fully reconciled,\" which is forbidden. The reference facts show a 25 mismatch in Professional Services for Mar 2026.",
+          "agrees": true
+        },
+        {
+          "id": "F2",
+          "expected": "PASS",
+          "got": "PASS",
+          "evidence": "The commentary does not say which of the two figures is correct and does not say any error was corrected.",
+          "agrees": true
+        }
+      ],
+      "status": "AGREES"
+    },
+    {
+      "id": "ctl_b_bad_rounding_and_cause",
+      "case": "b_abc_rounding_vanished_lines",
+      "checks": [
+        {
+          "id": "R1",
+          "expected": "PASS",
+          "got": "PASS",
+          "evidence": "The commentary names all four lines (\"Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees\") as \"zero in Jun 2026 after averaging...\" over the prior six months. The reference facts show non-zero prior averages and 0 in Jun 2026.",
+          "agrees": true
+        },
+        {
+          "id": "R2",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "The commentary gives \"roughly 500-1,250 a month\". The true prior averages run from 721.00 to 1,250, so the 500 lower bound is about 31% below 721, outside the 5% band.",
+          "agrees": true
+        },
+        {
+          "id": "F1",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "The commentary says \"This is because those vendor contracts ended in May.\" That states a cause as fact, and no reference fact supports it.",
+          "agrees": true
+        }
+      ],
+      "status": "AGREES"
+    },
+    {
+      "id": "ctl_g_guessed_ttm",
+      "case": "g_bb_no_ttm",
+      "checks": [
+        {
+          "id": "R1",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "The commentary never says twelve-month comparisons are unavailable because the export covers fewer than 12 months; it mentions \"annualising the nine months\" but makes no acknowledgment of unavailability.",
+          "agrees": true
+        },
+        {
+          "id": "F1",
+          "expected": "FAIL",
+          "got": "FAIL",
+          "evidence": "It states \"On a trailing-twelve-month basis, annualising the nine months gives roughly 850,000\", which is a TTM/annualised estimate.",
+          "agrees": true
+        }
+      ],
+      "status": "AGREES"
+    }
+  ],
+  "score": {
+    "PASS": 18,
+    "FAIL": 0,
+    "BLOCKED": 0,
+    "total": 18,
+    "cases_passed": 1,
+    "cases_total": 1
+  }
+}

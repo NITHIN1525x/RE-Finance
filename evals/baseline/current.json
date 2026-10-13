@@ -1,5 +1,5 @@
 {
-  "run": "commit3-run-20261012",
-  "version": "v2",
+  "run": "policy-run-20261013",
+  "version": "v3",
   "_about": "Baseline whose commentary verdicts define a PASS->FAIL flip for the resampling policy (REGRESSION.md). Update when the baseline changes."
 }

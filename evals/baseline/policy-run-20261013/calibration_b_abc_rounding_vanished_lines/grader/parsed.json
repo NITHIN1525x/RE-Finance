@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.027230999999999998,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+      "status": "PASS",
+      "evidence": "Says \"Four expense lines are zero in Jun 2026 after averaging roughly 700\u20131,250 a month over the prior 6 months\" and names all four lines, which matches the zero Jun 2026 values and non-zero prior averages."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+      "status": "PASS",
+      "evidence": "The range \"roughly 700\u20131,250\" fits the true averages of 721.0, 998.5, 1,045.5 and 1,250. The low end of 700 is about 2.9% off 721.0 and the high end of 1,250 is exact, so both are within 5%."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+      "status": "PASS",
+      "evidence": "No cause is stated as fact. It only says \"the reviewer should check whether this is timing\", which is a suggestion to check."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+      "status": "PASS",
+      "evidence": "The commentary does not call the lines discontinued or cancelled, and it leaves the question to the reviewer: \"the reviewer should check whether this is timing\"."
+    }
+  ]
+}

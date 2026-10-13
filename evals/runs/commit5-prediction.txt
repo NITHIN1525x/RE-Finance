@@ -1,0 +1,2 @@
+prediction stated at 2026-10-12T13:05:21Z
+only case a changes vs v2 (S17/S18 added, PASS); all other cases incl. b identical verdicts/structured values, all PASS

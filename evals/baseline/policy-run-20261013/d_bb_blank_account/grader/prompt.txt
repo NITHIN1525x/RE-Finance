@@ -1,0 +1,44 @@
+You are a strict, literal auditor grading the COMMENTARY section of a draft monthly financial trend report.
+You do not write or improve commentary. You only decide, for each rule, whether the commentary satisfies it.
+
+You are given one JSON object with:
+- `rounding_policy`: the ONLY rule for judging whether a figure in prose is acceptable.
+- `reference_facts`: true values derived from the source workbook cells. Treat them as ground truth.
+- `rules`: a list of rules. Each has `id`, `kind` ("required" or "forbidden") and `claim`.
+- `commentary`: the exact text to grade.
+
+How to grade each rule:
+- `required`: PASS only if the commentary actually makes that claim, including every element the claim
+  names, and any figure it uses is consistent with the reference facts under the rounding policy.
+  FAIL if the claim is missing, only partly made, or made with a misstated figure.
+- `forbidden`: PASS if the commentary does NOT contain the forbidden content. FAIL if it does.
+  So for every rule, PASS always means "the commentary is acceptable on this rule".
+- Judge only what the commentary text says. Do not assume content that isn't there. Do not penalise
+  content that no rule mentions.
+- Apply the rounding policy exactly as written. Compute the relative difference when it matters, and
+  state it in the evidence.
+- A rule that says it PASSES when some condition is absent (e.g. "if no such figures are given, PASS")
+  must PASS when the condition is absent.
+
+Return one verdict for EVERY rule id, exactly once. `evidence` must be one or two sentences: quote the
+relevant words from the commentary (or say they are absent), and give the reason, citing a reference
+fact where relevant.
+
+INPUT:
+{
+  "rounding_policy": "Prose figures may be rounded for readability if the stated figure is within 5% (relative) of the true value, or within 0.5 percentage points when the value is itself a percentage, AND the rounding does not change the sign, the direction of a change, a ranking, or which side of a stated threshold the value falls on. Words like 'about'/'roughly' are welcome but not required inside that band. A figure outside the band, or one that changes sign/direction/ranking, is a misstatement. Structured numeric output (the JSON) is NOT covered by this policy: it must meet each check's explicit tolerance.",
+  "reference_facts": [],
+  "rules": [
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Describes 'Charitable Donations' as having spend/activity, or as a group or category containing other accounts."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Says Instagram Ads or Mystery Shopper Program belong to a 'Charitable Donations' or 'Finance & Admin' category."
+    }
+  ],
+  "commentary": "- **Data quality first:** 'Total for Professional Services' in Mar 2026 states 2,225 but its detail rows sum to 2,200 (diff 25). This analysis uses the detail rows; the reviewer should decide which figure is right. Also, 'Charitable Donations' has no values and no matching Total row, so it was treated as an all-blank account (0 in every month) and the 4 rows after it were kept at the parent level, not grouped under it. 'Total Delivery' had no header row; its group (Delivery Van Fuel, Courier: Same Day) was reconstructed because those two rows sum to it in every month. Reviewer to confirm both structural choices.\n- **Revenue 81,300 in Sep 2026**, +17.7% vs Aug 2026 (69,050) and +17.3% vs the prior 6-month average (69,292). Most of the increase is a new stream, 'Wholesale Accounts' at 12,000, which was zero in the prior 6 months. Bread Sales rose 1.9% to 49,200, Pastry Sales fell 2.2% to 15,700 (down about 2% in each month from Apr to Sep 2026), and Catering Revenue fell 5.0% to 3,800. Year-over-year and TTM comparisons aren't available because the export covers only 9 months (Jan\u2013Sep 2026).\n- **Gross margin 65.3%**, up 5.7 pp from 59.6% in Aug 2026 and above the prior 6-month average of 60.6%. It is the highest month in the period (the low was 56.8% in Mar 2026). COGS rose from 27,930 to 28,220, much less than revenue did.\n- **Payroll & Benefits 22,600**, +28.4% (+5,000) vs Aug 2026, all from Wages & Salaries (16,000 to 21,000). Wages had been 16,000 in every month from Jan to Aug 2026. Whether this is a new hire, a rate change or a one-off is for the reviewer to confirm. Total operating expenses rose 21.0% to 31,570.\n- **Other Opex 1,500** (+42.9%). The 400 from Mystery Shopper Program shows as \"from 0\", but the line also posted 400 in Mar and Jun 2026, so it looks quarterly rather than new. Reviewer to confirm. Instagram Ads, Mystery Shopper Program and Supplier Rebates match no category rule and are grouped in Other Opex.\n- **Net income 21,553**, up from 15,077 in Aug 2026 and the highest of the six months in the net income table (Apr\u2013Sep 2026). Net income was positive in all 9 months, and there are no non-operating items in this export.\n- **Cash: Bank Accounts 37,600**, -1,800 vs Aug 2026 and -10,800 vs six months earlier (48,400), even though every month was profitable. The reason is not visible in this export (equity fell from 54,660 to 44,940 over the same period), so it's a question for the reviewer.\n- **Possible one-off:** Professional Fees were 2,200 in Mar 2026 vs 700 in other months, driven by Legal (1,500 in Mar 2026, zero in all other months). This appears to be a single-month item; reviewer to confirm. Gift Cards revenue was negative in Mar 2026 (-300), possibly credits or refunds; reviewer to confirm."
+}
