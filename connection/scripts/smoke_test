@@ -25,7 +25,7 @@ import re
 import subprocess
 import sys
 import threading
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -110,6 +110,28 @@ def first_json(text):
     return json.loads(text[start:]) if start >= 0 else None
 
 
+def latest_complete_month_net_income(report, today):
+    """Net income for the newest month column that covers a whole calendar month ending before today.
+
+    A partial month (e.g. "Oct 1-12, 2026", ending today) and the "Total" column are skipped. Returns
+    {"month", "start", "end", "value"} or None if the report has no NetIncome row or no complete month.
+    """
+    ni = next((r for r in report.get("Rows", {}).get("Row", []) if r.get("group") == "NetIncome"), None)
+    if ni is None:
+        return None
+    values = ni.get("Summary", {}).get("ColData", [])
+    best = None
+    for i, col in enumerate(report.get("Columns", {}).get("Column", [])):
+        meta = {m.get("Name"): m.get("Value") for m in col.get("MetaData", [])}
+        if "StartDate" not in meta or "EndDate" not in meta or i >= len(values):
+            continue
+        start, end = date.fromisoformat(meta["StartDate"]), date.fromisoformat(meta["EndDate"])
+        month_end = (date(start.year + start.month // 12, start.month % 12 + 1, 1) - timedelta(days=1))
+        if start.day == 1 and end == month_end and end < today and (best is None or end > best["end"]):
+            best = {"month": col.get("ColTitle"), "start": start, "end": end, "value": float(values[i].get("value") or 0)}
+    return best and {**best, "start": best["start"].isoformat(), "end": best["end"].isoformat()}
+
+
 def mcp_checks(evidence):
     client = McpStdioClient(["node", str(LAUNCHER)], cwd=REPO)
     try:
@@ -161,6 +183,8 @@ def mcp_checks(evidence):
         else:
             cols = len(report.get("Columns", {}).get("Column", []))
             evidence["pnl"] = {"start": start.isoformat(), "end": today.isoformat(), "columns": cols, "sections": len(rows)}
+            # Recorded for submission/Task 1 response.md; not a separate check, so the check count is unchanged.
+            evidence["net_income_latest_complete_month"] = latest_complete_month_net_income(report, today)
             record("PASS", "get_profit_and_loss (12 months, by month)", f"{len(rows)} sections, {cols} columns")
     finally:
         client.close()

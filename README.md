@@ -1,7 +1,7 @@
 # QBO ↔ Claude exercise (RE Financial Services take-home)
 
 Sandbox only. No real company data. Every decision, with its reasoning and evidence, is in
-[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-55).
+[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-56).
 
 | Task | Deliverable | Status |
 |---|---|---|
@@ -9,6 +9,8 @@ Sandbox only. No real company data. Every decision, with its reasoning and evide
 | 2. Monthly trend-analysis skill | [`.claude/skills/monthly-trend-analysis/SKILL.md`](.claude/skills/monthly-trend-analysis/SKILL.md) | Done. The stretch goal is deferred (D-36) |
 | 3. Evaluation suite | [`evals/README.md`](evals/README.md), [`evals/REGRESSION.md`](evals/REGRESSION.md) | Done. Baseline v4: 132/132 |
 | 4. Architecture note | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Done |
+
+**For the examiner:** [`submission/`](submission/) has one easy-to-read response file per task, generated from existing outputs by `python scripts/build_submission.py` (free); `--live-task1` re-runs the Task 1 sandbox query.
 
 Commands are PowerShell from the repo root. On macOS/Linux, use `.venv/bin/python` wherever these say
 `.venv/Scripts/python`. Prerequisites: Git, Python 3.12+, and Claude Code. Task 1 also needs Node 22+ and an
