@@ -1,19 +1,18 @@
 # Monthly trend analysis: ABC Inc, Jun 2026
 
-> **DRAFT for reviewer.** Generated 2026-10-12T07:30:09+00:00 from `data\ABC Inc - Financial Statements (1) (1).xlsx` (sheets: Income Statement, Balance Sheet). 18 months (Jan 2025 to Jun 2026). Figures are as exported (currency as exported (no conversion)); negatives in parentheses. Nothing here is a forecast or an accounting judgment.
+> **DRAFT for reviewer.** Generated 2026-10-13T04:06:55+00:00 from `ABC Inc - Financial Statements (1) (1).xlsx` (sheets: Income Statement, Balance Sheet). 18 months (Jan 2025 to Jun 2026). Figures are as exported (currency as exported (no conversion)); negatives in parentheses. Nothing here is a forecast or an accounting judgment.
 >
 > Data-quality checks: **ALL PASS**.
 
 ## 1. Commentary (draft)
 
-- **Top line:** Total revenue for Jun 2026 was 195,898, down 6.0% from May 2026 (208,351), which is the highest month in the export. It is 0.5% below the prior 6-month average (196,946) and 2.8% above Jun 2025 (190,556).
-- **Revenue mix:** Usage Fees (166,782 in Jun 2026) make up 77.7% of TTM revenue (1,790,874 of 2,303,976). Platform Revenue has been flat at 26,667 each month Jan–Jun 2026 and is 27.1% below Jun 2025.
-- **Smaller streams:** Professional Services is 0 in Jun 2026 after 833 a month Feb–May. Partnership Income is 0 in Jun 2026, and was negative (-1,608) in Mar 2026, which the flags mark for reviewer confirmation.
-- **Gross margin:** 70.2% in Jun 2026, up 3.1 pp from 67.0% in May but down 4.2 pp from 74.3% in Jun 2025. TTM gross margin is 69.5%, within a monthly range of 63.0% (Aug 2025) to 78.8% (Feb 2025).
-- **Costs:** Operating expenses excluding non-operating items were 468,318 in Jun 2026, down 2.4% from 479,817. The largest moves were Finance & Admin, which went from 15,243 to a (993) credit (Bad Debts from 12,935 to a (1,806) credit), and Events & Conferences, up 17,971 to 29,295. Four expense lines are zero in Jun 2026 after averaging roughly 700–1,250 a month over the prior 6 months (Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees); the reviewer should check whether this is timing.
-- **Net income:** Net income was negative in 17 of 18 months, at (330,756) in Jun 2026 and (3,089,780) TTM, with a 6-month negative streak. The only positive month, Dec 2025 (534,551), comes from non-operating items; excluding them it is (715,902), driven by the Income Tax Benefit credit of (1,244,430).
-- **One-off candidates (reviewer to confirm):** Stock-Based Compensation Expense of 334,661 in Dec 2025, Bonus of 80,343 in Dec 2025, and Events & Conferences of 89,275 in Feb 2025 and 69,277 in Mar 2025 each appear as single-month items against a typical month well below these amounts.
-- **Cash:** Cash and Cash Equivalents were 713,481 at Jun 2026, down 215,543 from May 2026 (929,025) and down 1,871,836 from six months earlier (2,585,317). Liabilities rose to 1,002,176 from 747,583 in May 2026.
+- **Top line:** Total revenue was 195,898 in Jun 2026, -6.0% vs May 2026 (208,351, the highest month in the export), -0.5% vs the prior 6-month average (196,946), and +2.8% vs Jun 2025 (190,556). TTM revenue is 2,303,976.
+- **Revenue streams:** Usage Fees is the largest stream (166,782 in Jun 2026; 77.7% TTM share) and fell 6.3% from May. Professional Services is zero in Jun 2026 after 833 in May. SKU Profiling has been zero since May 2026 (last non-zero Apr 2026, 10,000). Partnership Income and White-Label each show a negative month in Mar 2026 (-1,608 and -550), likely credits or refunds; reviewer to confirm.
+- **Margin:** Gross margin was 70.2% in Jun 2026, up 3.1 pp from 67.0% in May and in line with the prior 6-month average (70.2%); it is 4.2 pp below Jun 2025 (74.3%). Over the period it ranged from 63.0% (Aug 2025) to 78.8% (Feb 2025).
+- **Costs:** Operating expenses excluding non-operating items were 468,318 in Jun 2026 (-2.4% vs May). The largest account movers were Bad Debts (12,935 to (1,806)), which drove Finance & Admin from 15,243 to (993), and Events & Conferences (11,324 to 29,295). Travel & Entertainment rose 327.2% to 3,793. Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500), and Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773). Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026. Whether these lines have stopped for good, been discontinued, or are timing is for the reviewer to confirm.
+- **Profitability:** Net income was (330,756) in Jun 2026, negative for 6 consecutive months; TTM is (3,089,780). Dec 2025 shows positive net income of 534,551 only because of non-operating items; excluding them it is (715,902), mainly from 'Income Tax Benefit' (-1,244,430 in Dec 2025).
+- **Cash:** Cash and Cash Equivalents was 713,481 at Jun 2026, down 215,543 from May 2026 (929,025) and down from 2,585,317 six months earlier.
+- **One-offs (appears to be single-month items; reviewer to confirm):** Stock-Based Compensation Expense of 334,661 and Bonus of 80,343 in Dec 2025, Events & Conferences of 89,275 in Feb 2025 and 69,277 in Mar 2025, and 'Marketing/Advertising: 3rd Party Content Syndication' of 61,225 in Jan 2025.
 
 ### Flags raised by the rules (evidence for the commentary)
 
@@ -31,14 +30,14 @@
 - **[medium] revenue_stream**: Revenue stream 'Partnership Income' is negative in Mar 2026 (-1,608): likely credits/refunds; reviewer to confirm.
 - **[medium] revenue_stream**: Revenue stream 'Professional Services' is zero in Jun 2026 after 15,833 at its peak in the prior 6 months.
 - **[medium] revenue_stream**: Revenue stream 'White-Label' is negative in Mar 2026 (-550): likely credits/refunds; reviewer to confirm.
-- **[medium] revenue_stream**: Revenue stream 'SKU Profiling' is zero in Jun 2026 after 10,000 at its peak in the prior 6 months.
+- **[medium] revenue_stream**: Revenue stream 'SKU Profiling' has been zero since May 2026 (last non-zero: Apr 2026, 10,000) after 10,000 at its peak in the prior 6 months.
 - **[medium] gross_margin**: Gross margin Jun 2026 70.2% vs 67.0% in May 2026 (+3.1 pp); prior 6-month average 70.2%.
 - **[medium] opex_category**: Opex category 'Travel & Entertainment' Jun 2026: 3,793 (+327.2% / +2,905 vs May 2026).
 - **[medium] opex_category**: Opex category 'Finance & Admin' Jun 2026: -993 (-106.5% / -16,236 vs May 2026).
-- **[medium] vanished_expense_line**: Expense line 'Advisory Services' (Professional Fees) is zero in Jun 2026; it averaged 1,250 over the prior 6 months.
+- **[medium] vanished_expense_line**: Expense line 'Advisory Services' (Professional Fees) has been zero since Feb 2026 (last non-zero: Jan 2026, 2,500); it averaged 1,250 over the prior 6 months.
 - **[medium] vanished_expense_line**: Expense line 'Federal & State Taxes' (Finance & Admin) is zero in Jun 2026; it averaged 999 over the prior 6 months.
 - **[medium] vanished_expense_line**: Expense line 'Marketing/Advertising: Miscellaneous' (Sales & Marketing) is zero in Jun 2026; it averaged 721 over the prior 6 months.
-- **[medium] vanished_expense_line**: Expense line 'Professional Fees' (Professional Fees) is zero in Jun 2026; it averaged 1,045 over the prior 6 months.
+- **[medium] vanished_expense_line**: Expense line 'Professional Fees' (Professional Fees) has been zero since Apr 2026 (last non-zero: Mar 2026, 3,773); it averaged 1,045 over the prior 6 months.
 - **[info] revenue**: May 2026 (208,351) was the highest month in the export, so the Jun 2026 month-over-month change is measured from a peak.
 - **[info] revenue_stream**: Revenue stream 'Platform Revenue' moved from 62,312 (Jan 2025) to 26,667 (Jun 2026), -57% over the period.
 - **[info] revenue_stream**: Revenue stream 'Professional Services' moved from 1,667 (Jan 2025) to 0 (Jun 2026), -100% over the period.

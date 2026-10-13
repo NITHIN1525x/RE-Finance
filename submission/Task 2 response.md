@@ -9,7 +9,7 @@
 | Company | ABC Inc |
 | Period | Jun 2026 (TTM window Jul 2025 - Jun 2026; 18 months in the export) |
 | Report generated | 2026-10-13T04:06:55+00:00 |
-| Source report | `demo-output/abc-inc-2026-06-trends.md` and its `.json` |
+| Source report | `trend-reports/abc-inc-2026-06-trends.md` and its `.json` |
 | Commentary written by | model not recorded |
 
 > Every figure below comes from the skill's deterministic engine (`.claude/skills/monthly-trend-analysis/scripts/run_trends.py`), which reads the workbook cells. Claude wrote only the bullet commentary at the top of section 1, from those figures; the "Flags raised by the rules" list under it, and everything else, also come from the engine. The report follows unchanged.

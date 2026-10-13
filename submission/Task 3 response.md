@@ -104,6 +104,8 @@ Pass rates count only checks that actually ran (PASS / FAIL / BLOCKED / UNSTABLE
 
 **Pass rate:** 7/7 (100%)
 
+**Caveat (D-57):** in harness runs P1 compares the commentary with a report that contains that same commentary, so it cannot fail. Until that is fixed, these PASSes are not evidence of number provenance (see `evals/DISCRIMINATION_CHECK.md`).
+
 | Case | Status | Detail |
 |---|---|---|
 | a | PASS | 43 matched, 25 ignored, 0 unmatched |

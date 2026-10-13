@@ -76,7 +76,8 @@ claude                                       # start Claude Code IN the repo roo
 
 ## 7. Verify, and hand back when done
 ```powershell
-connection\backend\.venv\Scripts\python connection\scripts\smoke_test --client abc-inc-sandbox   # expect 11 passed
+connection\backend\.venv\Scripts\python connection\scripts\smoke_test --client abc-inc-sandbox
+# expect 11 passed, or 10 passed + 1 skipped once Django's cached token has expired (by design, D-16)
 # after exiting Claude Code:
 connection\backend\.venv\Scripts\python connection\backend\manage.py sync_mcp_tokens --client abc-inc-sandbox
 ```

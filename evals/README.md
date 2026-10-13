@@ -67,7 +67,7 @@ The harness runs layer 1 too, so both appear in one report.
    policy. Years, dates, counts and references are ignored by an explicit list in `provenance.py`. Unmatched
    numbers fail, and are listed with their sentence. A round number can coincidentally match an unrelated
    value, so attribution stays with the grader (DECISIONS_LOG D-44). You can also run it standalone on a
-   saved run: `python evals/provenance.py evals/baseline/clean-run-20261012`.
+   saved run: `python evals/provenance.py evals/baseline/v4-run-20261013`.
 6. **A case passes** only if every execution, structured, provenance and commentary check passes.
 7. **Regression policy** (`REGRESSION.md`, implemented in `policy.py`):
    - Deterministic checks block on a single run.
@@ -78,6 +78,8 @@ The harness runs layer 1 too, so both appear in one report.
      - 0 passes.
    - The report shows each claim's pass rate. Any FAIL makes the
    case FAIL; otherwise any BLOCKED makes it BLOCKED.
+
+**Discrimination check** ([`DISCRIMINATION_CHECK.md`](DISCRIMINATION_CHECK.md), $0.17): 4 deliberately broken copies of v4 outputs all FAIL on the intended check, and a clean copy PASSes. It also found that **P1 cannot fail in harness runs**, because the report it matches against contains the commentary itself (D-57; not yet fixed).
 
 Saved per case under `runs/<id>/<case>/`:
 - `skill_run/`: prompt, argv, the full stream.jsonl, stderr, run_meta (model, version, turns, cost, tool

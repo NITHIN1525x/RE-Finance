@@ -1,7 +1,7 @@
 {
   "meta": {
     "company": "ABC Inc",
-    "source_file": "data\\ABC Inc - Financial Statements (1) (1).xlsx",
+    "source_file": "ABC Inc - Financial Statements (1) (1).xlsx",
     "sheets": {
       "income_statement": "Income Statement",
       "balance_sheet": "Balance Sheet"
@@ -57,7 +57,7 @@
     "ttm_available": true,
     "partial_months": [],
     "materiality": 1000,
-    "generated_at": "2026-10-12T07:30:09+00:00",
+    "generated_at": "2026-10-13T04:06:55+00:00",
     "units": "currency as exported (no conversion)"
   },
   "revenue": {
@@ -6399,7 +6399,7 @@
     {
       "severity": "medium",
       "kind": "revenue_stream",
-      "message": "Revenue stream 'SKU Profiling' is zero in Jun 2026 after 10,000 at its peak in the prior 6 months."
+      "message": "Revenue stream 'SKU Profiling' has been zero since May 2026 (last non-zero: Apr 2026, 10,000) after 10,000 at its peak in the prior 6 months."
     },
     {
       "severity": "medium",
@@ -6429,7 +6429,7 @@
     {
       "severity": "medium",
       "kind": "vanished_expense_line",
-      "message": "Expense line 'Advisory Services' (Professional Fees) is zero in Jun 2026; it averaged 1,250 over the prior 6 months."
+      "message": "Expense line 'Advisory Services' (Professional Fees) has been zero since Feb 2026 (last non-zero: Jan 2026, 2,500); it averaged 1,250 over the prior 6 months."
     },
     {
       "severity": "medium",
@@ -6444,7 +6444,7 @@
     {
       "severity": "medium",
       "kind": "vanished_expense_line",
-      "message": "Expense line 'Professional Fees' (Professional Fees) is zero in Jun 2026; it averaged 1,045 over the prior 6 months."
+      "message": "Expense line 'Professional Fees' (Professional Fees) has been zero since Apr 2026 (last non-zero: Mar 2026, 3,773); it averaged 1,045 over the prior 6 months."
     },
     {
       "severity": "high",

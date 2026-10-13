@@ -1,5 +1,7 @@
 # Decisions log: Task 1 (QuickBooks Online ↔ Claude)
 
+**Short version:** the 10 most important decisions, on one page, are in [DECISIONS_SUMMARY.md](DECISIONS_SUMMARY.md).
+
 Running log. Each entry records the choice, the alternative(s), why, and how it was verified.
 "Verified" means checked against the pinned source (`31a1dd5`) or by running something,
 never just the upstream README.
@@ -1376,3 +1378,38 @@ Claude call. Both layers are summarised in one report.
   - The other causal-sounding phrases are arithmetic attribution, not outside causes: "which drove Finance & Admin"
     and "only because of non-operating items".
   - The report was kept, not regenerated. Removing the phrase from the flags would be an engine change.
+
+### D-57: Audit fixes: example report, Task 2 provenance, QUICKSTART, a discrimination check, and a P1 defect
+- **Stale example replaced.**
+  - `trend-reports/abc-inc-2026-06-trends.{md,json}` came from the engine before D-45/D-48. Its flags still said
+    "SKU Profiling is zero in Jun 2026", which case a's S18 now forbids.
+  - Both files were replaced with the current report (generated 2026-10-13 04:06 UTC, current engine, commentary
+    written by Claude, model not recorded). It is the same report `submission/Task 2 response.md` was built from.
+  - The skill, the engine and the goldens are unchanged.
+- **Task 2 source can now be checked from the repo.** `scripts/build_submission.py` looks only at the committed
+  `trend-reports/` (`TASK2_SOURCES`); the git-ignored `demo-output/` is no longer a source. `submission/` was
+  rebuilt (Task 2 now cites `trend-reports/abc-inc-2026-06-trends.md`), and the drift test passes.
+- **QUICKSTART:** "expect 11 passed" became "11 passed, or 10 passed + 1 skipped once Django's cached token has
+  expired (by design, D-16)".
+- **Discrimination check** (`evals/DISCRIMINATION_CHECK.md`, $0.17, 5 grader calls):
+  - Copies of v4 outputs, kept outside the repo, were graded with the existing, unmodified grading functions.
+  - Breaks and what caught them:
+    - wrong Jun 2026 revenue: **S2**, plus grader **R1** and **F4**;
+    - "permanently discontinued": case b **F2**;
+    - invented cause: case a **F2**;
+    - made-up TTM figure: case g **F1**.
+  - The clean copy passed: 18/18 structured, P1 PASS, 9/9 commentary.
+- **Defect found, not fixed: P1 cannot fail in harness runs.**
+  - The harness calls `provenance.check(commentary, analysis, md)` with the full report. The commentary lives
+    inside that report, so each commentary number matches itself. The made-up TTM figure passed P1.
+  - D-44's planted-number test missed this because it passed a report that did not contain the planted text.
+  - So the P1 PASS in every recorded run (v1–v4) is **not evidence** of number provenance. The structured checks
+    and the grader are unaffected.
+  - Demonstrated fix: match against the report with the commentary section removed. Then the made-up figure fails
+    P1 and the clean copy still passes.
+  - Not applied: this change set excluded harness changes. Applying it needs a harness change plus a test, and a
+    rerun would set a new baseline.
+- **Also:** `connection/DECISIONS_SUMMARY.md` (the 10 most important decisions on one page) is linked from the top
+  of this log and from the README. The P1 standalone example in `evals/README.md` now points at the current baseline
+  (the old path had moved to `history/v1`).
+- **Not done here:** making the GitHub repo private. `gh` is not installed, so it has to be done in the web UI.
