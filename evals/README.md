@@ -68,7 +68,15 @@ The harness runs layer 1 too, so both appear in one report.
    numbers fail, and are listed with their sentence. A round number can coincidentally match an unrelated
    value, so attribution stays with the grader (DECISIONS_LOG D-44). You can also run it standalone on a
    saved run: `python evals/provenance.py evals/baseline/clean-run-20261012`.
-6. **A case passes** only if every execution, structured, provenance and commentary check passes. Any FAIL makes the
+6. **A case passes** only if every execution, structured, provenance and commentary check passes.
+7. **Regression policy** (`REGRESSION.md`, implemented in `policy.py`):
+   - Deterministic checks block on a single run.
+   - A commentary claim that flips PASS→FAIL against the baseline named in `baseline/current.json`
+     automatically re-runs that case 3 more times, and the case is judged on all 4 samples:
+     - 2 or more failing samples **block**;
+     - exactly 1 is **UNSTABLE** (reported, not blocking);
+     - 0 passes.
+   - The report shows each claim's pass rate. Any FAIL makes the
    case FAIL; otherwise any BLOCKED makes it BLOCKED.
 
 Saved per case under `runs/<id>/<case>/`:

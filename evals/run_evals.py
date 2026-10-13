@@ -28,6 +28,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import provenance  # noqa: E402  (number-provenance check, deterministic)
+import policy  # noqa: E402  (resampling regression policy, REGRESSION.md)
 EVALS = REPO / "evals"
 SKILL = REPO / ".claude" / "skills" / "monthly-trend-analysis"
 SKILL_PY = SKILL / (".venv/Scripts/python.exe" if platform.system() == "Windows" else ".venv/bin/python")
@@ -378,6 +379,19 @@ def regression_tests():
     return {"summary": f"{ran} -> {verdict}", "ok": proc.returncode == 0, "tests": tests, "raw_tail": "\n".join(lines[-15:])}
 
 
+def load_baseline(override=None):
+    """{case_id: {claim_id: status}} from the baseline run's results.json (default: evals/baseline/current.json)."""
+    if override:
+        run = Path(override)
+    else:
+        pointer = EVALS / "baseline" / "current.json"
+        if not pointer.is_file():
+            return None, None
+        run = EVALS / "baseline" / json.loads(pointer.read_text(encoding="utf-8"))["run"]
+    res = json.loads((run / "results.json").read_text(encoding="utf-8"))
+    return {c["id"]: {x["id"]: x["status"] for x in c["commentary"]} for c in res["cases"]}, rel(run)
+
+
 # ------------------------------------------------------------------------------------------------ main
 def case_status(items):
     st = [i["status"] for i in items]
@@ -388,6 +402,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cases", help="comma-separated case id prefixes (e.g. a,c)")
     ap.add_argument("--run-id")
+    ap.add_argument("--baseline", help="run dir whose commentary verdicts define a flip (default: evals/baseline/current.json)")
     args = ap.parse_args()
     if not CLAUDE:
         sys.exit("claude CLI not found on PATH")
@@ -433,10 +448,12 @@ def main():
     print(f"regression tests: {reg['summary']}", flush=True)
     guard_check("regression tests")
 
-    results = []
-    for case in cases:
-        cdir = run_dir / case["id"]
-        print(f"\n== {case['id']}: running skill...", flush=True)
+    baseline_claims, baseline_run = load_baseline(args.baseline)
+    manifest["baseline_for_flips"] = baseline_run
+    write(run_dir / "manifest.json", manifest)
+
+    def run_sample(case, cdir):
+        """One real skill run + all checks for one case. Returns (sample_result, run_meta)."""
         meta, out_dir = run_skill(case, spec["skill_prompts"][case["input"]["prompt"]], cdir)
         execs, analysis, md, infra_ok = execution_checks(meta, out_dir)
         if analysis is not None:
@@ -470,17 +487,55 @@ def main():
             prov_checks = [{"id": "P1", "type": "provenance", "status": "BLOCKED" if not infra_ok else "FAIL",
                             "desc": "every number in the commentary matches a value in this run's own output",
                             "detail": "no commentary or no analysis output to check", "unmatched": []}]
-        case_result = {"id": case["id"], "title": case["title"], "input": case["input"],
-                       "skill_run": {k: meta[k] for k in ("model_requested", "model_reported", "claude_code_version",
-                                                          "num_turns", "total_cost_usd", "elapsed_s", "permission_mode")},
-                       "execution": execs, "structured": structured, "provenance": prov_checks, "commentary": claims}
-        case_result["status"] = case_status(execs + structured + prov_checks + claims)
+        sample = {"execution": execs, "structured": structured, "provenance": prov_checks, "commentary": claims,
+                  "skill_run": {k: meta[k] for k in ("model_requested", "model_reported", "claude_code_version",
+                                                     "num_turns", "total_cost_usd", "elapsed_s", "permission_mode")}}
+        sample["status"] = case_status(execs + structured + prov_checks + claims)
+        write(cdir / "sample_result.json", sample)
+        return sample, meta
+
+    results = []
+    for case in cases:
+        cdir = run_dir / case["id"]
+        print(f"\n== {case['id']}: running skill...", flush=True)
+        first, meta = run_sample(case, cdir)
+        guard_check(f"case {case['id']}", attributed=meta["outside_changes"]["by_skill"])
+        print(f"   {first['status']}  (exec {case_status(first['execution'])}, structured {case_status(first['structured'])}, "
+              f"provenance {first['provenance'][0]['status']}, "
+              f"commentary {case_status(first['commentary']) if first['commentary'] else 'n/a'})", flush=True)
+        samples, resample = [first], None
+        flips = policy.flipped_claims(first["commentary"], baseline_claims.get(case["id"]) if baseline_claims else None)
+        if policy.should_resample(first, baseline_claims.get(case["id"]) if baseline_claims else None):
+            resample = {"trigger": flips, "extra_samples": policy.RESAMPLES}
+            print(f"   commentary flip vs baseline on {flips}: resampling {policy.RESAMPLES} more runs (REGRESSION.md)", flush=True)
+            for k in range(2, 2 + policy.RESAMPLES):
+                print(f"   -- resample {k}/{1 + policy.RESAMPLES}", flush=True)
+                s, m = run_sample(case, cdir / f"resample-{k}")
+                guard_check(f"case {case['id']} resample {k}", attributed=m["outside_changes"]["by_skill"])
+                samples.append(s)
+                print(f"      {s['status']}", flush=True)
+        judgments = policy.judge_claims([s["commentary"] for s in samples])
+        if resample:
+            status = policy.case_verdict(samples, judgments)
+            commentary_view = [{"id": j["id"], "kind": j["kind"], "claim": j["claim"], "status": j["status"],
+                                "pass_rate": j["pass_rate"],
+                                "evidence": " || ".join(f"[{e['status']}] {e['evidence']}" for e in j["evidence"])}
+                               for j in judgments.values()]
+        else:
+            status = first["status"]
+            commentary_view = [{**c, "pass_rate": "1/1" if c["status"] == "PASS" else "0/1"} for c in first["commentary"]]
+        case_result = {"id": case["id"], "title": case["title"], "input": case["input"], "skill_run": first["skill_run"],
+                       "execution": first["execution"], "structured": first["structured"], "provenance": first["provenance"],
+                       "commentary": commentary_view, "resample": resample,
+                       "samples": [{"status": s["status"], "skill_run": s["skill_run"],
+                                    "commentary": {c["id"]: c["status"] for c in s["commentary"]},
+                                    "deterministic_ok": policy.deterministic_ok(s)} for s in samples],
+                       "status": status}
         write(cdir / "result.json", case_result)
         results.append(case_result)
-        print(f"   {case_result['status']}  (exec {case_status(execs)}, structured {case_status(structured)}, "
-              f"provenance {prov_checks[0]['status']}, "
-              f"commentary {case_status(claims) if claims else 'n/a'})", flush=True)
-        guard_check(f"case {case['id']}", attributed=meta["outside_changes"]["by_skill"])
+        if resample:
+            rates = ", ".join(f"{j['id']} {j['pass_rate']} {j['status']}" for j in judgments.values())
+            print(f"   => {status} after {len(samples)} samples ({rates})", flush=True)
 
     calibrations = []
     for case in cases:
@@ -518,20 +573,21 @@ def main():
 
     grader_costs = [json.loads(f.read_text(encoding="utf-8")).get("total_cost_usd") or 0
                     for f in run_dir.rglob("grader_meta.json")]
-    skill_cost = sum(r["skill_run"]["total_cost_usd"] or 0 for r in results)
-    cost = {"skill_runs_usd": round(skill_cost, 4), "skill_runs": len(results),
+    skill_cost = sum((smp["skill_run"]["total_cost_usd"] or 0) for r in results for smp in r["samples"])   # incl. resamples
+    cost = {"skill_runs_usd": round(skill_cost, 4), "skill_runs": sum(len(r["samples"]) for r in results),
             "grader_calls_usd": round(sum(grader_costs), 4), "grader_calls": len(grader_costs),
             "total_usd": round(skill_cost + sum(grader_costs), 4),
             "basis": "total_cost_usd reported by Claude Code for each call (list prices)"}
     all_checks = [c for r in results for c in r["execution"] + r["structured"] + r.get("provenance", []) + r["commentary"]]
-    score = {s: sum(1 for c in all_checks if c["status"] == s) for s in ("PASS", "FAIL", "BLOCKED")}
+    score = {s: sum(1 for c in all_checks if c["status"] == s) for s in ("PASS", "FAIL", "BLOCKED", "UNSTABLE")}
     summary = {"manifest": {**manifest, "finished": now()}, "regression_tests": reg, "cases": results,
                "harness_contamination": guard["entries"], "cost": cost,
                "calibrations": calibrations, "grader_controls": controls, "score": {**score, "total": len(all_checks),
-               "cases_passed": sum(1 for r in results if r["status"] == "PASS"), "cases_total": len(results)}}
+               "cases_passed": sum(1 for r in results if r["status"] == "PASS"),
+               "cases_unstable": sum(1 for r in results if r["status"] == "UNSTABLE"), "cases_total": len(results)}}
     write(run_dir / "results.json", summary)
     write(run_dir / "report.md", render_report(summary))
-    print(f"\nscore: {score['PASS']}/{len(all_checks)} checks PASS, {score['FAIL']} FAIL, {score['BLOCKED']} BLOCKED | "
+    print(f"\nscore: {score['PASS']}/{len(all_checks)} checks PASS, {score['FAIL']} FAIL, {score['BLOCKED']} BLOCKED, {score['UNSTABLE']} UNSTABLE | "
           f"cases {summary['score']['cases_passed']}/{len(results)} PASS | harness contamination: "
           f"{len(guard['entries']) or 'none'} | cost ${cost['total_usd']:.2f}\nreport: {rel(run_dir / 'report.md')}")
     # 1 = a skill/eval FAIL; 3 = run contaminated (results not trustworthy as-is); 2 = BLOCKED only; 0 = clean pass
@@ -546,7 +602,8 @@ def render_report(s):
            f"- Golden facts consistent with workbooks: **{m['facts_consistent_with_workbooks']}**",
            f"- Started {m['started']}, finished {m['finished']}", "",
            "## Summary", "",
-           f"**Checks: {sc['PASS']}/{sc['total']} PASS, {sc['FAIL']} FAIL, {sc['BLOCKED']} BLOCKED. "
+           f"**Checks: {sc['PASS']}/{sc['total']} PASS, {sc['FAIL']} FAIL, {sc['BLOCKED']} BLOCKED, {sc.get('UNSTABLE', 0)} UNSTABLE "
+           f"(UNSTABLE = failed in exactly 1 of 4 samples: reported, not blocking; see REGRESSION.md). "
            f"Cases: {sc['cases_passed']}/{sc['cases_total']} PASS.**", "",
            f"Regression tests (extractor layer): **{s['regression_tests']['summary']}**", "",
            "**Harness contamination:** " + ("none (no file outside evals/runs/ changed during the run)"
@@ -581,9 +638,13 @@ def render_report(s):
             out += ["", f"Number provenance (P1): **{x['status']}**, {x['detail']}."]
             out += [f"- UNMATCHED `{u['text']}` in: \"{u['sentence']}\"" for u in x["unmatched"]]
         if r["commentary"]:
-            out += ["", "| Claim | Kind | Status | Grader evidence |", "|---|---|---|---|"]
+            if r.get("resample"):
+                out += ["", f"**Resampled** (REGRESSION.md): commentary flip vs baseline on {r['resample']['trigger']}; judged on "
+                            f"{len(r['samples'])} samples. Sample statuses: {', '.join(x['status'] for x in r['samples'])}."]
+            out += ["", "| Claim | Kind | Status | Pass rate | Grader evidence |", "|---|---|---|---|---|"]
             for x in r["commentary"]:
-                out.append(f"| {x['id']}: {x['claim']} | {x['kind']} | **{x['status']}** | {x['evidence'].replace('|', '/')} |")
+                out.append(f"| {x['id']}: {x['claim']} | {x['kind']} | **{x['status']}** | {x.get('pass_rate', '')} | "
+                           f"{x['evidence'].replace('|', '/')[:600]} |")
         out.append("")
     if s["calibrations"]:
         out += ["## Calibration (frozen Task 2 artifact; not in the score)", ""]

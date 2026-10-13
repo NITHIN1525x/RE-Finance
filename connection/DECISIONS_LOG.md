@@ -1074,3 +1074,37 @@ Claude call. Both layers are summarised in one report.
   and P1 were unchanged. **The diff did not match the prediction, so the change was blocked**: no commit and no
   baseline from that run. The run's report, results and an explanatory NOTE.md are committed under
   `evals/runs/commit4-run-20261012/`. The fix is in D-50 to D-52; the policy that now governs such flips is in D-49.
+
+### D-49: Regression policy: resample commentary flips; deterministic checks still block on one run
+- **Why:**
+  - **Single-sample pass/fail on LLM prose, graded by an LLM, is noisy.** In two consecutive full runs, two
+    different cases flipped once each (case b F2 in `commit4-run`, case g R1 in `commit5-run`), with nothing
+    relevant to them changed.
+  - **The grader disagrees with itself on identical input.** Re-grading the exact `commit5-run` case g
+    commentary 3 times gave R1 **PASS, PASS, FAIL**: 2 FAIL in 4 with the original grading (D-51).
+  - Blocking on one FAIL would block good changes; ignoring commentary FAILs would miss real regressions.
+- **Policy** (`evals/REGRESSION.md`, `evals/policy.py`, applied in `run_evals.py`):
+  - Deterministic checks (execution, structured, P1) stay **hard-blocking on a single run**.
+  - A commentary claim that **flips** (FAIL now, PASS in the baseline named by `evals/baseline/current.json`; a
+    claim absent from the baseline counts as a flip) re-runs that case **3 more times**, but only if its
+    deterministic checks passed.
+  - The case is then judged on all 4 samples: **≥2 failing blocks (FAIL); exactly 1 is UNSTABLE** (reported, not
+    blocking, investigate); **0 passes**. A grader BLOCKED never counts as a pass, and a deterministic FAIL in any
+    resample blocks.
+  - The report shows each claim's pass rate and every sample's status and evidence. Cost and score include
+    resamples; UNSTABLE is counted separately.
+- **Cost logic:** resampling happens only on a flip, so routine runs stay at one sample per case (≈ $3 a run). A flip
+  adds ≈ 3 × $0.45.
+- **Honest limits:** with 4 samples and a ≥2 threshold, a real but rare regression can slip through as UNSTABLE, and
+  noise can still block (2 grader misses in 4). It is a pragmatic threshold, not a statistical test. A claim whose
+  verdict is UNSTABLE repeatedly is a signal to clarify the golden wording or the skill, not to keep re-running.
+- **Tests:** `evals/tests/test_policy.py`, 15 tests:
+  - flip detection (including a missing baseline and BLOCKED);
+  - resample only with clean deterministic checks;
+  - judging 0/1/2+ fails into PASS/UNSTABLE/FAIL;
+  - BLOCKED never counted as a pass;
+  - case verdict, including a deterministic FAIL in a resample.
+
+  Eval-side tests now 40.
+- **Also:** `REGRESSION.md` did not exist before this commit; the policy had only been stated in instructions.
+  It is now the written source.
