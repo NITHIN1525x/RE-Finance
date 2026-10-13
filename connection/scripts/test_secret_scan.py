@@ -42,8 +42,20 @@ FAKES = {
 }
 
 
-def run_scan(*args, cwd=None):
-    return subprocess.run([sys.executable, str(SCANNER), *args], capture_output=True, text=True, cwd=cwd)
+def run_scan(*args, cwd=None, secrets_dir=None):
+    # Hermetic by default: never compare fixtures with the real connection/.secrets values.
+    extra = ["--secrets-dir", str(secrets_dir)] if secrets_dir else ["--no-known-values"]
+    return subprocess.run([sys.executable, str(SCANNER), *args, *extra], capture_output=True, text=True, cwd=cwd)
+
+
+def assert_nothing_of(test, secret, output, also=()):
+    """No value, no 6-char piece of it, no fingerprint, no planted neighbouring text (D-53)."""
+    test.assertNotIn(secret, output)
+    for i in range(len(secret) - 5):
+        test.assertNotIn(secret[i:i + 6], output, "a fragment of the value was printed")
+    test.assertNotIn("sha256=", output)
+    for marker in also:
+        test.assertNotIn(marker, output, "surrounding content was printed")
 
 
 class SecretScanTests(unittest.TestCase):
@@ -131,6 +143,46 @@ class SecretScanTests(unittest.TestCase):
         s = FAKES["client_secret"]
         p = self.write("doc.md", f"CLIENT_SECRET={s}  # secret-scan: allow (documented fake)\n")
         self.assertEqual(run_scan(str(p)).returncode, 0)
+
+    # --- .secrets/ content is reported as location + rule only (DECISIONS_LOG D-53) ---------------------
+
+    def test_planted_secret_in_secrets_env_file_reported_without_value(self):
+        s = FAKES["client_secret"]
+        p = self.write(".secrets/backend.env", f"DJANGO_DEBUG=false\nQUICKBOOKS_CLIENT_SECRET={s}\n")
+        r = run_scan(str(p))
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("backend.env:2  rule=credential-assignment:QUICKBOOKS_CLIENT_SECRET", r.stdout)
+        assert_nothing_of(self, s, r.stdout + r.stderr, also=("DJANGO_DEBUG",))
+
+    def test_planted_secret_in_binary_secrets_file_reported_by_offset_only(self):
+        s = FAKES["fernet_ciphertext"]
+        marker = "NEIGHBOUR-SESSION-KEY-zq81"
+        # As in a real SQLite record: a field header byte separates neighbouring values.
+        blob = b"SQLite format 3\x00" + bytes(100) + marker.encode() + b"\x17" + s.encode() + bytes(50)
+        p = self.tmp / ".secrets" / "db.sqlite3"
+        p.parent.mkdir(parents=True)
+        p.write_bytes(blob)
+        r = run_scan(str(p))
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn(f"db.sqlite3@{blob.index(s.encode())}  rule=fernet-ciphertext", r.stdout)
+        assert_nothing_of(self, s, r.stdout + r.stderr, also=(marker, "SQLite"))
+
+    def test_known_value_from_secrets_dir_found_elsewhere_without_value(self):
+        realm = "".join(rng.choice(string.digits) for _ in range(16))  # realm IDs are digits: no shape rule
+        secrets_dir = self.tmp / ".secrets"
+        self.write(".secrets/mcp-server.env", f"QUICKBOOKS_ENVIRONMENT=sandbox\nQUICKBOOKS_REALM_ID={realm}\n")
+        notes = self.write("notes.md", f"intro\nconnected to company {realm} today\n")
+        r = run_scan(str(notes), secrets_dir=secrets_dir)
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("notes.md:2  rule=known-secret:QUICKBOOKS_REALM_ID (from mcp-server.env)",  # secret-scan: allow (rule name, not a value)
+                      r.stdout)
+        assert_nothing_of(self, realm, r.stdout + r.stderr, also=("connected to company",))
+
+    def test_known_values_clean_when_not_present(self):
+        self.write(".secrets/mcp-server.env", f"QUICKBOOKS_REFRESH_TOKEN={FAKES['refresh_token']}\n")
+        notes = self.write("notes.md", "nothing secret here, realm 1234 (first four digits only)\n")
+        r = run_scan(str(notes), secrets_dir=self.tmp / ".secrets")
+        self.assertEqual(r.returncode, 0, r.stdout)
 
     def test_pre_commit_hook_blocks_secret_and_allows_clean(self):
         """End to end: a throwaway git repo using this repo's hook."""

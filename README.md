@@ -103,7 +103,8 @@ connection\backend\.venv\Scripts\python connection\backend\manage.py sync_mcp_to
 ### Tests
 ```powershell
 cd connection/backend; .venv\Scripts\python manage.py test qbo --settings=config.settings_test   # 63 tests
-cd ../..; python connection/scripts/test_secret_scan.py                                       # 13 tests
+cd ../..; python connection/scripts/test_secret_scan.py                                       # 17 tests
+python connection/scripts/test_guard_secrets_hook.py                                          # 6 tests
 python connection/scripts/secret_scan --all
 cd connection/frontend; npm run build; npm run lint
 ```

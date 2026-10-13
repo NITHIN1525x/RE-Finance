@@ -94,7 +94,10 @@ a hosted connector, which the brief rules out.
   - `.gitignore` covers every real `.env`, `*.sqlite3`, `.secrets/` and `evidence/raw/`.
   - A versioned **pre-commit hook** runs `connection/scripts/secret_scan`. It looks for Intuit token and
     client-ID shapes, JWT/JWE tokens, Fernet keys and ciphertext, and credential assignments, and reports
-    only `file:line` with a fingerprint, never the value. It has 13 tests, all using generated fakes.
+    only `file:line` with a fingerprint, never the value. For anything inside `.secrets/` it reports only the
+    location and rule (DECISIONS_LOG D-53), and it also checks for the real local secret values. It has 17
+    tests, all using generated fakes. A Claude Code hook (`guard_secrets_hook.py`) blocks tool calls that name
+    `.secrets`.
   - Committed docs and evidence were also checked against the actual secret values: clean.
 - **Sandbox-only guard, three layers.**
   1. Startup fails unless `QUICKBOOKS_ENVIRONMENT` is exactly `sandbox`.

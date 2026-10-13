@@ -1187,3 +1187,68 @@ Claude call. Both layers are summarised in one report.
   | deleted smoke/probe runs | $0.33 |
 
   Since the case g decision: ≈ $3.02, against the $10 budget.
+
+### D-53: Incident: fragments of the local secrets database printed into the session output
+- **What happened (2026-10-13, before the commit-6 secret scan):**
+  - I wrote an ad-hoc Python diagnostic, not the repo's scanner, to check the files to be committed against the
+    values in `connection/.secrets/`.
+  - To explain a false positive, it printed the 30 characters preceding each match inside
+    `connection/.secrets/db.sqlite3`. That was three snippets of raw database bytes.
+  - The match itself was a plain date (`YYYY-MM-DD`), so the scan result was a false positive. The snippets were
+    the leak.
+- **What was exposed, and where:**
+  - Three fragments of up to 30 characters each, from `db.sqlite3`. They are not complete values.
+  - They appeared only in the Claude Code session output. That means the local session transcript under
+    `~/.claude/projects/` and the conversation sent to the model API.
+  - **Nothing was committed or written to a repo file.** The commit-6 scan of 390 files was clean, and none of the
+    real values in `backend.env` or `mcp-server.env` appears in any committed file.
+  - I did not inspect the database to identify the fragments; that would have repeated the exposure.
+- **Risk:**
+  - **Most likely candidates:** the tail of a Django session row, or the tail of Fernet-encrypted token ciphertext
+    (Fernet tokens end in `=`, which the diagnostic's regex keyed on).
+  - **Session fragment:** low risk, since it's partial. But a session key or signature is a live credential while
+    the session lasts.
+  - **Ciphertext fragment:** no practical risk. Fernet ciphertext, even complete, is useless without `FERNET_KEY`,
+    and that key was never printed.
+- **What was rotated** (`connection/scripts/rotate_django_secret`, which prints counts and booleans only):
+  - All Django sessions were deleted (6 rows), so every browser must log in again.
+  - A new `DJANGO_SECRET_KEY` was written in place into `connection/.secrets/backend.env`. The value was never
+    printed, and no `SECRET_KEY_FALLBACKS` were kept, so anything signed with the old key is invalid.
+  - Verified in a fresh process: the new key is loaded and differs from the old one; 0 sessions remain; 0 of the old
+    session keys load. `manage.py check` is clean, and the 63 backend tests pass.
+- **Deliberately not rotated:**
+  - The QuickBooks tokens and `FERNET_KEY`. The stored tokens are Fernet-encrypted, the key was not exposed, and
+    fragments of ciphertext are useless without it.
+  - Rotating the Intuit tokens would also break the read-only MCP setup for no security gain.
+- **Fix (the cause was an ad-hoc diagnostic, not the scanner):**
+  - **`connection/scripts/secret_scan`:**
+    - Anything found in, or taken from, a `.secrets/` directory is reported as path, line or byte offset, and rule
+      only: no fingerprint, no excerpt.
+    - Binary files inside `.secrets/` (the SQLite database) are now scanned by offset.
+    - A new known-value check compares scanned files with the real values in `.secrets/*.env` and reports
+      `known-secret:<KEY>` with no value. It's on by default when the folder exists, so the pre-commit hook
+      now runs it too. This is the check I had improvised, done safely.
+  - **`connection/scripts/guard_secrets_hook.py`:** a Claude Code PreToolUse hook. It blocks any tool call whose
+    path or command names `.secrets` (shell, Read, Edit, Write, Grep, Glob), so an ad-hoc diagnostic can't open
+    the secret files.
+    - Vetted tools that locate the folder themselves and print no values are unaffected: Django, `secret_scan`,
+      and `rotate_django_secret`.
+    - **Verified live** in a throwaway `claude -p` run with the hook loaded via `--settings`: `ls connection/.secrets`
+      was blocked, and no file names were returned.
+    - **Wiring it into `.claude/settings.json` was refused by Claude Code's own self-modification guard when I
+      tried**, which is the right default. The user adds that file.
+    - Limits: it guards against accidents, not a determined bypass (a path built at runtime isn't seen), and it
+      fails open if Python can't start.
+    - Once wired, eval skill runs (`claude -p` from the repo root) also load the hook. The skill never touches
+      `.secrets`, so no eval change is expected. The suite wasn't re-run for this.
+- **Tests:**
+  - `connection/scripts/test_secret_scan.py`, 17 tests (4 new):
+    - a planted fake secret in a `.secrets/backend.env` is reported as `backend.env:2  rule=...`, with no value, no
+      6-character fragment of it, no fingerprint and no neighbouring text;
+    - the same for a fake SQLite file, by byte offset;
+    - a planted fake realm ID found in another file is reported by the known-secret rule, naming the key `QUICKBOOKS_REALM_ID` but not its value;
+    - a clean file stays clean.
+  - `connection/scripts/test_guard_secrets_hook.py`, 6 tests: the incident's exact pattern is blocked; shell and
+    file tools on `.secrets` paths are blocked; vetted tools and look-alike names are allowed.
+- **Lesson:** to look for secrets, use the scanner, never a one-off script. The scanner's no-value guarantee is
+  tested; a one-off script's isn't.
