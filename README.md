@@ -1,131 +1,81 @@
 # QBO ↔ Claude exercise (RE Financial Services take-home)
 
-Sandbox only. Never real company data.
+Sandbox only. No real company data. Every decision, with its reasoning and evidence, is in
+[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-55).
 
-| Task | Where | Status |
+| Task | Deliverable | Status |
 |---|---|---|
-| 1. QuickBooks Online ↔ Claude connection | [`connection/`](connection/) | **Done**: see [`connection/CONNECTION.md`](connection/CONNECTION.md) |
-| 2. Monthly trend-analysis skill | [`.claude/skills/monthly-trend-analysis/`](.claude/skills/monthly-trend-analysis/SKILL.md) | **Done** (stretch goal not started) |
-| 3. Evaluation suite | [`evals/`](evals/) | Not started (golden-case candidates in `connection/evidence/phase5_ground_truth.md`) |
-| 4. Architecture note | [`docs/`](docs/) | Not started |
+| 1. QuickBooks Online ↔ Claude connection | [`connection/CONNECTION.md`](connection/CONNECTION.md) | Done |
+| 2. Monthly trend-analysis skill | [`.claude/skills/monthly-trend-analysis/SKILL.md`](.claude/skills/monthly-trend-analysis/SKILL.md) | Done. The stretch goal is deferred (D-36) |
+| 3. Evaluation suite | [`evals/README.md`](evals/README.md), [`evals/REGRESSION.md`](evals/REGRESSION.md) | Done. Baseline v4: 132/132 |
+| 4. Architecture note | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Done |
 
-## Task 1 in one paragraph
+Commands are PowerShell from the repo root. On macOS/Linux, use `.venv/bin/python` wherever these say
+`.venv/Scripts/python`. Prerequisites: Git, Python 3.12+, and Claude Code. Task 1 also needs Node 22+ and an
+Intuit sandbox app.
 
-Claude reaches QuickBooks through Intuit's **official MCP server** (a git submodule pinned at `31a1dd5`).
-It runs locally over stdio in **read-only, sandbox-only** mode: the 71 write tools are never registered,
-and a pre-flight launcher refuses to start otherwise. A small **Connection Console** (Django + React)
-handles Intuit OAuth, stores tokens **Fernet-encrypted**, keeps an audit log, scopes everything per
-client, and makes sure **only one component refreshes a given token** (check-out/check-in). Details:
-[`CONNECTION.md`](connection/CONNECTION.md), and every decision in
-[`DECISIONS_LOG.md`](connection/DECISIONS_LOG.md). Problems: [`TROUBLESHOOTING.md`](connection/TROUBLESHOOTING.md).
-Demo: [`DEMO_SCRIPT.md`](connection/DEMO_SCRIPT.md).
+## Task 1: connection
+Claude reaches QuickBooks through Intuit's **official MCP server**, which is:
+- pinned as a submodule at `31a1dd5`;
+- run locally over stdio;
+- **read-only** (the write tools are never registered) and **sandbox-only**.
 
-## Task 1 Quick Start
+A Django + React **Connection Console** handles OAuth, stores tokens Fernet-encrypted, scopes everything per
+client, and makes sure only one component refreshes a token at a time.
+- Setup takes about 10 minutes, but needs your own Intuit developer app: [`connection/QUICKSTART.md`](connection/QUICKSTART.md).
+- Live demo: [`connection/DEMO_SCRIPT.md`](connection/DEMO_SCRIPT.md).
+- Problems: [`connection/TROUBLESHOOTING.md`](connection/TROUBLESHOOTING.md).
 
-About 10 minutes once the prerequisites are in place. Commands are PowerShell; POSIX differences are
-noted inline.
-
-**Prerequisites:**
-- Git, Node 22+, Python 3.12+, Claude Code.
-- An Intuit developer account with an app and a **sandbox company**.
-- On that app: **Settings → Redirect URIs (Development)** set to exactly
-  `http://localhost:8000/api/qbo/callback`, and nothing else is needed. Don't add upstream's
-  `http://localhost:8000/callback`.
-
-### 1. Clone and protect
-```powershell
-git clone --recurse-submodules <this-repo> qbo-claude-exercise
-cd qbo-claude-exercise
-git config core.hooksPath .githooks          # secret-scanning pre-commit hook
-python connection/scripts/init_secrets.py    # creates connection/.secrets/ (owner-only) + generated keys
-```
-Open `connection/.secrets/backend.env` and fill in `QUICKBOOKS_CLIENT_ID=` and
-`QUICKBOOKS_CLIENT_SECRET=` with the app's **Development** keys. Write them as `KEY=VALUE`, with no
-spaces and no quotes. This is the only file where a human types credentials.
-
-### 2. Build the official MCP server, including the REQUIRED axios patch
-```powershell
-cd connection/quickbooks-online-mcp-server
-npm ci
-npm install --no-save --ignore-scripts axios@1.20.0   # REQUIRED after EVERY npm ci, not a one-off
-npm ls axios                                          # must show axios@1.20.0 on every path
-npm run build
-cd ../..
-```
-**Why the extra line:** the pinned lockfile installs axios 1.19.0, which has 12 advisories. The
-`--no-save` install upgrades `node_modules` only, so the pin stays faithful. Any later `npm ci` silently
-reverts it, and `npm audit` keeps listing 1.19.0 because it reads the lockfile, so check with
-`npm ls axios`. The launcher refuses to start the server if axios is older than 1.20.0. See
-[D-04](connection/DECISIONS_LOG.md).
-
-### 3. Backend
-```powershell
-cd connection/backend
-python -m venv .venv
-.venv\Scripts\python -m pip install -r requirements.txt     # POSIX: .venv/bin/python
-.venv\Scripts\python manage.py migrate
-.venv\Scripts\python manage.py createsuperuser --username <you>      # you choose the password (12+ chars)
-.venv\Scripts\python manage.py create_client --name "ABC Inc (sandbox)" --slug abc-inc-sandbox --member <you>
-.venv\Scripts\python manage.py runserver localhost:8000              # leave running (terminal A)
-```
-
-### 4. Frontend (terminal B)
-```powershell
-cd connection/frontend
-npm ci --ignore-scripts
-npm run dev                                  # http://localhost:5173 (use "localhost", not 127.0.0.1)
-```
-
-### 5. Connect the sandbox company (browser)
-1. Open **http://localhost:5173** → **Sign in**.
-2. Click **Connect QuickBooks** on the client card, approve your sandbox company at Intuit, and you land
-   back on the console with a "connected" banner.
-3. Click **Test connection** to see the company name and the 12-month P&L summary.
-
-### 6. Hand the connection to the MCP server and use Claude
-```powershell
-cd connection/backend
-.venv\Scripts\python manage.py export_mcp_env --client abc-inc-sandbox   # MCP server now owns token refresh
-cd ../..
-claude                                       # start Claude Code IN the repo root; approve "quickbooks-sandbox"
-```
-- In Claude Code, run `/mcp`. You should see **quickbooks-sandbox: connected, 71 tools**.
-- Try asking *"What was net income in the sandbox last quarter, and what were the top three expense
-  accounts?"*
-
-### 7. Verify, and hand back when done
-```powershell
-connection\backend\.venv\Scripts\python connection\scripts\smoke_test --client abc-inc-sandbox   # expect 11 passed
-# after exiting Claude Code:
-connection\backend\.venv\Scripts\python connection\backend\manage.py sync_mcp_tokens --client abc-inc-sandbox
-```
-
-### Tests
-```powershell
-cd connection/backend; .venv\Scripts\python manage.py test qbo --settings=config.settings_test   # 63 tests
-cd ../..; python connection/scripts/test_secret_scan.py                                       # 17 tests
-python connection/scripts/test_guard_secrets_hook.py                                          # 6 tests
-python connection/scripts/secret_scan --all
-cd connection/frontend; npm run build; npm run lint
-```
-
-## Task 2 Quick Start: monthly trend analysis
+## Task 2: trend-analysis skill
+The deterministic Python extractor computes every figure, and Claude writes only the commentary. It needs no
+QuickBooks connection and no secrets.
 
 ```powershell
 # one-time: the skill's own environment (pinned openpyxl)
 python -m venv .claude/skills/monthly-trend-analysis/.venv
 .claude/skills/monthly-trend-analysis/.venv/Scripts/python -m pip install -r .claude/skills/monthly-trend-analysis/requirements.txt
 
-# run on the workbook in data/ (default) or any QBO-style export
-.claude/skills/monthly-trend-analysis/.venv/Scripts/python .claude/skills/monthly-trend-analysis/scripts/run_trends.py
-.claude/skills/monthly-trend-analysis/.venv/Scripts/python .claude/skills/monthly-trend-analysis/scripts/run_trends.py "path/to/Other Co.xlsx"
+# the numbers only (no Claude): the ABC workbook in data/ -> demo-output/abc-inc-2026-06-trends.{json,md}
+.claude/skills/monthly-trend-analysis/.venv/Scripts/python .claude/skills/monthly-trend-analysis/scripts/run_trends.py --out-dir demo-output
 
-# tests (27)
-cd .claude/skills/monthly-trend-analysis; .venv/Scripts/python -m unittest discover -s tests
+# the full skill (numbers + Claude's commentary), from the repo root
+claude -p "Monthly trend analysis for ABC Inc from the workbook in data/, draft for the reviewer. Save the report in demo-output/." --allowedTools "Skill Bash Read Edit Write Glob Grep"
+```
+- **Keep `demo-output/`** (git-ignored). Without it, the script writes to `trend-reports/` and overwrites the
+  committed examples, which hold Claude's commentary, with a draft whose commentary slot is empty.
+- The submodule and `connection/.secrets/` aren't needed for Tasks 2–4.
+- Design, the subtotal rule and the portability results are in D-30 to D-35. Example outputs, including
+  Claude's commentary, are in [`trend-reports/`](trend-reports/).
+
+## Task 3: evaluation suite
+- Seven golden cases are checked against the raw workbook cells.
+- The commentary is graded by a different model.
+- A resampling policy handles flips in commentary verdicts.
+- Baseline and history: [`evals/baseline/BASELINE.md`](evals/baseline/BASELINE.md).
+
+```powershell
+$py = ".claude/skills/monthly-trend-analysis/.venv/Scripts/python"     # uses the skill's environment
+& $py evals/goldens/derive_facts.py --check      # expected values still match the workbooks
+& $py evals/run_evals.py                         # full suite: real Claude calls (Opus + Sonnet), ~8 min, ~$3
+& $py evals/compare_runs.py evals/baseline/v4-run-20261013 evals/runs/<run-id>
 ```
 
-From Claude Code started in the repo root, ask in plain words, e.g. *"Monthly trend analysis for ABC Inc
-from the workbook in data/, draft for the reviewer"*. The skill runs the script and writes the
-commentary into `trend-reports/<company>-<YYYY-MM>-trends.md`. Design, subtotal rule and portability
-results: DECISIONS_LOG D-30 to D-35.
+## Task 4: architecture note
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): the project structure, hosting today vs for a team, and ten
+clients with their data kept separate. It also answers "what breaks first at ten clients" and gives measured
+costs.
 
+## Tests (no Claude calls, no secrets needed)
+```powershell
+$py = ".claude/skills/monthly-trend-analysis/.venv/Scripts/python"
+& $py -m unittest discover -s .claude/skills/monthly-trend-analysis/tests    # 31 skill tests
+& $py -m unittest discover -s evals/tests                                   # 40 eval-side tests
+python connection/scripts/test_secret_scan.py                               # 17 secret-scanner tests
+python connection/scripts/test_guard_secrets_hook.py                        # 6 tests
+# Task 1 backend (needs its venv; see QUICKSTART step 3):
+cd connection/backend; .venv/Scripts/python manage.py test qbo --settings=config.settings_test; cd ../..   # 63 tests
+```
+
+## Conventions
+- [`CLAUDE.md`](CLAUDE.md) holds conventions for Claude in this repo. It contains no client data.
+- `git config core.hooksPath .githooks` enables the secret-scanning pre-commit hook (D-10, D-53).

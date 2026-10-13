@@ -133,6 +133,9 @@ evals/runs/caseb-after-5/b_abc_rounding_vanished_lines/*
 !evals/runs/commit5-prediction.txt
 !evals/runs/policy-run-prediction.txt
 
+# README demo output (keeps the committed trend-reports/ examples intact)
+demo-output/
+
 # ---------------------------------------------------------------------------
 # Build output, dependencies, caches
 # ---------------------------------------------------------------------------
