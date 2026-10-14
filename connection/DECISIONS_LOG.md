@@ -1454,3 +1454,108 @@ Claude call. Both layers are summarised in one report.
 - **Removed:** the "P1 cannot fail" caveat in the submission generator, `submission/` and `evals/README.md`.
   DECISIONS_SUMMARY now points here.
 - **Spend:** this change cost $3.06 ($0.16 for the check, $2.90 for the run). Eval spend to date: **$29.27**.
+
+### D-59: CI on GitHub, a one-command demo, and a "new client" guide
+- **CI** (`.github/workflows/ci.yml`): runs on every push and pull request with two jobs on `ubuntu-24.04`.
+  - **Checks:**
+    - the skill tests;
+    - the golden-facts check;
+    - the eval-side tests;
+    - the Q&A-log writer tests;
+    - the secret-scanner and guard-hook tests;
+    - the 63 backend tests (`config.settings_test`: ephemeral keys, in-memory DB, never reads `connection/.secrets/`);
+    - `secret_scan --all`;
+    - the frontend `npm ci --ignore-scripts`, lint and build.
+  - **Safety:** no Claude or QuickBooks calls and no repository secrets. `permissions: contents: read`.
+  - **Pinning:** each action is pinned to the commit behind its release tag, resolved with `git ls-remote`, not from
+    memory: checkout v4.2.2, setup-python v5.3.0, setup-node v4.1.0.
+  - **Found while preparing it:** `.githooks/pre-commit` was committed from Windows without the executable bit
+    (`100644`).
+    - Git on Linux and macOS ignores a non-executable hook. So a POSIX clone that runs
+      `git config core.hooksPath .githooks` gets **no** pre-commit secret scan.
+    - The scanner's end-to-end hook test would fail in CI.
+    - **Fix:** `git update-index --chmod=+x .githooks/pre-commit`, part of this change's commit.
+  - **Not verified on Linux before the first push:** Docker isn't available here, so the workflow's first GitHub run
+    is the Linux test. The YAML parses (2 jobs, 11 + 5 steps), and every command passes locally on Windows.
+- **Demo** (`demo.ps1`, Windows PowerShell 5.1): runs these steps, stopping with a clear message at the first failure.
+  1. Reads only the token owner from Django.
+  2. Runs the live smoke test.
+  3. Runs the deterministic engine on ABC into `demo-output\demo-run\`. That's a subfolder, so it never overwrites
+     other files in `demo-output\` or the committed `trend-reports\`.
+  4. Prints the latest month's revenue, gross margin and net income from the engine's JSON.
+  5. Rebuilds `submission\`.
+  6. Prints the Results URL, the start commands and the `sync_mcp_tokens` hand-back command.
+
+  It never hands tokens over: if Django owns the token, it prints `export_mcp_env` and stops.
+  - **Two Windows pitfalls, found by running it:**
+    - piping text from PowerShell 5.1 into Python prepends a byte-order mark;
+    - on Windows, Django's shell treated piped input as an interactive console.
+
+    The owner query is now a single-quoted `shell -c` one-liner, with the client slug validated.
+  - **Figures:** printed with the invariant culture, because the machine's regional format showed "1,95,898.16".
+  - **Verified live (2026-10-14):** steps 1–5 passed: MCP owns the token; the smoke test gave 10 passed, 1 skipped;
+    Jun 2026 showed revenue 195,898.16 (-6.0% vs May), gross margin 70.2%, net income -330,756.08.
+  - **Step 6 stopped as designed.** The working copy of `trend-reports/abc-inc-2026-06-trends.*` had been overwritten
+    on 2026-10-13 23:04 local by a numbers-only `run_trends.py` run without `--out-dir`, outside this change. So the
+    generator refused to downgrade Task 2 to an older report.
+  - It was restored with `git restore trend-reports/` (D-60). `demo.ps1` then passed **all 7 steps** (exit 0), and
+    rebuilding `submission\` left every committed file identical.
+- **"New client in 10 minutes"** (`docs/ONBOARD_CLIENT.md`, one page):
+  1. run with the default rules and read the "Other" bucket and data-quality warnings;
+  2. copy `category_map.json` per client;
+  3. adjust the rules;
+  4. re-run with `--config`;
+  5. the paid skill run;
+  6. add one golden case.
+  - **Dry-run on Bluebird** (scratch folder): "Other" went from Instagram Ads, Mystery Shopper Program and Supplier
+    Rebates to only the last two, once `"instagram", "\\bads?\\b"` was added to Sales & Marketing. The three warnings
+    appear as documented.
+  - **Noted in the guide:** a new golden case (`h_…`) also requires updating the `abcdefg` letter check in
+    `test_submission_docs.py`.
+  - Linked from the README and from ARCHITECTURE.md, which is still one page (554 words).
+
+### D-60: Console: a read-only Results page (with a Q&A tab), a restyle, and the /log-answer writer
+Built before D-59's work, logged here so the numbering stays gap-free. Committed together with it.
+- **What the Results page shows:** each saved result for Tasks 1–3.
+  - **Menu:** Task 1, Task 2, Task 3 (the summary and Cases 3.1–3.7, each with its result badge), and Q&A.
+  - **Each item** has separate "Question / request" and "Response / result" panels; case pages also have an
+    "Expected (golden case)" panel. Each page carries a "Saved result, generated …" stamp. Case files have no
+    timestamp, so case pages show the eval run's finish time.
+  - **PASS/FAIL badges** show the word, a symbol and colour. They appear only where a result is stated (a table cell
+    or a short bold label), so rule prose like "FAIL if…" never looks like a failure.
+- **Read-only, and built only from `submission/`:**
+  - Vite bundles `submission/*.md` at build time (`import.meta.glob` with `?raw`). `server.fs.allow` opens that one
+    folder; another repo file was checked and still gets HTTP 403.
+  - No API call, no backend change, and no Claude or paid call.
+  - Markdown is rendered with `marked@15.0.12` (exact pin, no dependencies) used **only as a lexer**. Tokens become
+    React elements; there is no `innerHTML` or `dangerouslySetInnerHTML`.
+  - `<details>` becomes a real collapsible element, comments are dropped, and other raw HTML is shown as text.
+    Links go only to `https://` or to another saved result; images are never loaded.
+  - The Results tab works signed out, because the bundle contains these files regardless. They hold only sandbox
+    data already in the repo.
+- **Restyle (UI only):**
+  - one set of design tokens (colour, spacing, type, focus ring), light and dark;
+  - primary vs destructive buttons;
+  - client cards, the P&L table, banners, and an activity log that stacks into labelled blocks on a phone.
+  - **Not changed:** API calls, URLs, auth/session, tokens, security logic and the backend.
+  - **Checked with headless Edge:** at a true 375 px viewport (measured in an iframe), no page scrolls sideways. The
+    signed-in console was checked with canned API answers on a throwaway, git-ignored page.
+- **Q&A log** (`submission/Q&A log.md`, newest first): it started empty, because only answers actually given may be
+  logged.
+  - **Writing:** `/log-answer` (`.claude/commands/log-answer.md`) passes the last question and the answer as given to
+    `scripts/log_answer.py`, which writes atomically (temp file + rename).
+  - **The script refuses an entry, and leaves the file untouched, when:**
+    - a field is missing, or the source isn't one of the three allowed values;
+    - a key figure isn't in the answer word for word (figures can't be invented);
+    - the repo's secret scanner fires (token and key shapes, plus the real `connection/.secrets/*.env` values,
+      reported by key name only);
+    - the text holds a realm-ID-like number, "realm" next to a number, or any mention of `.secrets`.
+  - On refusal it prints only rule names. `scripts/test_log_answer.py`: 6 tests.
+  - **Dev server:** edits to an existing file show up without a rebuild (tested with an atomic write; Vite hot-updated
+    the page). A newly created file needs a dev-server restart, and the production build needs `npm run build`.
+- **Incident while testing D-59's demo:** a `run_trends.py` run without `--out-dir` had overwritten the committed
+  example `trend-reports/abc-inc-2026-06-trends.{md,json}` (2026-10-13 23:04 local, outside this work). It left a
+  numbers-only draft with an empty commentary slot, so the submission generator correctly refused to downgrade
+  Task 2.
+  - It was restored with `git restore trend-reports/`, and `demo.ps1` then passed all 7 steps.
+  - The README already warns about this, and `demo.ps1` writes to `demo-output\demo-run\` to avoid it.

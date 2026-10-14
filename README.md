@@ -1,7 +1,9 @@
 # QBO ↔ Claude exercise (RE Financial Services take-home)
 
+[![CI](https://github.com/NITHIN1525x/RE-Finance/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/NITHIN1525x/RE-Finance/actions/workflows/ci.yml)
+
 Sandbox only. No real company data. Every decision, with its reasoning and evidence, is in
-[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-58). The 10 that matter most, on one page:
+[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-60). The 10 that matter most, on one page:
 [`connection/DECISIONS_SUMMARY.md`](connection/DECISIONS_SUMMARY.md).
 
 | Task | Deliverable | Status |
@@ -49,6 +51,8 @@ claude -p "Monthly trend analysis for ABC Inc from the workbook in data/, draft 
 - The submodule and `connection/.secrets/` aren't needed for Tasks 2–4.
 - Design, the subtotal rule and the portability results are in D-30 to D-35. Example outputs, including
   Claude's commentary, are in [`trend-reports/`](trend-reports/).
+- **A new client's workbook, without code changes:** [`docs/ONBOARD_CLIENT.md`](docs/ONBOARD_CLIENT.md) (worked example:
+  Bluebird).
 
 ## Task 3: evaluation suite
 - Seven golden cases are checked against the raw workbook cells.
@@ -68,11 +72,27 @@ $py = ".claude/skills/monthly-trend-analysis/.venv/Scripts/python"     # uses th
 clients with their data kept separate. It also answers "what breaks first at ten clients" and gives measured
 costs.
 
+## One-command demo
+`powershell -ExecutionPolicy Bypass -File .\demo.ps1` runs these steps in order, stopping with a clear message at
+the first failure:
+1. says which component owns the QuickBooks token;
+2. runs the live sandbox smoke test;
+3. runs the deterministic skill on the ABC workbook into `demo-output\demo-run\`;
+4. prints the key figures for the latest month (revenue, gross margin, net income);
+5. rebuilds `submission\`;
+6. prints the Results page URL and the command to start it.
+
+It's free (no Claude call), never prints secrets, and never hands tokens over: if Django owns the token it prints the
+`export_mcp_env` command and stops.
+
 ## Tests (no Claude calls, no secrets needed)
+GitHub Actions runs all of these, plus the frontend lint and build and the secret scan, on every push and pull
+request ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
 ```powershell
 $py = ".claude/skills/monthly-trend-analysis/.venv/Scripts/python"
 & $py -m unittest discover -s .claude/skills/monthly-trend-analysis/tests    # 31 skill tests
-& $py -m unittest discover -s evals/tests                                   # 40 eval-side tests
+& $py -m unittest discover -s evals/tests                                   # 57 eval-side tests
+python scripts/test_log_answer.py                                           # 6 Q&A-log writer tests
 python connection/scripts/test_secret_scan.py                               # 17 secret-scanner tests
 python connection/scripts/test_guard_secrets_hook.py                        # 6 tests
 # Task 1 backend (needs its venv; see QUICKSTART step 3):
