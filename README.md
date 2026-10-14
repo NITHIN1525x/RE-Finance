@@ -3,13 +3,13 @@
 [![CI](https://github.com/NITHIN1525x/RE-Finance/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/NITHIN1525x/RE-Finance/actions/workflows/ci.yml)
 
 Sandbox only. No real company data. Every decision, with its reasoning and evidence, is in
-[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-61). The 10 that matter most, on one page:
+[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-62). The 10 that matter most, on one page:
 [`connection/DECISIONS_SUMMARY.md`](connection/DECISIONS_SUMMARY.md).
 
 | Task | Deliverable | Status |
 |---|---|---|
 | 1. QuickBooks Online ↔ Claude connection | [`connection/CONNECTION.md`](connection/CONNECTION.md) | Done |
-| 2. Monthly trend-analysis skill | [`.claude/skills/monthly-trend-analysis/SKILL.md`](.claude/skills/monthly-trend-analysis/SKILL.md) | Done. The stretch goal is deferred (D-36) |
+| 2. Monthly trend-analysis skill | [`.claude/skills/monthly-trend-analysis/SKILL.md`](.claude/skills/monthly-trend-analysis/SKILL.md) | Done. Stretch goal done: [`docs/STRETCH.md`](docs/STRETCH.md) (D-62) |
 | 3. Evaluation suite | [`evals/README.md`](evals/README.md), [`evals/REGRESSION.md`](evals/REGRESSION.md) | Done. Baseline v5: 132/132 |
 | 4. Architecture note | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Done |
 
@@ -56,6 +56,9 @@ claude -p "Monthly trend analysis for ABC Inc from the workbook in data/, draft 
   writes `demo-output/abc-inc-2026-06-trends.pdf`. ABC's is also saved as `submission/Task 2 report.pdf`.
 - **A new client's workbook, without code changes:** [`docs/ONBOARD_CLIENT.md`](docs/ONBOARD_CLIENT.md) (worked example:
   Bluebird).
+- **Stretch goal, on live QuickBooks data:** ABC's P&L was loaded into a new sandbox company, read back through the
+  read-only MCP server and analysed by the unchanged skill. It matches the workbook run to the cent in all 18 months:
+  [`docs/STRETCH.md`](docs/STRETCH.md). The scripts are in `stretch/`.
 
 ## Task 3: evaluation suite
 - Seven golden cases are checked against the raw workbook cells.

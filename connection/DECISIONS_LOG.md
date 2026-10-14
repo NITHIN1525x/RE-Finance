@@ -1640,3 +1640,38 @@ Built before D-59's work, logged here so the numbering stays gap-free. Committed
 - **Noted while checking:** commit 988065f also carried the Q&A log's **first real entry** ("Using the ABC workbook,
   what was total revenue in June 2026?", 2026-10-13 17:35 UTC). It was written by `/log-answer` in another session,
   and its figures match the engine. That session's skill run is what overwrote `trend-reports/` (D-60).
+
+### D-62: Stretch goal done: ABC's P&L loaded into a new sandbox company, read back via MCP, and analysed by the unchanged skill
+- **Result (2026-10-14):** the live run matches the workbook run in every month: 21 metrics × 18 months, 0 differences
+  (tolerances 0.01 and 0.0001 pp). Write-up, month-by-month table and cosmetic differences:
+  [`docs/STRETCH.md`](../docs/STRETCH.md). Code: `stretch/`, new files only, with 13 offline tests (run in CI). D-36's plan was
+  followed; this closes it.
+- **Choices:**
+  - **A new sandbox company** (Sandbox Company US 8831), never the demo company. Loader and reader both check the exact
+    company name read back from QuickBooks, and refuse the demo realm by hash.
+  - **The source is the skill's own JSON for the workbook,** so the load starts from the numbers the skill already
+    verified. One journal entry per month, with accounts created from the JSON. A balance-sheet clearing account
+    ("ABC import clearing", Other Current Liability) balances each entry.
+  - **Class ABC-IMPORT on every line,** with every report class-filtered. This keeps Intuit's sample data out without
+    deleting anything. It was confirmed beforehand that the official MCP server passes `class` through to the
+    report.
+  - **Separate grants:** a throwaway write grant per load run, revoked in `finally` and confirmed by `invalid_grant`.
+    A read-only grant goes into a temporary token store used through the launcher's existing `QBO_MCP_TOKEN_STORE`
+    override, with the three `DISABLE` flags set, 0 write tools, then revoked and deleted. The demo connection,
+    `.mcp.json`, the launcher, the server and Django were not touched.
+  - **6-month chunks:** each is about 17–18k estimated tokens, under the ~21k limit.
+  - **Adapter, no arithmetic:** QuickBooks' own Total, Gross Profit and Net Income rows are kept. A parent account
+    with amounts of its own (Marketing/Advertising) has them on its section header; they become a same-name account
+    row, as in the source workbook.
+- **Found and fixed during the load:** each run stopped before posting any entry, with the write grant revoked.
+  1. Sample data already had "Depreciation" as *Other Expense*. On a type clash, the loader now creates
+     `<name> (ABC)`, and it reuses same-name accounts of the right type (Insurance, Office Expenses, Travel).
+  2. An Equity clearing account with no detail type was refused ("only one account of this detail type"). It is now
+     an Other Current Liability with an explicit detail type. Account-creation errors now name the account.
+- **Verification:**
+  - the dry run balances and matches the JSON every month;
+  - the loader's self-check matched QuickBooks' class-filtered P&L every month;
+  - the comparison script found 0 differences;
+  - one real skill run (claude-opus-5-5, **$0.3848**) produced the commentary, and its numbers are the same;
+  - the only differences are cosmetic (STRETCH.md): 1 renamed account, 8 sub-accounts, 4 all-zero accounts not
+    loaded, labels, and no balance sheet, hence no cash flag.

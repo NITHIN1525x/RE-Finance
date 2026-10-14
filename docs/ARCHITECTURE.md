@@ -39,4 +39,4 @@
 - **Full eval suite:** $2.73–3.05 (~8 min). Task 3 total: $22.99.
 
 ## 6. Honest limits
-Built and tested on one sandbox company and two sample workbooks. Beyond the Console's per-user scoping, the multi-client design is unbuilt and untested. A live refresh-token rotation was never observed.
+Built and tested on one sandbox company and two sample workbooks; the skill also ran once on ABC's P&L read live from a second sandbox ([STRETCH.md](STRETCH.md)). Beyond the Console's per-user scoping, the multi-client design is unbuilt and untested. A live refresh-token rotation was never observed.

@@ -56,6 +56,9 @@ jobs:
       - name: Guard hook tests
         run: python connection/scripts/test_guard_secrets_hook.py
 
+      - name: Stretch-goal tests (offline; no QuickBooks, no network, no secrets)
+        run: python stretch/test_stretch.py
+
       - name: Backend tests (ephemeral keys, in-memory DB; never reads connection/.secrets)
         working-directory: connection/backend
         run: python manage.py test qbo --settings=config.settings_test
