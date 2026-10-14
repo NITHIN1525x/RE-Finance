@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Build the examiner-facing files in submission/ from outputs that already exist.
 
-    python scripts/build_submission.py                 # FREE: Task 2 (+ its PDF), Task 3.1-3.7, Task 3 response
+    python scripts/build_submission.py                 # FREE: Task 2 (+ its PDF), Task 3.1-3.8, Task 3 response
                                                        #       (use the skill's venv Python: the PDF needs ReportLab)
                                                        #       (no network, no Claude, no QuickBooks call)
     python scripts/build_submission.py --live-task1    # LIVE: runs connection/scripts/smoke_test against the
@@ -88,7 +88,7 @@ def money(x):
     return f"{x:,.2f}"
 
 
-# ------------------------------------------------------------------------------------------------ Task 3.1 - 3.7
+# ------------------------------------------------------------------------------------------------ Task 3.1 - 3.8
 def load_cases():
     return json.loads((EVALS / "goldens" / "cases.json").read_text(encoding="utf-8"))
 
@@ -587,7 +587,7 @@ def main(argv=None):
         print(f"Task 1 response: live only, not touched ({'last refreshed ' + hit.group(1) if hit else 'not generated yet'}; "
               "refresh with --live-task1)")
         jobs = [("Task 2 response + PDF", lambda: build_task2_both(args.task2_source)),
-                ("Task 3.1-3.7", build_task3_cases),
+                ("Task 3.1-3.8", build_task3_cases),
                 ("Task 3 response", lambda: [build_task3_response(args.run)])]
     for name, job in jobs:
         try:

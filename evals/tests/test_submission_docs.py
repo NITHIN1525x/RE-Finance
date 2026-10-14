@@ -29,9 +29,9 @@ class Task3CaseFilesMatchCasesJson(unittest.TestCase):
         actual = {p.name for p in b.SUBMISSION.glob("Task 3.*.md")}
         self.assertEqual(actual, expected)
 
-    def test_mapping_is_case_order_a_to_g(self):
+    def test_mapping_is_case_order_a_to_h(self):
         letters = [case["id"].split("_", 1)[0] for _, case in b.case_files(b.load_cases())]
-        self.assertEqual(letters, list("abcdefg"))
+        self.assertEqual(letters, list("abcdefgh"))
 
 
 try:

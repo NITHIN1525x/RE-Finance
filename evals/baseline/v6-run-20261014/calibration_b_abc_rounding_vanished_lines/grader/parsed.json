@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.030819,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+      "status": "PASS",
+      "evidence": "The commentary says \"Advisory Services has been zero since Feb 2026\", \"Professional Fees has been zero since Apr 2026\", and \"Federal & State Taxes and Marketing/Advertising: Miscellaneous are zero in Jun 2026\". That names all four lines as zero in Jun 2026 after earlier non-zero values."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+      "status": "PASS",
+      "evidence": "The commentary gives no figures for these lines' prior averages. It cites only last non-zero months (2,500 and 3,773), which are not averages, so the claim passes by its own condition."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+      "status": "PASS",
+      "evidence": "The commentary gives no cause for the zeros. It says only \"Whether these lines have stopped for good, been discontinued, or are timing is for the reviewer to confirm.\""
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+      "status": "PASS",
+      "evidence": "The commentary does not call the lines permanently discontinued or cancelled. It leaves \"stopped for good, been discontinued, or are timing\" to the reviewer."
+    }
+  ]
+}

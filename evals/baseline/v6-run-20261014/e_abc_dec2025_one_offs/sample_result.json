@@ -1,0 +1,173 @@
+{
+  "execution": [
+    {
+      "id": "X1",
+      "desc": "claude -p run completed successfully",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "exit 0, subtype success"
+    },
+    {
+      "id": "X2",
+      "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X3",
+      "desc": "the skill's script run_trends.py was executed",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X4",
+      "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "1 json, 1 md in evals/runs/v6-run-20261014/e_abc_dec2025_one_offs/skill_output"
+    },
+    {
+      "id": "X5",
+      "desc": "nothing outside evals/runs/ was modified by the skill run",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "no changes made by the skill"
+    },
+    {
+      "id": "X6",
+      "desc": "the narrative placeholder was replaced with commentary",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "structured": [
+    {
+      "id": "S1",
+      "desc": "spike flag: Stock-Based Compensation Expense, Dec 2025",
+      "type": "flag_regex",
+      "source": "literal",
+      "expected": "present: /Single-month spike: 'Stock-Based Compensation Expense' .* is 334,661 in Dec 2025/",
+      "actual": "Single-month spike: 'Stock-Based Compensation Expense' (Payroll & Benefits) is 334,661 in Dec 2025",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S2",
+      "desc": "spike flag: Bonus, Dec 2025",
+      "type": "flag_regex",
+      "source": "literal",
+      "expected": "present: /Single-month spike: 'Bonus' .* is 80,343 in Dec 2025/",
+      "actual": "Single-month spike: 'Bonus' (Payroll & Benefits) is 80,343 in Dec 2025",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S3",
+      "desc": "Dec 2025 SBC value",
+      "type": "value",
+      "source": {
+        "fact": "abc.sbc.dec2025",
+        "sheet": "Income Statement",
+        "cells": [
+          "I99"
+        ],
+        "formula": "Stock-Based Compensation Expense, Dec 2025"
+      },
+      "expected": 334660.53,
+      "actual": 334660.53,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S4",
+      "desc": "Dec 2025 Bonus value",
+      "type": "value",
+      "source": {
+        "fact": "abc.bonus.dec2025",
+        "sheet": "Income Statement",
+        "cells": [
+          "I33"
+        ],
+        "formula": "Bonus, Dec 2025"
+      },
+      "expected": 80342.53,
+      "actual": 80342.53,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S5",
+      "desc": "Dec 2025 is the only positive net-income month",
+      "type": "value",
+      "source": "literal",
+      "expected": [
+        "Dec 2025"
+      ],
+      "actual": [
+        "Dec 2025"
+      ],
+      "tolerance": 0.0,
+      "status": "PASS"
+    }
+  ],
+  "provenance": [
+    {
+      "id": "P1",
+      "type": "provenance",
+      "status": "PASS",
+      "desc": "every number in the commentary matches a value in this run's own output",
+      "detail": "46 matched, 25 ignored, 0 unmatched",
+      "unmatched": []
+    }
+  ],
+  "commentary": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Stock-Based Compensation Expense spike (about 334,661) as a possible one-off / single-month item.",
+      "status": "PASS",
+      "evidence": "Commentary says \"Stock-Based Compensation Expense 334,661 ... each appear to be a single-month item\"; figure matches 334,660.53."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Bonus spike (about 80,343) as a possible one-off / single-month item.",
+      "status": "PASS",
+      "evidence": "Says \"Bonus 80,343 (typical month 2,721) each appear to be a single-month item\"; matches 80,342.53 and median 2,720.83."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Leaves the one-off determination to the reviewer (hedged wording such as 'appears to be' or 'reviewer to confirm') rather than concluding.",
+      "status": "PASS",
+      "evidence": "Uses hedged \"appear to be a single-month item; reviewer to confirm\", leaving the determination to the reviewer."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as unhedged fact that these Dec 2025 items are non-recurring/one-off.",
+      "status": "PASS",
+      "evidence": "The one-off claim is hedged (\"appear to be... reviewer to confirm\"). The heading \"Dec 2025 one-offs\" is a label, not an unhedged assertion in the body."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts an accounting treatment or a cause for these items as fact (e.g. 'year-end bonus accrual', 'option vesting', 'should be excluded/normalised').",
+      "status": "PASS",
+      "evidence": "No accounting treatment or cause is asserted for SBC or Bonus, such as accrual, vesting, or exclusion. The text only notes they appear to be single-month items."
+    }
+  ],
+  "skill_run": {
+    "model_requested": "claude-opus-5-5",
+    "model_reported": "claude-opus-5-5",
+    "claude_code_version": "2.1.296",
+    "num_turns": 8,
+    "total_cost_usd": 0.37197199999999997,
+    "elapsed_s": 47.9,
+    "permission_mode": "default"
+  },
+  "status": "PASS"
+}

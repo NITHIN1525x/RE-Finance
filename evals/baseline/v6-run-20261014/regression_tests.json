@@ -1,0 +1,183 @@
+{
+  "summary": "Ran 44 tests in 1.374s -> OK",
+  "ok": true,
+  "tests": [
+    {
+      "test": "test_abc_has_ttm_and_yoy (test_pdf.PdfReportTests.test_abc_has_ttm_and_yoy)",
+      "status": "ok"
+    },
+    {
+      "test": "test_bluebird_says_ttm_is_not_available (test_pdf.PdfReportTests.test_bluebird_says_ttm_is_not_available)",
+      "status": "ok"
+    },
+    {
+      "test": "test_commentary_is_copied_verbatim_and_labelled (test_pdf.PdfReportTests.test_commentary_is_copied_verbatim_and_labelled)",
+      "status": "ok"
+    },
+    {
+      "test": "test_default_output_folder_is_demo_output (test_pdf.PdfReportTests.test_default_output_folder_is_demo_output)",
+      "status": "ok"
+    },
+    {
+      "test": "test_every_table_row_matches_the_json (test_pdf.PdfReportTests.test_every_table_row_matches_the_json)",
+      "status": "ok"
+    },
+    {
+      "test": "test_key_figures_match_the_json (test_pdf.PdfReportTests.test_key_figures_match_the_json)",
+      "status": "ok"
+    },
+    {
+      "test": "test_no_table_number_that_is_not_from_the_json (test_pdf.PdfReportTests.test_no_table_number_that_is_not_from_the_json)",
+      "status": "ok"
+    },
+    {
+      "test": "test_numbers_only_report_says_no_commentary (test_pdf.PdfReportTests.test_numbers_only_report_says_no_commentary)",
+      "status": "ok"
+    },
+    {
+      "test": "test_opex_is_labelled_with_the_engines_field_name (test_pdf.PdfReportTests.test_opex_is_labelled_with_the_engines_field_name)",
+      "status": "ok"
+    },
+    {
+      "test": "test_pdf_created_for_both_workbooks (test_pdf.PdfReportTests.test_pdf_created_for_both_workbooks)",
+      "status": "ok"
+    },
+    {
+      "test": "test_reproducible_bytes (test_pdf.PdfReportTests.test_reproducible_bytes)",
+      "status": "ok"
+    },
+    {
+      "test": "test_symbols_the_builtin_fonts_cannot_draw_are_written_as_text (test_pdf.PdfReportTests.test_symbols_the_builtin_fonts_cannot_draw_are_written_as_text)",
+      "status": "ok"
+    },
+    {
+      "test": "test_cli_writes_report_and_json (test_trends.CliTests.test_cli_writes_report_and_json)",
+      "status": "ok"
+    },
+    {
+      "test": "test_missing_workbook_is_a_clean_error (test_trends.CliTests.test_missing_workbook_is_a_clean_error)",
+      "status": "ok"
+    },
+    {
+      "test": "test_outputs_record_file_name_not_absolute_path (test_trends.CliTests.test_outputs_record_file_name_not_absolute_path)",
+      "status": "ok"
+    },
+    {
+      "test": "test_instruction_text_is_kept_as_data_and_numbers_are_unaffected (test_trends.InjectionTextTests.test_instruction_text_is_kept_as_data_and_numbers_are_unaffected)",
+      "status": "ok"
+    },
+    {
+      "test": "test_different_company_and_layout (test_trends.PortabilityTests.test_different_company_and_layout)",
+      "status": "ok"
+    },
+    {
+      "test": "test_flags_are_sensible (test_trends.PortabilityTests.test_flags_are_sensible)",
+      "status": "ok"
+    },
+    {
+      "test": "test_percent_rounding_is_consistent_between_table_and_flags (test_trends.PortabilityTests.test_percent_rounding_is_consistent_between_table_and_flags)",
+      "status": "ok"
+    },
+    {
+      "test": "test_prior_month_zero_is_not_labelled_new (test_trends.PortabilityTests.test_prior_month_zero_is_not_labelled_new)",
+      "status": "ok"
+    },
+    {
+      "test": "test_structural_variants_handled (test_trends.PortabilityTests.test_structural_variants_handled)",
+      "status": "ok"
+    },
+    {
+      "test": "test_totals_reconcile_with_workbook_summary_rows (test_trends.PortabilityTests.test_totals_reconcile_with_workbook_summary_rows)",
+      "status": "ok"
+    },
+    {
+      "test": "test_unmapped_accounts_fall_into_other (test_trends.PortabilityTests.test_unmapped_accounts_fall_into_other)",
+      "status": "ok"
+    },
+    {
+      "test": "test_all_cross_checks_pass (test_trends.RealWorkbookTests.test_all_cross_checks_pass)",
+      "status": "ok"
+    },
+    {
+      "test": "test_figures_match_raw_sheet_rows (test_trends.RealWorkbookTests.test_figures_match_raw_sheet_rows)",
+      "status": "ok"
+    },
+    {
+      "test": "test_key_flags (test_trends.RealWorkbookTests.test_key_flags)",
+      "status": "ok"
+    },
+    {
+      "test": "test_no_subtotal_or_header_rows_counted_as_accounts (test_trends.RealWorkbookTests.test_no_subtotal_or_header_rows_counted_as_accounts)",
+      "status": "ok"
+    },
+    {
+      "test": "test_structure (test_trends.RealWorkbookTests.test_structure)",
+      "status": "ok"
+    },
+    {
+      "test": "test_ttm_mom_and_yoy_math_matches_raw_cells (test_trends.RealWorkbookTests.test_ttm_mom_and_yoy_math_matches_raw_cells)",
+      "status": "ok"
+    },
+    {
+      "test": "test_vanished_line_wording_says_zero_since (test_trends.RealWorkbookTests.test_vanished_line_wording_says_zero_since)",
+      "status": "ok"
+    },
+    {
+      "test": "test_vanished_revenue_stream_wording_says_zero_since (test_trends.RealWorkbookTests.test_vanished_revenue_stream_wording_says_zero_since)",
+      "status": "ok"
+    },
+    {
+      "test": "test_blank_account_mid_list_does_not_capture_following_rows (test_trends.SyntheticSheetTests.test_blank_account_mid_list_does_not_capture_following_rows)",
+      "status": "ok"
+    },
+    {
+      "test": "test_blank_cells_are_zero_and_counted (test_trends.SyntheticSheetTests.test_blank_cells_are_zero_and_counted)",
+      "status": "ok"
+    },
+    {
+      "test": "test_formula_in_detail_row_is_flagged (test_trends.SyntheticSheetTests.test_formula_in_detail_row_is_flagged)",
+      "status": "ok"
+    },
+    {
+      "test": "test_mismatch_is_flagged_not_trusted (test_trends.SyntheticSheetTests.test_mismatch_is_flagged_not_trusted)",
+      "status": "ok"
+    },
+    {
+      "test": "test_nested_subtotal_is_not_double_counted (test_trends.SyntheticSheetTests.test_nested_subtotal_is_not_double_counted)",
+      "status": "ok"
+    },
+    {
+      "test": "test_newest_first_columns_are_sorted (test_trends.SyntheticSheetTests.test_newest_first_columns_are_sorted)",
+      "status": "ok"
+    },
+    {
+      "test": "test_total_without_header_is_inferred_from_numbers (test_trends.SyntheticSheetTests.test_total_without_header_is_inferred_from_numbers)",
+      "status": "ok"
+    },
+    {
+      "test": "test_unreconcilable_total_is_excluded_and_flagged (test_trends.SyntheticSheetTests.test_unreconcilable_total_is_excluded_and_flagged)",
+      "status": "ok"
+    },
+    {
+      "test": "test_categorisation_rules (test_trends.UnitTests.test_categorisation_rules)",
+      "status": "ok"
+    },
+    {
+      "test": "test_month_formats (test_trends.UnitTests.test_month_formats)",
+      "status": "ok"
+    },
+    {
+      "test": "test_numbers (test_trends.UnitTests.test_numbers)",
+      "status": "ok"
+    },
+    {
+      "test": "test_section_roles (test_trends.UnitTests.test_section_roles)",
+      "status": "ok"
+    },
+    {
+      "test": "test_total_label_matching (test_trends.UnitTests.test_total_label_matching)",
+      "status": "ok"
+    }
+  ],
+  "raw_tail": "test_mismatch_is_flagged_not_trusted (test_trends.SyntheticSheetTests.test_mismatch_is_flagged_not_trusted) ... ok\ntest_nested_subtotal_is_not_double_counted (test_trends.SyntheticSheetTests.test_nested_subtotal_is_not_double_counted) ... ok\ntest_newest_first_columns_are_sorted (test_trends.SyntheticSheetTests.test_newest_first_columns_are_sorted) ... ok\ntest_total_without_header_is_inferred_from_numbers (test_trends.SyntheticSheetTests.test_total_without_header_is_inferred_from_numbers) ... ok\ntest_unreconcilable_total_is_excluded_and_flagged (test_trends.SyntheticSheetTests.test_unreconcilable_total_is_excluded_and_flagged) ... ok\ntest_categorisation_rules (test_trends.UnitTests.test_categorisation_rules) ... ok\ntest_month_formats (test_trends.UnitTests.test_month_formats) ... ok\ntest_numbers (test_trends.UnitTests.test_numbers) ... ok\ntest_section_roles (test_trends.UnitTests.test_section_roles) ... ok\ntest_total_label_matching (test_trends.UnitTests.test_total_label_matching) ... ok\n\n----------------------------------------------------------------------\nRan 44 tests in 1.374s\n\nOK"
+}

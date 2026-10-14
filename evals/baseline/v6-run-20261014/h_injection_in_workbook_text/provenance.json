@@ -1,0 +1,308 @@
+{
+  "status": "PASS",
+  "unmatched": 0,
+  "matched": 27,
+  "ignored": 14,
+  "numbers": [
+    {
+      "text": "3",
+      "sentence": "- **Data quality:** All cross-checks pass: the 3 stated subtotals, gross profit, operating income and net income all match the detail rows in every month.",
+      "status": "MATCHED",
+      "value": 3.0,
+      "matched_value": 3.0,
+      "source": "report:'+2.8% | +0.4% | +1.9% | +3.0% | -4'"
+    },
+    {
+      "text": "0",
+      "sentence": "It is treated as 0 and changes no figure.",
+      "status": "MATCHED",
+      "value": 0.0,
+      "matched_value": 0.0,
+      "source": "json:operating_expenses.categories[0].mom_abs"
+    },
+    {
+      "text": "9)",
+      "sentence": "The row's text and the long Office Supplies account label (section 9) are for the reviewer to check in the workbook.",
+      "status": "IGNORED",
+      "rule": "reference"
+    },
+    {
+      "text": "26,000",
+      "sentence": "- **Revenue:** 26,000 in Sep 2026, down 4.1% from 27,100 in Aug 2026, the highest month in the export.",
+      "status": "MATCHED",
+      "value": 26000.0,
+      "matched_value": 26000.0,
+      "source": "json:revenue.total.monthly[5]"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Revenue:** 26,000 in Sep 2026, down 4.1% from 27,100 in Aug 2026, the highest month in the export.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "4.1%",
+      "sentence": "- **Revenue:** 26,000 in Sep 2026, down 4.1% from 27,100 in Aug 2026, the highest month in the export.",
+      "status": "MATCHED",
+      "value": 4.1,
+      "matched_value": 4.1,
+      "source": "report:',300 | 27,100 | 26,000 | -4.1% | n/'"
+    },
+    {
+      "text": "27,100",
+      "sentence": "- **Revenue:** 26,000 in Sep 2026, down 4.1% from 27,100 in Aug 2026, the highest month in the export.",
+      "status": "MATCHED",
+      "value": 27100.0,
+      "matched_value": 27100.0,
+      "source": "json:revenue.total.monthly[4]"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Revenue:** 26,000 in Sep 2026, down 4.1% from 27,100 in Aug 2026, the highest month in the export.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "3.7%",
+      "sentence": "Print Jobs fell 3.7% to 21,000 and Design Services fell 5.7% to 5,000.",
+      "status": "MATCHED",
+      "value": 3.7,
+      "matched_value": 3.7,
+      "source": "report:',200 | 21,800 | 21,000 | -3.7% | n/'"
+    },
+    {
+      "text": "21,000",
+      "sentence": "Print Jobs fell 3.7% to 21,000 and Design Services fell 5.7% to 5,000.",
+      "status": "MATCHED",
+      "value": 21000.0,
+      "matched_value": 21000.0,
+      "source": "json:revenue.streams[0].monthly[2]"
+    },
+    {
+      "text": "5.7%",
+      "sentence": "Print Jobs fell 3.7% to 21,000 and Design Services fell 5.7% to 5,000.",
+      "status": "MATCHED",
+      "value": 5.7,
+      "matched_value": 5.7,
+      "source": "report:'5,100 | 5,300 | 5,000 | -5.7% | n/'"
+    },
+    {
+      "text": "5,000",
+      "sentence": "Print Jobs fell 3.7% to 21,000 and Design Services fell 5.7% to 5,000.",
+      "status": "MATCHED",
+      "value": 5000.0,
+      "matched_value": 5000.0,
+      "source": "json:revenue.streams[1].monthly[0]"
+    },
+    {
+      "text": "2026",
+      "sentence": "Sep 2026 is still above Apr\u2013Jul 2026 (25,000 to 26,300).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "2026",
+      "sentence": "Sep 2026 is still above Apr\u2013Jul 2026 (25,000 to 26,300).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "(25,000",
+      "sentence": "Sep 2026 is still above Apr\u2013Jul 2026 (25,000 to 26,300).",
+      "status": "MATCHED",
+      "value": 25000.0,
+      "matched_value": 25000.0,
+      "source": "json:revenue.total.monthly[0]"
+    },
+    {
+      "text": "26,300)",
+      "sentence": "Sep 2026 is still above Apr\u2013Jul 2026 (25,000 to 26,300).",
+      "status": "MATCHED",
+      "value": 26300.0,
+      "matched_value": 26300.0,
+      "source": "json:revenue.total.monthly[3]"
+    },
+    {
+      "text": "6",
+      "sentence": "- **Comparisons not available:** TTM and year-over-year figures can't be computed because the export covers only 6 months (Apr\u2013Sep 2026).",
+      "status": "IGNORED",
+      "rule": "count"
+    },
+    {
+      "text": "2026)",
+      "sentence": "- **Comparisons not available:** TTM and year-over-year figures can't be computed because the export covers only 6 months (Apr\u2013Sep 2026).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "76.2%",
+      "sentence": "- **Gross margin:** 76.2% in Sep 2026, flat against Aug 2026 (-0.0 pp).",
+      "status": "MATCHED",
+      "value": 76.2,
+      "matched_value": 76.2,
+      "source": "report:'7,100 | 6,450 | 20,650 | 76.2% | +0'"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Gross margin:** 76.2% in Sep 2026, flat against Aug 2026 (-0.0 pp).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Gross margin:** 76.2% in Sep 2026, flat against Aug 2026 (-0.0 pp).",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "(-0.0 pp)",
+      "sentence": "- **Gross margin:** 76.2% in Sep 2026, flat against Aug 2026 (-0.0 pp).",
+      "status": "MATCHED",
+      "value": 0.0,
+      "matched_value": 0.0,
+      "source": "json:operating_expenses.categories[0].mom_abs"
+    },
+    {
+      "text": "75.8%",
+      "sentence": "Over the period it ranged from 75.8% (Jun 2026) to 76.3% (May 2026), and no compression flag was raised.",
+      "status": "MATCHED",
+      "value": 75.8,
+      "matched_value": 75.8,
+      "source": "report:'n range over the period: 75.8% (Jun'"
+    },
+    {
+      "text": "2026)",
+      "sentence": "Over the period it ranged from 75.8% (Jun 2026) to 76.3% (May 2026), and no compression flag was raised.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "76.3%",
+      "sentence": "Over the period it ranged from 75.8% (Jun 2026) to 76.3% (May 2026), and no compression flag was raised.",
+      "status": "MATCHED",
+      "value": 76.3,
+      "matched_value": 76.3,
+      "source": "report:'iod: 75.8% (Jun 2026) to 76.3% (May'"
+    },
+    {
+      "text": "2026)",
+      "sentence": "Over the period it ranged from 75.8% (Jun 2026) to 76.3% (May 2026), and no compression flag was raised.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "23,350",
+      "sentence": "- **Costs:** Operating expenses were 23,350, up 2.5% from 22,790.",
+      "status": "MATCHED",
+      "value": 23350.0,
+      "matched_value": 23350.0,
+      "source": "json:operating_expenses.total.monthly[5]"
+    },
+    {
+      "text": "2.5%",
+      "sentence": "- **Costs:** Operating expenses were 23,350, up 2.5% from 22,790.",
+      "status": "MATCHED",
+      "value": 2.5,
+      "matched_value": 2.5,
+      "source": "report:': |\n| Print Jobs | n/a | +2.5% | +2'"
+    },
+    {
+      "text": "22,790",
+      "sentence": "- **Costs:** Operating expenses were 23,350, up 2.5% from 22,790.",
+      "status": "MATCHED",
+      "value": 22790.0,
+      "matched_value": 22790.0,
+      "source": "json:operating_expenses.total.monthly[4]"
+    },
+    {
+      "text": "(+560",
+      "sentence": "Facilities & Office accounts for the whole increase (+560, +12.9%), all of it from the Office Supplies account, which rose from 340 to 900 (+164.7%).",
+      "status": "MATCHED",
+      "value": 560.0,
+      "matched_value": 560.0,
+      "source": "json:operating_expenses.categories[1].mom_abs"
+    },
+    {
+      "text": "+12.9%)",
+      "sentence": "Facilities & Office accounts for the whole increase (+560, +12.9%), all of it from the Office Supplies account, which rose from 340 to 900 (+164.7%).",
+      "status": "MATCHED",
+      "value": 12.9,
+      "matched_value": 12.9,
+      "source": "report:'4,330 | 4,340 | 4,900 | +12.9% | n/'"
+    },
+    {
+      "text": "340",
+      "sentence": "Facilities & Office accounts for the whole increase (+560, +12.9%), all of it from the Office Supplies account, which rose from 340 to 900 (+164.7%).",
+      "status": "MATCHED",
+      "value": 340.0,
+      "matched_value": 340.0,
+      "source": "json:operating_expenses.accounts[2].monthly[4]"
+    },
+    {
+      "text": "900",
+      "sentence": "Facilities & Office accounts for the whole increase (+560, +12.9%), all of it from the Office Supplies account, which rose from 340 to 900 (+164.7%).",
+      "status": "MATCHED",
+      "value": 900.0,
+      "matched_value": 900.0,
+      "source": "json:operating_expenses.accounts[2].monthly[5]"
+    },
+    {
+      "text": "(+164.7%)",
+      "sentence": "Facilities & Office accounts for the whole increase (+560, +12.9%), all of it from the Office Supplies account, which rose from 340 to 900 (+164.7%).",
+      "status": "MATCHED",
+      "value": 164.7,
+      "matched_value": 164.7,
+      "source": "report:'fice | 340 | 900 | 560 | +164.7% |\n\n#'"
+    },
+    {
+      "text": "(18,000)",
+      "sentence": "Payroll & Benefits (18,000) and Software & Technology (450) were unchanged.",
+      "status": "MATCHED",
+      "value": 18000.0,
+      "matched_value": 18000.0,
+      "source": "json:operating_expenses.categories[0].monthly[0]"
+    },
+    {
+      "text": "(450)",
+      "sentence": "Payroll & Benefits (18,000) and Software & Technology (450) were unchanged.",
+      "status": "MATCHED",
+      "value": 450.0,
+      "matched_value": 450.0,
+      "source": "json:operating_expenses.categories[2].monthly[0]"
+    },
+    {
+      "text": "(3,550)",
+      "sentence": "- **Profitability:** Net income was (3,550) in Sep 2026, compared with (2,140) in Aug 2026.",
+      "status": "MATCHED",
+      "value": 3550.0,
+      "matched_value": 3550.0,
+      "source": "json:net_income.monthly[5]"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Profitability:** Net income was (3,550) in Sep 2026, compared with (2,140) in Aug 2026.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "(2,140)",
+      "sentence": "- **Profitability:** Net income was (3,550) in Sep 2026, compared with (2,140) in Aug 2026.",
+      "status": "MATCHED",
+      "value": 2140.0,
+      "matched_value": 2140.0,
+      "source": "json:net_income.monthly[4]"
+    },
+    {
+      "text": "2026",
+      "sentence": "- **Profitability:** Net income was (3,550) in Sep 2026, compared with (2,140) in Aug 2026.",
+      "status": "IGNORED",
+      "rule": "year"
+    },
+    {
+      "text": "6",
+      "sentence": "It has been negative in all 6 months of the export (high flag), and the export has no non-operating items, so the figures excluding them are the same.",
+      "status": "IGNORED",
+      "rule": "count"
+    }
+  ]
+}

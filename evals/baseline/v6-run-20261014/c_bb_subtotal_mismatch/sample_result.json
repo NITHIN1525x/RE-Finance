@@ -1,0 +1,202 @@
+{
+  "execution": [
+    {
+      "id": "X1",
+      "desc": "claude -p run completed successfully",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "exit 0, subtype success"
+    },
+    {
+      "id": "X2",
+      "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X3",
+      "desc": "the skill's script run_trends.py was executed",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X4",
+      "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "1 json, 1 md in evals/runs/v6-run-20261014/c_bb_subtotal_mismatch/skill_output"
+    },
+    {
+      "id": "X5",
+      "desc": "nothing outside evals/runs/ was modified by the skill run",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "no changes made by the skill"
+    },
+    {
+      "id": "X6",
+      "desc": "the narrative placeholder was replaced with commentary",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "structured": [
+    {
+      "id": "S1",
+      "desc": "target month",
+      "type": "value",
+      "source": "literal",
+      "expected": "Sep 2026",
+      "actual": "Sep 2026",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S2",
+      "desc": "exactly one subtotal_mismatch warning",
+      "type": "count",
+      "source": "literal",
+      "expected": 1,
+      "actual": 1,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S3",
+      "desc": "mismatch month",
+      "type": "value",
+      "source": "literal",
+      "expected": "2026-03",
+      "actual": "2026-03",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S4",
+      "desc": "mismatch names the Professional Services subtotal",
+      "type": "regex",
+      "source": "literal",
+      "expected": "Professional Services$",
+      "actual": "Expenses > Professional Services",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S5",
+      "desc": "stated subtotal",
+      "type": "value",
+      "source": {
+        "fact": "bb.prof_services.mar2026.stated",
+        "sheet": "Profit and Loss",
+        "cells": [
+          "D35"
+        ],
+        "formula": "Total for Professional Services, Mar 2026"
+      },
+      "expected": 2225.0,
+      "actual": 2225.0,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S6",
+      "desc": "detail-row sum",
+      "type": "value",
+      "source": {
+        "fact": "bb.prof_services.mar2026.detail_sum",
+        "sheet": "Profit and Loss",
+        "cells": [
+          "D33",
+          "D34"
+        ],
+        "formula": "D33+D34 (Bookkeeping + Legal)"
+      },
+      "expected": 2200.0,
+      "actual": 2200.0,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S7",
+      "desc": "difference",
+      "type": "value",
+      "source": {
+        "fact": "bb.prof_services.mar2026.diff",
+        "sheet": "Profit and Loss",
+        "cells": [
+          "D35",
+          "D33",
+          "D34"
+        ],
+        "formula": "stated - detail sum"
+      },
+      "expected": 25.0,
+      "actual": 25.0,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S8",
+      "desc": "report banner shows the mismatch",
+      "type": "md_regex",
+      "source": "literal",
+      "expected": "present: /Data-quality checks: \\*\\*1 MISMATCH/",
+      "actual": "Data-quality checks: **1 MISMATCH",
+      "tolerance": 0.0,
+      "status": "PASS"
+    }
+  ],
+  "provenance": [
+    {
+      "id": "P1",
+      "type": "provenance",
+      "status": "PASS",
+      "desc": "every number in the commentary matches a value in this run's own output",
+      "detail": "39 matched, 20 ignored, 0 unmatched",
+      "unmatched": []
+    }
+  ],
+  "commentary": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Reports the data-quality problem: names the Professional Services subtotal, the month (Mar 2026), and the amount (the 25 difference, or both the stated 2,225 and the detail sum 2,200).",
+      "status": "PASS",
+      "evidence": "Commentary says the 'Total for Professional Services' row states 2,225.00 but detail rows add up to 2,200.00 (difference of 25.00), in 'Mar 2026'. This matches the reference facts (2,225, 2,200, 25)."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Leaves resolving the mismatch to the reviewer rather than deciding which figure is right.",
+      "status": "PASS",
+      "evidence": "\"The reviewer should decide which figure is right.\" It explicitly leaves resolution to the reviewer."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Says all data-quality checks passed or that the data is clean/reconciled.",
+      "status": "PASS",
+      "evidence": "The commentary flags a mismatch and other items to check. It never says checks passed or that the data is clean or reconciled."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts which of the two figures is correct, or that the error was corrected.",
+      "status": "PASS",
+      "evidence": "It says \"The analysis uses the detail rows\", which describes method only. It does not say that figure is correct or that the error was corrected, and it defers the decision to the reviewer."
+    }
+  ],
+  "skill_run": {
+    "model_requested": "claude-opus-5-5",
+    "model_reported": "claude-opus-5-5",
+    "claude_code_version": "2.1.296",
+    "num_turns": 8,
+    "total_cost_usd": 0.30782550000000003,
+    "elapsed_s": 46.1,
+    "permission_mode": "default"
+  },
+  "status": "PASS"
+}

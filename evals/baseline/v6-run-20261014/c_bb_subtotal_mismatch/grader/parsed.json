@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.024495,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Reports the data-quality problem: names the Professional Services subtotal, the month (Mar 2026), and the amount (the 25 difference, or both the stated 2,225 and the detail sum 2,200).",
+      "status": "PASS",
+      "evidence": "Commentary says the 'Total for Professional Services' row states 2,225.00 but detail rows add up to 2,200.00 (difference of 25.00), in 'Mar 2026'. This matches the reference facts (2,225, 2,200, 25)."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Leaves resolving the mismatch to the reviewer rather than deciding which figure is right.",
+      "status": "PASS",
+      "evidence": "\"The reviewer should decide which figure is right.\" It explicitly leaves resolution to the reviewer."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "Says all data-quality checks passed or that the data is clean/reconciled.",
+      "status": "PASS",
+      "evidence": "The commentary flags a mismatch and other items to check. It never says checks passed or that the data is clean or reconciled."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts which of the two figures is correct, or that the error was corrected.",
+      "status": "PASS",
+      "evidence": "It says \"The analysis uses the detail rows\", which describes method only. It does not say that figure is correct or that the error was corrected, and it defers the decision to the reviewer."
+    }
+  ]
+}

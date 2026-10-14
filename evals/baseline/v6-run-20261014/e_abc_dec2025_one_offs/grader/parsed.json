@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "model_requested": "claude-sonnet-5-5",
+    "models_reported": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "total_cost_usd": 0.0249704,
+    "error": null
+  },
+  "results": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Stock-Based Compensation Expense spike (about 334,661) as a possible one-off / single-month item.",
+      "status": "PASS",
+      "evidence": "Commentary says \"Stock-Based Compensation Expense 334,661 ... each appear to be a single-month item\"; figure matches 334,660.53."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Flags the Dec 2025 Bonus spike (about 80,343) as a possible one-off / single-month item.",
+      "status": "PASS",
+      "evidence": "Says \"Bonus 80,343 (typical month 2,721) each appear to be a single-month item\"; matches 80,342.53 and median 2,720.83."
+    },
+    {
+      "id": "R3",
+      "kind": "required",
+      "claim": "Leaves the one-off determination to the reviewer (hedged wording such as 'appears to be' or 'reviewer to confirm') rather than concluding.",
+      "status": "PASS",
+      "evidence": "Uses hedged \"appear to be a single-month item; reviewer to confirm\", leaving the determination to the reviewer."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as unhedged fact that these Dec 2025 items are non-recurring/one-off.",
+      "status": "PASS",
+      "evidence": "The one-off claim is hedged (\"appear to be... reviewer to confirm\"). The heading \"Dec 2025 one-offs\" is a label, not an unhedged assertion in the body."
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Asserts an accounting treatment or a cause for these items as fact (e.g. 'year-end bonus accrual', 'option vesting', 'should be excluded/normalised').",
+      "status": "PASS",
+      "evidence": "No accounting treatment or cause is asserted for SBC or Bonus, such as accrual, vesting, or exclusion. The text only notes they appear to be single-month items."
+    }
+  ]
+}

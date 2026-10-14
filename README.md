@@ -3,14 +3,14 @@
 [![CI](https://github.com/NITHIN1525x/RE-Finance/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/NITHIN1525x/RE-Finance/actions/workflows/ci.yml)
 
 Sandbox only. No real company data. Every decision, with its reasoning and evidence, is in
-[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-62). The 10 that matter most, on one page:
+[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-63). The 10 that matter most, on one page:
 [`connection/DECISIONS_SUMMARY.md`](connection/DECISIONS_SUMMARY.md).
 
 | Task | Deliverable | Status |
 |---|---|---|
 | 1. QuickBooks Online ↔ Claude connection | [`connection/CONNECTION.md`](connection/CONNECTION.md) | Done |
 | 2. Monthly trend-analysis skill | [`.claude/skills/monthly-trend-analysis/SKILL.md`](.claude/skills/monthly-trend-analysis/SKILL.md) | Done. Stretch goal done: [`docs/STRETCH.md`](docs/STRETCH.md) (D-62) |
-| 3. Evaluation suite | [`evals/README.md`](evals/README.md), [`evals/REGRESSION.md`](evals/REGRESSION.md) | Done. Baseline v5: 132/132 |
+| 3. Evaluation suite | [`evals/README.md`](evals/README.md), [`evals/REGRESSION.md`](evals/REGRESSION.md) | Done. Baseline v6: 155/155 (8 cases, incl. prompt injection) |
 | 4. Architecture note | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Done |
 
 **For the examiner:** [`submission/`](submission/) has one easy-to-read response file per task, generated from existing outputs by `.claude/skills/monthly-trend-analysis/.venv/Scripts/python scripts/build_submission.py` (free; the skill's venv has ReportLab for the Task 2 PDF); `--live-task1` re-runs the Task 1 sandbox query.
@@ -70,7 +70,7 @@ claude -p "Monthly trend analysis for ABC Inc from the workbook in data/, draft 
 $py = ".claude/skills/monthly-trend-analysis/.venv/Scripts/python"     # uses the skill's environment
 & $py evals/goldens/derive_facts.py --check      # expected values still match the workbooks
 & $py evals/run_evals.py                         # full suite: real Claude calls (Opus + Sonnet), ~8 min, ~$3
-& $py evals/compare_runs.py evals/baseline/v5-run-20261013 evals/runs/<run-id>
+& $py evals/compare_runs.py evals/baseline/v6-run-20261014 evals/runs/<run-id>
 ```
 
 ## Task 4: architecture note
@@ -97,11 +97,12 @@ request ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
 ```powershell
 $py = ".claude/skills/monthly-trend-analysis/.venv/Scripts/python"
 & $py -m pip install -r .claude/skills/monthly-trend-analysis/requirements-dev.txt   # once: pypdf, for the PDF tests
-& $py -m unittest discover -s .claude/skills/monthly-trend-analysis/tests    # 43 skill tests (12 for the PDF)
+& $py -m unittest discover -s .claude/skills/monthly-trend-analysis/tests    # 44 skill tests (12 for the PDF)
 & $py -m unittest discover -s evals/tests                                   # 58 eval-side tests
 python scripts/test_log_answer.py                                           # 6 Q&A-log writer tests
 python connection/scripts/test_secret_scan.py                               # 17 secret-scanner tests
 python connection/scripts/test_guard_secrets_hook.py                        # 6 tests
+& $py stretch/test_stretch.py                                               # 13 stretch-goal tests (offline)
 # Task 1 backend (needs its venv; see QUICKSTART step 3):
 cd connection/backend; .venv/Scripts/python manage.py test qbo --settings=config.settings_test; cd ../..   # 63 tests
 ```

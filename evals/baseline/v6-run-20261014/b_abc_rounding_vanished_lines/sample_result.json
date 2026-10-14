@@ -1,0 +1,203 @@
+{
+  "execution": [
+    {
+      "id": "X1",
+      "desc": "claude -p run completed successfully",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "exit 0, subtype success"
+    },
+    {
+      "id": "X2",
+      "desc": "the monthly-trend-analysis skill was invoked (Skill tool)",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X3",
+      "desc": "the skill's script run_trends.py was executed",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "X4",
+      "desc": "exactly one *-trends.json and one *-trends.md written to the requested folder",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "1 json, 1 md in evals/runs/v6-run-20261014/b_abc_rounding_vanished_lines/skill_output"
+    },
+    {
+      "id": "X5",
+      "desc": "nothing outside evals/runs/ was modified by the skill run",
+      "type": "execution",
+      "status": "PASS",
+      "detail": "no changes made by the skill"
+    },
+    {
+      "id": "X6",
+      "desc": "the narrative placeholder was replaced with commentary",
+      "type": "execution",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "structured": [
+    {
+      "id": "S1",
+      "desc": "Marketing/Advertising: Miscellaneous is 0 in Jun 2026",
+      "type": "value",
+      "source": {
+        "fact": "abc.vanished.mkt_misc.jun2026",
+        "sheet": "Income Statement",
+        "cells": [
+          "C68"
+        ],
+        "formula": "Marketing/Advertising: Miscellaneous, Jun 2026"
+      },
+      "expected": 0.0,
+      "actual": 0.0,
+      "tolerance": 0.01,
+      "status": "PASS"
+    },
+    {
+      "id": "S2",
+      "desc": "vanished-line flag: Advisory Services has been zero since Feb 2026 (last non-zero Jan 2026, 2,500; avg 1,250) [changed D-45]",
+      "type": "flag_regex",
+      "source": {
+        "fact": "abc.vanished.advisory_services.last_nonzero_value",
+        "sheet": "Income Statement",
+        "cells": [
+          "H30"
+        ],
+        "formula": "Advisory Services in its last non-zero month (added for the D-45 'zero since' wording)"
+      },
+      "expected": "present: /Expense line 'Advisory Services' .*has been zero since Feb 2026 \\(last non-zero: Jan 2026, 2,500\\); it averaged 1,250 /",
+      "actual": "Expense line 'Advisory Services' (Professional Fees) has been zero since Feb 2026 (last non-zero: Jan 2026, 2,500); it averaged 1,250 ",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S3",
+      "desc": "vanished-line flag: Federal & State Taxes (avg 999)",
+      "type": "flag_regex",
+      "source": "literal",
+      "expected": "present: /Expense line 'Federal & State Taxes' .*zero in Jun 2026; it averaged 999 /",
+      "actual": "Expense line 'Federal & State Taxes' (Finance & Admin) is zero in Jun 2026; it averaged 999 ",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S4",
+      "desc": "vanished-line flag: Marketing/Advertising: Miscellaneous (avg 721)",
+      "type": "flag_regex",
+      "source": "literal",
+      "expected": "present: /Expense line 'Marketing/Advertising: Miscellaneous' .*zero in Jun 2026; it averaged 721 /",
+      "actual": "Expense line 'Marketing/Advertising: Miscellaneous' (Sales & Marketing) is zero in Jun 2026; it averaged 721 ",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S5",
+      "desc": "vanished-line flag: Professional Fees has been zero since Apr 2026 (last non-zero Mar 2026, 3,773; avg 1,045) [changed D-45]",
+      "type": "flag_regex",
+      "source": {
+        "fact": "abc.vanished.professional_fees.last_nonzero_value",
+        "sheet": "Income Statement",
+        "cells": [
+          "F85"
+        ],
+        "formula": "Professional Fees in its last non-zero month (added for the D-45 'zero since' wording)"
+      },
+      "expected": "present: /Expense line 'Professional Fees' .*has been zero since Apr 2026 \\(last non-zero: Mar 2026, 3,773\\); it averaged 1,045 /",
+      "actual": "Expense line 'Professional Fees' (Professional Fees) has been zero since Apr 2026 (last non-zero: Mar 2026, 3,773); it averaged 1,045 ",
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S6",
+      "desc": "Advisory Services is NOT described as 'is zero in Jun 2026' (it stopped after Jan 2026) [added D-45]",
+      "type": "flag_regex",
+      "source": {
+        "fact": "abc.vanished.advisory_services.last_nonzero_month",
+        "sheet": "Income Statement",
+        "cells": [
+          "H5"
+        ],
+        "formula": "header of the newest column before Jun 2026 where Advisory Services is non-zero"
+      },
+      "expected": "absent: /Expense line 'Advisory Services' \\([^)]*\\) is zero in Jun 2026/",
+      "actual": null,
+      "tolerance": 0.0,
+      "status": "PASS"
+    },
+    {
+      "id": "S7",
+      "desc": "Professional Fees is NOT described as 'is zero in Jun 2026' (it stopped after Mar 2026) [added D-45]",
+      "type": "flag_regex",
+      "source": {
+        "fact": "abc.vanished.professional_fees.last_nonzero_month",
+        "sheet": "Income Statement",
+        "cells": [
+          "F5"
+        ],
+        "formula": "header of the newest column before Jun 2026 where Professional Fees is non-zero"
+      },
+      "expected": "absent: /Expense line 'Professional Fees' \\([^)]*\\) is zero in Jun 2026/",
+      "actual": null,
+      "tolerance": 0.0,
+      "status": "PASS"
+    }
+  ],
+  "provenance": [
+    {
+      "id": "P1",
+      "type": "provenance",
+      "status": "PASS",
+      "desc": "every number in the commentary matches a value in this run's own output",
+      "detail": "55 matched, 34 ignored, 0 unmatched",
+      "unmatched": []
+    }
+  ],
+  "commentary": [
+    {
+      "id": "R1",
+      "kind": "required",
+      "claim": "Mentions that some expense lines were zero in Jun 2026 after being non-zero in prior months, naming at least two of: Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees.",
+      "status": "PASS",
+      "evidence": "The commentary says \"Four expense lines show zero. Federal & State Taxes is zero in Jun 2026 (prior 6-month average 999), and so is Marketing/Advertising: Miscellaneous (average 721).\" That names two of the listed lines as zero in Jun 2026 after non-zero prior months, which the reference averages confirm."
+    },
+    {
+      "id": "R2",
+      "kind": "required",
+      "claim": "Every figure given for those lines' prior averages (individually or as a range) satisfies the rounding policy. If no such figures are given, this claim PASSES.",
+      "status": "PASS",
+      "evidence": "The commentary gives 999 for Federal & State Taxes (true 998.5083, difference about 0.05%) and 721 for Marketing/Advertising: Miscellaneous (true 721.0033, difference about 0%). Both are well within 5%."
+    },
+    {
+      "id": "F1",
+      "kind": "forbidden",
+      "claim": "States as fact a reason those lines went to zero (e.g. contract ended, cost cutting, vendor dropped).",
+      "status": "PASS",
+      "evidence": "The commentary gives no cause for the zeros. It says only \"Whether any line has ended or is timing is for the reviewer to confirm.\""
+    },
+    {
+      "id": "F2",
+      "kind": "forbidden",
+      "claim": "Describes those lines as permanently discontinued or cancelled without leaving it to the reviewer.",
+      "status": "PASS",
+      "evidence": "The commentary does not call the lines permanently discontinued or cancelled. It leaves \"ended or is timing\" to the reviewer."
+    }
+  ],
+  "skill_run": {
+    "model_requested": "claude-opus-5-5",
+    "model_reported": "claude-opus-5-5",
+    "claude_code_version": "2.1.296",
+    "num_turns": 10,
+    "total_cost_usd": 0.4709255000000001,
+    "elapsed_s": 63.8,
+    "permission_mode": "default"
+  },
+  "status": "PASS"
+}

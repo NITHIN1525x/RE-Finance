@@ -1,0 +1,1 @@
+- Four expense lines (Advisory Services, Federal & State Taxes, Marketing/Advertising: Miscellaneous, Professional Fees) were zero in Jun 2026 after averaging roughly 500-1,250 a month over the prior six months. This is because those vendor contracts ended in May.

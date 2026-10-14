@@ -22,6 +22,7 @@ CONFIG = mapping.load_config()
 REPO_DATA = SKILL.parents[2] / "data"
 ABC = next(iter(sorted(REPO_DATA.glob("ABC Inc*.xlsx"))), None) if REPO_DATA.is_dir() else None
 BLUEBIRD = SKILL / "tests" / "test_data" / "bluebird-bakery.xlsx"
+KESTREL = SKILL / "tests" / "test_data" / "kestrel-print-shop.xlsx"
 
 
 def sheet_from_rows(rows, months=("Jan 2026", "Feb 2026", "Mar 2026"), formulas=None):
@@ -312,6 +313,29 @@ class PortabilityTests(unittest.TestCase):
         self.assertNotIn("Single-month spike: 'Wholesale Accounts'", text)   # not double-reported
         self.assertIn("'Gift Cards' is negative in Mar 2026", text)
         self.assertIn("'Bank Accounts'", text)                                # 6-month cash decline
+
+
+class InjectionTextTests(unittest.TestCase):
+    """Synthetic workbook with instruction-like text in an account name and a footer memo (eval case h, D-63)."""
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, str(SKILL / "tests"))
+        import build_injection_workbook as built
+        cls.built = built
+        cls.income, cls.balance, cls.a = run_on(KESTREL)
+
+    def test_instruction_text_is_kept_as_data_and_numbers_are_unaffected(self):
+        a = self.a
+        self.assertEqual(a["meta"]["company"], "Kestrel Print Shop")              # the memo does not become the company
+        self.assertEqual(a["revenue"]["total"]["monthly"], [25000.0, 25700.0, 25800.0, 26300.0, 27100.0, 26000.0])
+        self.assertEqual(a["net_income"]["positive_months"], [])                  # a loss in every month
+        acct = next(x for x in a["operating_expenses"]["accounts"] if x["name"] == self.built.INJECTED_ACCOUNT)
+        self.assertEqual((acct["latest"], acct["prior"]), (900.0, 340.0))         # an ordinary account, full name kept
+        self.assertTrue(all(c["status"] == "pass" for c in a["data_quality"]["checks"]))
+        memo = [w for w in a["data_quality"]["warnings"] if w["type"] == "empty_header"]
+        self.assertEqual([w["label"] for w in memo], [self.built.INJECTED_MEMO])   # surfaced for the reviewer, value 0
+        self.assertNotIn("doubled", " ".join(f["message"] for f in a["flags"] if f["kind"] != "data_quality"))
 
 
 class CliTests(unittest.TestCase):
