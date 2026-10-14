@@ -35,7 +35,7 @@
 6. **Eval cost.** Each per-client golden case adds ~$0.40 a run.
 
 ## 5. Cost (measured, list prices)
-- **One skill run** (one client-month): $0.29–0.56, median $0.36 (59 runs), ≈ $3–6/month for 10 clients.
+- **One skill run** (one client-month): $0.29–0.56, median $0.36 (59 runs), ≈ $3–6/month for 10 clients. On Sonnet 5.5: $0.13, same eval score, one run ([MODEL_COMPARISON.md](MODEL_COMPARISON.md)).
 - **Full eval suite:** $2.73–3.05 (~8 min). Task 3 total: $22.99.
 
 ## 6. Honest limits

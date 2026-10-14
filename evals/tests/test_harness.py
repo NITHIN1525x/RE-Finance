@@ -72,5 +72,60 @@ class ContaminationGuardTests(unittest.TestCase):
         self.assertEqual(other, [("evals/README.md", "created")])                 # harness contamination
 
 
+class ComparisonFlagTests(unittest.TestCase):
+    """--skill-model / --no-resample (D-64): opt-in only; with no flags a run is set up exactly like the baseline."""
+
+    def test_defaults_reproduce_the_baseline_setup(self):
+        args = run_evals.parse_args([])
+        self.assertEqual(args.skill_model, "claude-opus-5-5")
+        self.assertFalse(args.no_resample)
+        self.assertEqual(run_evals.GRADER_MODEL, "claude-sonnet-5-5")       # the grader never changes
+
+    def test_flags_change_only_the_skill_model_and_resampling(self):
+        args = run_evals.parse_args(["--skill-model", "claude-haiku-5-5", "--no-resample"])
+        self.assertEqual((args.skill_model, args.no_resample), ("claude-haiku-5-5", True))
+        real = run_evals.policy.should_resample
+        run_evals.policy.should_resample = lambda first, base: True        # pretend the commentary flipped
+        try:
+            self.assertTrue(run_evals.wants_resample(False, {}, {}))         # policy applies by default
+            self.assertFalse(run_evals.wants_resample(True, {}, {}))         # one sample per case with --no-resample
+        finally:
+            run_evals.policy.should_resample = real
+
+
+class ScriptRanCheckTests(unittest.TestCase):
+    """X3 regression (D-64): a long command that names run_trends.py after character 300 still counts."""
+
+    LONG = ('cd "E:/repo" && ls -la ' + "evals/runs/some-run/c_case/skill_output " * 8 +
+            '; .venv/Scripts/python .claude/skills/monthly-trend-analysis/scripts/run_trends.py "wb.xlsx" --out-dir out')
+
+    @staticmethod
+    def out_dir():
+        runs = run_evals.EVALS / "runs"                       # git-ignored; execution_checks needs a path in the repo
+        runs.mkdir(exist_ok=True)
+        return tempfile.TemporaryDirectory(dir=runs)
+
+    def meta(self, calls, **extra):
+        return {"exit_code": 0, "result_subtype": "success", "is_error": False, "tool_calls": calls,
+                "outside_changes": {"by_skill": [], "not_attributable": []}, **extra}
+
+    def test_long_command_counts_when_judged_on_the_full_input(self):
+        self.assertGreater(self.LONG.index("run_trends.py"), 300)
+        full = [{"tool": "Bash", "input": {"command": self.LONG}}]
+        stored = [{"tool": "Bash", "input": {"command": self.LONG[:300]}}]                  # what run_meta.json keeps
+        self.assertTrue(run_evals.ran_trends_script(full))
+        self.assertFalse(run_evals.ran_trends_script(stored))                             # the original bug
+        with self.out_dir() as d:
+            x3 = {c["id"]: c["status"] for c in run_evals.execution_checks(self.meta(stored, script_ran=True), Path(d))[0]}
+        self.assertEqual(x3["X3"], "PASS")                                                # X3 uses the full-command result
+
+    def test_a_run_that_never_called_the_script_still_fails(self):
+        calls = [{"tool": "Bash", "input": {"command": "ls -la " + "x/" * 400}}]
+        self.assertFalse(run_evals.ran_trends_script(calls))
+        with self.out_dir() as d:
+            x3 = {c["id"]: c["status"] for c in run_evals.execution_checks(self.meta(calls, script_ran=False), Path(d))[0]}
+        self.assertEqual(x3["X3"], "FAIL")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

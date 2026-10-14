@@ -127,6 +127,7 @@ forbidden claims, and fact ids. Each fact's sheet, cells and formula are in `sou
 .claude/skills/monthly-trend-analysis/.venv/Scripts/python evals/goldens/derive_facts.py --check   # facts still match the workbooks
 .claude/skills/monthly-trend-analysis/.venv/Scripts/python evals/run_evals.py                      # full suite
 .claude/skills/monthly-trend-analysis/.venv/Scripts/python evals/run_evals.py --cases a,c          # subset
+.claude/skills/monthly-trend-analysis/.venv/Scripts/python evals/run_evals.py --skill-model claude-sonnet-5-5 --no-resample   # model comparison (D-64)
 ```
 
 ```powershell
@@ -139,6 +140,8 @@ Exit codes:
 - 1: any FAIL;
 - 3: harness contamination;
 - 2: BLOCKED only.
+
+Model-comparison runs (skill on another model, one sample per case, the baseline untouched) are summarised in `comparisons/` and [`docs/MODEL_COMPARISON.md`](../docs/MODEL_COMPARISON.md).
 
 The baseline is in `evals/baseline/`: v6 is current, and earlier versions are in `history/`; see `BASELINE.md`. To compare a run with it: `python evals/compare_runs.py evals/baseline/v6-run-20261014 evals/runs/<run-id>`.
 

@@ -1721,3 +1721,43 @@ Built before D-59's work, logged here so the numbering stays gap-free. Committed
   reviewer. Changing it would be a skill change, so it stays recorded here.
 - **Limit:** one attack on one synthetic workbook, one sample. Evidence that this skill resisted it, not a guarantee
   against injection in general.
+
+### D-64: Model comparison for the skill (Opus 5.5, Sonnet 5.5, Haiku 5.5); X3 truncation bug fixed
+- **Result (2026-10-14), one full-suite run per skill model, the grader always `claude-sonnet-5-5`:**
+
+  | Model | Score | Cost per report | Cost per suite | Avg run |
+  |---|---|---|---|---|
+  | Opus 5.5, baseline v6 | 155/155 | $0.369 | $3.31 | 57.4 s |
+  | Sonnet 5.5 | 155/155 | $0.134 | $1.42 | 26.8 s |
+  | Haiku 5.5, clean re-run | 154/155 | $0.011 | $0.43 | 35.3 s |
+
+  Case h passed for all three. Recommendation: **Sonnet 5.5** for 10 clients, pending a repeat with several samples.
+  Opus stays the eval reference and the baseline is unchanged. Write-up: [`docs/MODEL_COMPARISON.md`](../docs/MODEL_COMPARISON.md).
+  Run summaries: `evals/comparisons/`. Comparison spend: $2.28 ($1.42 + $0.43 + $0.43).
+- **Harness flags (opt-in; with no flags a run is set up exactly as before):**
+  - `--skill-model` changes only the skill model.
+  - `--no-resample` gives one sample per case, recorded in the manifest. Otherwise every commentary difference from
+    the Opus baseline would trigger 3 extra runs, inflating cost and breaking "one run per model".
+  - Tests: `ComparisonFlagTests`.
+- **Bug found and fixed: X3 read truncated commands.** `run_meta.json` keeps each tool input cut to 300 characters,
+  and X3 ("run_trends.py was executed") searched that copy.
+  - The first Haiku run (`cmp-haiku-5-5-20261014`, raw 153/155) chained `ls -la` of two long paths before the script
+    call, so the name crossed the cut in cases c and f. Haiku had run the script; the stream shows the engine's
+    `Report: … EXIT 0`.
+  - The fix: X3 is now computed from the full command when the run is recorded (`script_ran` in `run_meta.json`).
+    Older saved runs fall back to the old check, so their results reproduce.
+  - Tests: `ScriptRanCheckTests`, a long command passes, and a run that never calls the script still fails.
+  - The bug could only produce false FAILs, so no earlier PASS is affected. Opus and Sonnet never hit it.
+  - The clean re-run (`cmp-haiku-5-5-20261014-r2`) hit the cut again in case c and passed X3. The first run is kept,
+    labelled, so the history shows bug found → fixed → clean re-run.
+- **Grader self-contradiction (recorded, not fixed):** in the re-run, case d's F1 verdict is FAIL while the grader's
+  own evidence says "it is not forbidden content, so F1 should PASS". The commentary only says "Charitable Donations
+  treated as blank". No verdict was edited. A guard that BLOCKs a verdict contradicted by its evidence is a possible
+  later change.
+- **Haiku's behaviour:**
+  - it wrapped every script call in several chained shell commands (Sonnet none, Opus 1 of 11);
+  - once per run it added a `--company` override nobody asked for.
+
+  The checks still passed, but it follows the skill's instructions less closely.
+- **Limits:** one run per model; the Sonnet run was graded by its own model; costs are Claude Code's list-price
+  totals.

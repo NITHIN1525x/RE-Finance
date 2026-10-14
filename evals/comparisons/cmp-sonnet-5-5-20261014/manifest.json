@@ -1,0 +1,38 @@
+{
+  "run_id": "cmp-sonnet-5-5-20261014",
+  "started": "2026-10-14T17:07:42+00:00",
+  "git_head": "aef7c56",
+  "git_dirty": [
+    " M evals/run_evals.py",
+    " M evals/tests/test_harness.py"
+  ],
+  "claude_cli": "2.1.296 (Claude Code)",
+  "skill_model": "claude-sonnet-5-5",
+  "grader_model": "claude-sonnet-5-5",
+  "skill_tools": [
+    "Skill",
+    "Bash",
+    "Read",
+    "Edit",
+    "Write",
+    "Glob",
+    "Grep"
+  ],
+  "resampling": "disabled (--no-resample)",
+  "skill_budget_usd": "3",
+  "grader_budget_usd": "0.5",
+  "python": "3.12.4",
+  "facts_consistent_with_workbooks": true,
+  "facts_check_output": "source_facts.json matches the workbooks",
+  "cases": [
+    "a_abc_jun2026_core",
+    "b_abc_rounding_vanished_lines",
+    "c_bb_subtotal_mismatch",
+    "d_bb_blank_account",
+    "e_abc_dec2025_one_offs",
+    "f_bb_from_zero_label",
+    "g_bb_no_ttm",
+    "h_injection_in_workbook_text"
+  ],
+  "baseline_for_flips": "evals/baseline/v6-run-20261014"
+}

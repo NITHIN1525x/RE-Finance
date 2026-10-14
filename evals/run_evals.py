@@ -11,6 +11,7 @@ Also runs the skill's regression tests and the golden-fact consistency check, an
 
 Usage (repo root, skill venv):
   .claude/skills/monthly-trend-analysis/.venv/Scripts/python evals/run_evals.py [--cases a,c] [--run-id ID]
+      [--skill-model MODEL] [--no-resample]      # comparison runs only (D-64); defaults reproduce the baseline setup
 Exit code: 0 if every executed check passed, 1 if any FAIL, 2 if anything BLOCKED (and no FAIL).
 """
 import argparse
@@ -261,16 +262,24 @@ def run_skill(case, prompt_template, case_dir):
     # Content-hash diff of everything outside evals/runs/ across the skill run, split by attribution.
     changes = diff_snapshots(snap_before, snap_after)
     full_calls = [{"tool": t["name"], "input": t.get("input") or {}} for t in tool_uses]
+    meta["script_ran"] = ran_trends_script(full_calls)
     mine, other = attributable_to(changes, full_calls)
     meta["outside_changes"] = {"by_skill": mine, "not_attributable": other}
     write(sd / "run_meta.json", meta)
     return meta, out_dir
 
 
+def ran_trends_script(calls):
+    """X3: a Bash call ran the skill's run_trends.py. Must be given the FULL tool inputs: the copies stored in
+    run_meta.json are cut to 300 characters, and a long command can name the script after that point (D-64)."""
+    return any(t["tool"] == "Bash" and "run_trends.py" in str(t["input"].get("command", "")) for t in calls)
+
+
 def execution_checks(meta, out_dir):
     infra_ok = meta["exit_code"] == 0 and meta["result_subtype"] == "success" and not meta["is_error"]
     skill_called = any(t["tool"] == "Skill" and "monthly-trend-analysis" in t["input"].get("skill", "") for t in meta["tool_calls"])
-    script_ran = any(t["tool"] == "Bash" and "run_trends.py" in t["input"].get("command", "") for t in meta["tool_calls"])
+    # Judged on the full commands at record time; runs saved before D-64 fall back to the 300-character copies.
+    script_ran = meta["script_ran"] if "script_ran" in meta else ran_trends_script(meta["tool_calls"])
     jsons, mds = sorted(out_dir.glob("*-trends.json")), sorted(out_dir.glob("*-trends.md"))
     by_skill = meta["outside_changes"]["by_skill"]
     unattributed = meta["outside_changes"]["not_attributable"]
@@ -398,12 +407,27 @@ def case_status(items):
     return "FAIL" if "FAIL" in st else "BLOCKED" if "BLOCKED" in st else "PASS"
 
 
-def main():
+def parse_args(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--cases", help="comma-separated case id prefixes (e.g. a,c)")
     ap.add_argument("--run-id")
     ap.add_argument("--baseline", help="run dir whose commentary verdicts define a flip (default: evals/baseline/current.json)")
-    args = ap.parse_args()
+    ap.add_argument("--skill-model", default=SKILL_MODEL,
+                    help=f"model for the skill runs (default {SKILL_MODEL}); the grader model never changes (D-64)")
+    ap.add_argument("--no-resample", action="store_true",
+                    help="one sample per case: never resample on a commentary flip (model-comparison runs, D-64)")
+    return ap.parse_args(argv)
+
+
+def wants_resample(no_resample, first, baseline_case_claims):
+    """The resampling policy (REGRESSION.md), unless the run was started with --no-resample."""
+    return not no_resample and policy.should_resample(first, baseline_case_claims)
+
+
+def main():
+    global SKILL_MODEL
+    args = parse_args()
+    SKILL_MODEL = args.skill_model                  # read by run_skill() for every skill run in this process
     if not CLAUDE:
         sys.exit("claude CLI not found on PATH")
     spec = json.loads((EVALS / "goldens" / "cases.json").read_text(encoding="utf-8"))
@@ -422,6 +446,7 @@ def main():
     manifest = {"run_id": run_id, "started": now(), "git_head": head, "git_dirty": repo_changes(),
                 "claude_cli": subprocess.run([CLAUDE, "--version"], capture_output=True, text=True).stdout.strip(),
                 "skill_model": SKILL_MODEL, "grader_model": GRADER_MODEL, "skill_tools": SKILL_TOOLS,
+                "resampling": "disabled (--no-resample)" if args.no_resample else "enabled (REGRESSION.md)",
                 "skill_budget_usd": SKILL_BUDGET, "grader_budget_usd": GRADER_BUDGET, "python": sys.version.split()[0],
                 "facts_consistent_with_workbooks": facts_check.returncode == 0, "facts_check_output": facts_check.stdout.strip(),
                 "cases": [c["id"] for c in cases]}
@@ -429,7 +454,8 @@ def main():
     if facts_check.returncode != 0:
         sys.exit("source_facts.json does not match the workbooks; refusing to run (re-derive and review goldens first)")
 
-    print(f"run {run_id} | HEAD {head} | skill model {SKILL_MODEL} | grader model {GRADER_MODEL}", flush=True)
+    print(f"run {run_id} | HEAD {head} | skill model {SKILL_MODEL} | grader model {GRADER_MODEL}"
+          f"{' | resampling OFF' if args.no_resample else ''}", flush=True)
     guard = {"snap": snapshot(), "since": now(), "entries": []}
 
     def guard_check(phase, attributed=()):
@@ -505,7 +531,7 @@ def main():
               f"commentary {case_status(first['commentary']) if first['commentary'] else 'n/a'})", flush=True)
         samples, resample = [first], None
         flips = policy.flipped_claims(first["commentary"], baseline_claims.get(case["id"]) if baseline_claims else None)
-        if policy.should_resample(first, baseline_claims.get(case["id"]) if baseline_claims else None):
+        if wants_resample(args.no_resample, first, baseline_claims.get(case["id"]) if baseline_claims else None):
             resample = {"trigger": flips, "extra_samples": policy.RESAMPLES}
             print(f"   commentary flip vs baseline on {flips}: resampling {policy.RESAMPLES} more runs (REGRESSION.md)", flush=True)
             for k in range(2, 2 + policy.RESAMPLES):
