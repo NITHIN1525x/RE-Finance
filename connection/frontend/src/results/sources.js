@@ -6,3 +6,10 @@ const files = import.meta.glob('../../../../submission/*.md', { query: '?raw', i
 export const SUBMISSION = Object.fromEntries(
   Object.entries(files).map(([path, text]) => [decodeURIComponent(path.split('/').pop()), text]),
 )
+
+// PDFs in submission/ are bundled as downloadable assets (URL only; nothing is parsed or executed).
+const pdfs = import.meta.glob('../../../../submission/*.pdf', { query: '?url', import: 'default', eager: true })
+
+export const SUBMISSION_PDFS = Object.fromEntries(
+  Object.entries(pdfs).map(([path, url]) => [decodeURIComponent(path.split('/').pop()), url]),
+)

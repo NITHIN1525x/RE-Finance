@@ -3,7 +3,7 @@
 [![CI](https://github.com/NITHIN1525x/RE-Finance/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/NITHIN1525x/RE-Finance/actions/workflows/ci.yml)
 
 Sandbox only. No real company data. Every decision, with its reasoning and evidence, is in
-[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-60). The 10 that matter most, on one page:
+[`connection/DECISIONS_LOG.md`](connection/DECISIONS_LOG.md) (D-01 to D-61). The 10 that matter most, on one page:
 [`connection/DECISIONS_SUMMARY.md`](connection/DECISIONS_SUMMARY.md).
 
 | Task | Deliverable | Status |
@@ -13,7 +13,7 @@ Sandbox only. No real company data. Every decision, with its reasoning and evide
 | 3. Evaluation suite | [`evals/README.md`](evals/README.md), [`evals/REGRESSION.md`](evals/REGRESSION.md) | Done. Baseline v5: 132/132 |
 | 4. Architecture note | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Done |
 
-**For the examiner:** [`submission/`](submission/) has one easy-to-read response file per task, generated from existing outputs by `python scripts/build_submission.py` (free); `--live-task1` re-runs the Task 1 sandbox query.
+**For the examiner:** [`submission/`](submission/) has one easy-to-read response file per task, generated from existing outputs by `.claude/skills/monthly-trend-analysis/.venv/Scripts/python scripts/build_submission.py` (free; the skill's venv has ReportLab for the Task 2 PDF); `--live-task1` re-runs the Task 1 sandbox query.
 
 Commands are PowerShell from the repo root. On macOS/Linux, use `.venv/bin/python` wherever these say
 `.venv/Scripts/python`. Prerequisites: Git, Python 3.12+, and Claude Code. Task 1 also needs Node 22+ and an
@@ -51,6 +51,9 @@ claude -p "Monthly trend analysis for ABC Inc from the workbook in data/, draft 
 - The submodule and `connection/.secrets/` aren't needed for Tasks 2–4.
 - Design, the subtotal rule and the portability results are in D-30 to D-35. Example outputs, including
   Claude's commentary, are in [`trend-reports/`](trend-reports/).
+- **Optional printable PDF** (off by default; every number from the JSON, commentary labelled as a draft):
+  `.claude/skills/monthly-trend-analysis/.venv/Scripts/python .claude/skills/monthly-trend-analysis/scripts/render_pdf.py demo-output/abc-inc-2026-06-trends.json`
+  writes `demo-output/abc-inc-2026-06-trends.pdf`. ABC's is also saved as `submission/Task 2 report.pdf`.
 - **A new client's workbook, without code changes:** [`docs/ONBOARD_CLIENT.md`](docs/ONBOARD_CLIENT.md) (worked example:
   Bluebird).
 
@@ -90,8 +93,9 @@ GitHub Actions runs all of these, plus the frontend lint and build and the secre
 request ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
 ```powershell
 $py = ".claude/skills/monthly-trend-analysis/.venv/Scripts/python"
-& $py -m unittest discover -s .claude/skills/monthly-trend-analysis/tests    # 31 skill tests
-& $py -m unittest discover -s evals/tests                                   # 57 eval-side tests
+& $py -m pip install -r .claude/skills/monthly-trend-analysis/requirements-dev.txt   # once: pypdf, for the PDF tests
+& $py -m unittest discover -s .claude/skills/monthly-trend-analysis/tests    # 43 skill tests (12 for the PDF)
+& $py -m unittest discover -s evals/tests                                   # 58 eval-side tests
 python scripts/test_log_answer.py                                           # 6 Q&A-log writer tests
 python connection/scripts/test_secret_scan.py                               # 17 secret-scanner tests
 python connection/scripts/test_guard_secrets_hook.py                        # 6 tests

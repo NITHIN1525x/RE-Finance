@@ -30,14 +30,15 @@ jobs:
           cache: pip
           cache-dependency-path: |
             .claude/skills/monthly-trend-analysis/requirements.txt
+            .claude/skills/monthly-trend-analysis/requirements-dev.txt
             connection/backend/requirements.txt
 
-      - name: Install pinned dependencies (skill + backend)
+      - name: Install pinned dependencies (skill incl. PDF + its test reader, backend)
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r .claude/skills/monthly-trend-analysis/requirements.txt -r connection/backend/requirements.txt
+          python -m pip install -r .claude/skills/monthly-trend-analysis/requirements.txt -r .claude/skills/monthly-trend-analysis/requirements-dev.txt -r connection/backend/requirements.txt
 
-      - name: Skill tests (deterministic engine)
+      - name: Skill tests (deterministic engine + optional PDF report)
         run: python -m unittest discover -s .claude/skills/monthly-trend-analysis/tests
 
       - name: Golden facts still match the workbooks

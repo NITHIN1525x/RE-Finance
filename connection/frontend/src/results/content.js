@@ -2,7 +2,7 @@
 // Pure functions over the Markdown tokens. They only use the structure scripts/build_submission.py emits
 // (headings, table columns, the --- separator), never copies of its content.
 import { lex } from './lex.js'
-import { SUBMISSION } from './sources.js'
+import { SUBMISSION, SUBMISSION_PDFS } from './sources.js'
 
 const FILES = {
   task1: 'Task 1 response.md',
@@ -93,6 +93,7 @@ function task2() {
     provenance: pick(['Report generated', 'Source report', 'Commentary written by']),
     note: f.doc.preamble.filter((t) => t.type === 'blockquote'),
     response: hr >= 0 ? f.tokens.slice(hr + 1) : withoutTitle(f.tokens),
+    pdf: SUBMISSION_PDFS['Task 2 report.pdf'] || null,
   }
 }
 

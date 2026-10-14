@@ -1,0 +1,2 @@
+# Test-only: reads the generated PDF's text back in tests/test_pdf.py. Not needed to run the skill.
+pypdf==5.1.0

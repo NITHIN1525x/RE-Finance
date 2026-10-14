@@ -1559,3 +1559,84 @@ Built before D-59's work, logged here so the numbering stays gap-free. Committed
   Task 2.
   - It was restored with `git restore trend-reports/`, and `demo.ps1` then passed all 7 steps.
   - The README already warns about this, and `demo.ps1` writes to `demo-output\demo-run\` to avoid it.
+
+### D-61: Optional printable PDF report for the skill, deterministic and built only from its JSON
+- **What:** `scripts/render_pdf.py <…-trends.json> [--out-dir DIR]` (module `scripts/trends/pdf.py`). It is
+  **off by default**: `run_trends.py`, the engine and SKILL.md are unchanged, so the Markdown and JSON outputs and the
+  eval baseline are unaffected, and no eval rerun is needed.
+  - **Output:** `demo-output/` by default. It writes to `trend-reports/` or `submission/` only when that folder is
+    passed explicitly, and never writes over its inputs.
+- **Content** (A4, ABC 6 pages, Bluebird 5):
+  1. A cover: company, period, months covered, generated time, a DRAFT banner, and "numbers computed
+     deterministically from `<workbook file name>`".
+  2. Key figures: revenue, gross margin, operating expenses and net income, each with latest, prior, MoM, same
+     month last year, YoY and TTM.
+  3. Charts:
+     - revenue by stream, stacked, with negative months drawn below zero;
+     - gross margin % (plus the TTM line when available);
+     - operating expenses by category, latest vs prior month;
+     - net income with a zero line;
+     - cash balance.
+  4. Revenue-stream and expense-category tables.
+  5. The rules' flags with their evidence.
+  6. Data quality: the checks, stated vs calculated vs difference, other warnings, the "Other" accounts and the
+     limitations.
+  7. The draft commentary and the reviewer checklist.
+- **No new numbers:**
+  - Every number comes from a JSON field, formatted with the Markdown report's own `money` / `pct` / `mom_cell`:
+    amounts with 0 decimals, negatives in parentheses, percentages with 1 decimal.
+  - Margins are shown as stored levels (latest, prior month, same month last year, TTM), never as differences
+    computed here.
+  - The report's "TTM share" column is left out, because the JSON doesn't store it (the Markdown report computes it).
+  - The commentary is copied verbatim from report section 1 under "DRAFT commentary for reviewer", or the PDF says
+    none was written. The checklist comes from report section 10, which the engine writes.
+  - Missing TTM/YoY prints "not available (only N months)". No chart is drawn from missing values: Bluebird's
+    margin chart carries a note instead of a TTM line.
+- **Choices:**
+  - **ReportLab 4.2.5** (BSD, pure Python, released 2024-10-01), with its required Pillow 11.0.0 and chardet 5.2.0,
+    pinned in `requirements.txt`. Charts are drawn with its vector shapes, so negatives, grey steps, dashed lines and
+    markers all read in black and white.
+  - **pypdf 5.1.0** is test-only, in `requirements-dev.txt`.
+  - Built-in fonts only: "->" replaces the arrow, and "change" replaces the Greek capital delta.
+  - Invariant mode makes output **byte-reproducible**, so rebuilding `submission/` never creates a git diff
+    (verified twice).
+- **Found while reviewing the rendered pages, and fixed:**
+  - a margin chart whose axis starts at 50% still drew a "zero line" far below its area, across the next chart. Zero
+    lines are now drawn only inside the axis range;
+  - a doubled "(non-operating)" label;
+  - "2025-01" cash labels;
+  - a stray empty reconciliation row.
+- **Results page:** `submission/Task 2 report.pdf` is rendered by `scripts/build_submission.py` from the same report
+  as `Task 2 response.md`, written atomically. ReportLab is checked before anything is written, so the old files
+  stay if it's missing.
+  - The Task 2 tab has a **Download PDF** button. The PDF is bundled at build time as an asset; the downloaded bytes
+    equal the committed file.
+- **Tests:**
+  - `tests/test_pdf.py`, 12 tests (skill total 43). The expected values are computed in the test from the JSON with
+    the report's formatters, independently of the PDF module, then found in the text read back with pypdf:
+    - every revenue-stream and category row as printed;
+    - a reverse check that the tables page has no number not derived from the JSON (it caught the workbook file
+      name's "(1) (1)", now explicitly allowed);
+    - the key figures;
+    - Bluebird's "not available (only 9 months)" and no TTM line;
+    - ABC's TTM and YoY;
+    - no undrawable symbols;
+    - reproducible bytes;
+    - verbatim, labelled commentary;
+    - "no commentary" for a numbers-only run;
+    - `demo-output` as the default folder.
+  - `evals/tests/test_submission_docs.py`: the committed PDF equals a fresh render of its source (eval-side 58).
+  - CI installs `requirements-dev.txt`.
+- **Operating-expense label, fixed before commit:**
+  - The PDF printed 468,182 as "Operating expenses (as exported)", while the commentary cites 468,318.
+  - These are two different JSON fields:
+    - `operating_expenses.total`, "Total operating expenses (as exported)", **includes** the 'Tax & Interest
+      (non-operating)' category. In Jun 2026 that's Interest Expense 1,193.75, Interest Income -1,329.64 and Income
+      Tax Benefit 0.00, a net of -135.89.
+    - `operating_expenses.underlying`, "Operating expenses excl. non-operating items", is 468,317.69.
+  - The PDF now labels the key-figures row and the category total with the engine's own field name, as the Markdown
+    report does. A note names the included category and the other field. No number changed.
+  - Test `test_opex_is_labelled_with_the_engines_field_name` covers it.
+- **Noted while checking:** commit 988065f also carried the Q&A log's **first real entry** ("Using the ABC workbook,
+  what was total revenue in June 2026?", 2026-10-13 17:35 UTC). It was written by `/log-answer` in another session,
+  and its figures match the engine. That session's skill run is what overwrote `trend-reports/` (D-60).

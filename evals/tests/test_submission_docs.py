@@ -4,6 +4,7 @@ The key guard: every submission/Task 3.N.md must equal a fresh render of evals/g
 files can never drift from the single source of truth. If this fails, run: python scripts/build_submission.py
 """
 import json
+import re
 import sys
 import tempfile
 import unittest
@@ -31,6 +32,25 @@ class Task3CaseFilesMatchCasesJson(unittest.TestCase):
     def test_mapping_is_case_order_a_to_g(self):
         letters = [case["id"].split("_", 1)[0] for _, case in b.case_files(b.load_cases())]
         self.assertEqual(letters, list("abcdefg"))
+
+
+try:
+    b.pdf_renderer()
+    HAVE_REPORTLAB = True
+except ValueError:
+    HAVE_REPORTLAB = False
+
+
+@unittest.skipUnless(HAVE_REPORTLAB, "ReportLab not installed (skill requirements.txt)")
+class Task2PdfMatchesItsSource(unittest.TestCase):
+    def test_committed_pdf_equals_a_fresh_render_of_the_task2_source(self):
+        response = (b.SUBMISSION / "Task 2 response.md").read_text(encoding="utf-8")
+        source = re.search(r"\| Source report \| `([^`]+)`", response).group(1)
+        info = b.report_info(b.REPO / source)
+        with tempfile.TemporaryDirectory() as d:
+            fresh = b.build_task2_pdf(info, target=Path(d) / "fresh.pdf")
+            self.assertEqual(b.TASK2_PDF.read_bytes(), fresh.read_bytes(),
+                             "submission/Task 2 report.pdf is stale; run scripts/build_submission.py")
 
 
 class PassRates(unittest.TestCase):
