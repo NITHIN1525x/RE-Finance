@@ -5,8 +5,10 @@ import AuditLog from './components/AuditLog.jsx'
 import ClientList from './components/ClientList.jsx'
 import Header from './components/Header.jsx'
 import Notice from './components/Notice.jsx'
+import Results from './components/Results.jsx'
 import SignIn from './components/SignIn.jsx'
 import './App.css'
+import './results/results.css'
 
 // Read the ?qbo=…&reason=… result of the OAuth callback once, then remove it from the address bar.
 function takeCallbackNotice() {
@@ -16,10 +18,23 @@ function takeCallbackNotice() {
   return notice
 }
 
+// "#results" or "#results/<item>" shows the saved results; anything else shows the console (no router needed).
+function routeFromHash() {
+  const match = /^#results(?:\/([\w-]+))?$/.exec(window.location.hash)
+  return match ? { view: 'results', item: match[1] || null } : { view: 'console', item: null }
+}
+
 export default function App() {
   const [session, setSession] = useState({ state: 'loading' })
   const [notice, setNotice] = useState(takeCallbackNotice)
   const [auditVersion, setAuditVersion] = useState(0) // bump to reload the audit log after an action
+  const [route, setRoute] = useState(routeFromHash)
+
+  useEffect(() => {
+    const onHashChange = () => setRoute(routeFromHash())
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
 
   useEffect(() => {
     api
@@ -37,8 +52,17 @@ export default function App() {
 
   return (
     <div className="app">
-      <Header username={session.username} onSignOut={session.state === 'signed-in' ? handleSignOut : null} />
-      <main className="content">
+      <Header
+        username={session.username}
+        onSignOut={session.state === 'signed-in' ? handleSignOut : null}
+        view={route.view}
+      />
+      {route.view === 'results' && (
+        <main className="content content-wide">
+          <Results selected={route.item} />
+        </main>
+      )}
+      <main className="content" hidden={route.view !== 'console'}>
         {notice && <Notice tone={notice.tone} onDismiss={() => setNotice(null)}>{notice.text}</Notice>}
 
         {session.state === 'loading' && <p className="muted" role="status">Loading…</p>}

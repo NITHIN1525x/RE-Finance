@@ -58,16 +58,16 @@ export default function AuditLog({ version }) {
             <tbody>
               {state.entries.map((entry, i) => (
                 <tr key={`${entry.timestamp}-${i}`}>
-                  <td className="nowrap">{formatDateTime(entry.timestamp)}</td>
-                  <td>{entry.client || '—'}</td>
-                  <td>{ACTION_LABELS[entry.action] || entry.action}</td>
-                  <td>{entry.actor}</td>
-                  <td>
+                  <td className="nowrap" data-label="When">{formatDateTime(entry.timestamp)}</td>
+                  <td data-label="Client">{entry.client || '—'}</td>
+                  <td data-label="Action">{ACTION_LABELS[entry.action] || entry.action}</td>
+                  <td data-label="By">{entry.actor}</td>
+                  <td data-label="Result">
                     <span className={`badge ${entry.success ? 'status-connected' : 'status-error'}`}>
                       {entry.success ? 'OK' : 'Failed'}
                     </span>
                   </td>
-                  <td className="detail">{entry.detail}</td>
+                  <td className="detail" data-label="Detail">{entry.detail}</td>
                 </tr>
               ))}
             </tbody>
