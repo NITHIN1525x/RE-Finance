@@ -243,10 +243,10 @@ Each component is marked **[BUILT]** (runs and is tested here) or **[DESIGNED]**
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | The note |
 | [`docs/MODEL_COMPARISON.md`](docs/MODEL_COMPARISON.md) | The measured cost per model, linked from the note's cost section |
 
-**How to run / check it.** Read it; it fits on one page (42 lines). Every cost figure comes from measured runs.
+**How to run / check it.** Read it; it fits on one page (37 lines). Every cost figure comes from measured runs.
 
 **Evidence**
-- **Cost per report:** one skill run (one client-month) costs $0.29–0.56, median $0.36 over 59 runs, which is about
+- **Cost per report:** one skill run (one client-month) costs $0.29–0.56, median $0.36 over 74 runs, which is about
   $3–6 a month for 10 clients.
 - **On Sonnet 5.5:** $0.134 per report with the same eval score, over one run
   ([`MODEL_COMPARISON.md`](docs/MODEL_COMPARISON.md)).

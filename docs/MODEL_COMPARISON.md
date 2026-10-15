@@ -50,5 +50,5 @@ The full eval suite (8 golden cases, 155 checks) was run once with the skill on 
 - **The grader can contradict itself.** It did once here (d:F1), in 32 graded commentary claims per run.
 - **Cost basis:** costs are the `total_cost_usd` Claude Code reports for each call, at list prices
   (Opus 5.5 $4/$20, Sonnet 5.5 $2/$10, Haiku 5.5 $0.10/$0.50 per million input/output tokens).
-- **Scope:** the suite covers two real workbooks and one synthetic one. A client with an unusual export could
+- **Scope:** the suite covers one real workbook and two synthetic ones. A client with an unusual export could
   separate the models where these cases don't.
